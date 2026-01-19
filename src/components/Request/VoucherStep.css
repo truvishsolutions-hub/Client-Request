@@ -1,0 +1,159 @@
+:root {
+  --primary: #0E4A63;      /* Deep Teal Blue */
+  --cyan: #1AB0B7;         /* Cyan Teal */
+  --sky: #A9D6E2;          /* Sky Tint */
+  --soft-white: #F3F7FA;   /* Light background */
+  --text-dark: #1D2E39;    /* Dark Slate Grey */
+  --text-light: #6C7A87;
+}
+
+/* Main container */
+.vs-container {
+  padding: clamp(16px, 4vw, 24px);
+  font-family: "Inter", sans-serif;
+  max-width: 480px;
+  margin: auto;
+  background: var(--soft-white);
+}
+
+/* Header */
+.vs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vs-title {
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.vs-back,
+.vs-close {
+  font-size: clamp(18px, 4vw, 22px);
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* Step text */
+.vs-step-text {
+  margin-top: 20px;
+  font-size: clamp(12px, 3vw, 14px);
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Progress bar */
+.vs-progress-bar {
+  margin-top: 6px;
+  width: 100%;
+  height: 6px;
+  background: #D9E6EB;
+  border-radius: 6px;
+}
+
+.vs-progress {
+  width: 20%;
+  height: 100%;
+  background: var(--cyan);  /* Updated */
+  border-radius: 6px;
+}
+
+/* Question */
+.vs-question {
+  margin-top: 20px;
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 700;
+  color: var(--primary);   /* UPDATED → Deep Teal Blue */
+}
+
+
+.vs-subtext {
+  margin-top: 10px;
+  font-size: clamp(13px, 3vw, 15px);
+  color: var(--text-light);
+}
+
+/* Options list */
+.vs-options {
+  margin-top: 20px;
+}
+
+/* Single card */
+.vs-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: white;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.vs-card.active {
+  border: 2px solid var(--cyan);
+  background: #E6F9FB; /* Light Cyan background */
+}
+
+/* icon */
+.vs-icon img {
+  width: clamp(32px, 10vw, 42px);
+  height: auto;
+  background: #D0F3F5; /* Light cyan tint */
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* text label */
+.vs-label {
+  flex: 1;
+  font-size: clamp(15px, 4vw, 18px);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* radio */
+.vs-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #C7D3D8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vs-card.active .vs-radio {
+  border-color: var(--cyan);
+}
+
+.vs-radio-inner {
+  width: 12px;
+  height: 12px;
+  background: var(--cyan);
+  border-radius: 50%;
+}
+
+/* Next Button */
+.vs-next-btn {
+  width: 100%;
+  background: var(--primary); /* Truvish Deep Teal Blue */
+  padding: 16px;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 600;
+  margin-top: 26px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.vs-next-btn:hover {
+  opacity: 0.9;
+}

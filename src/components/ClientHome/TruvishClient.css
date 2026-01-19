@@ -1,0 +1,116 @@
+/* Brand Colors */
+:root {
+  --primary: #0E4A63;
+  --cyan: #1AB0B7;
+  --sky: #A9D6E2;
+  --text: #1D2E39;
+  --soft-white: #F3F7FA;
+  --green: #00FF66;
+}
+
+/* Container */
+.tm-container {
+  background: var(--soft-white);
+  padding: clamp(16px, 4vw, 28px);
+  max-width: 480px;
+  margin: auto;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+/* ----------------------------- */
+/* RESPONSIVE LOGO */
+/* ----------------------------- */
+.tm-logo-wrap {
+  margin-top: clamp(10px, 3vw, 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tm-logo {
+  width: clamp(60px, 20vw, 100px);
+  height: auto;
+}
+
+.tm-title {
+  font-size: clamp(18px, 4.5vw, 24px);
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: -5px;
+}
+
+/* ----------------------------- */
+/* RESPONSIVE WALLPAPER */
+/* ----------------------------- */
+
+.tm-wallpaper-wrap {
+  margin: clamp(20px, 5vw, 30px) 0;
+}
+
+.tm-wallpaper {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  max-height: 320px;
+}
+
+/* ----------------------------- */
+/* RESPONSIVE TEXT */
+/* ----------------------------- */
+
+.tm-heading {
+  font-size: clamp(22px, 5vw, 30px);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tm-subtext {
+  font-size: clamp(13px, 3.2vw, 16px);
+  color: #4e5e68;
+  margin-top: 10px;
+  line-height: 1.5;
+  padding: 0 10px;
+}
+
+/* ----------------------------- */
+/* RESPONSIVE BUTTON */
+/* ----------------------------- */
+
+.tm-button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: clamp(14px, 4vw, 18px);
+  width: 100%;
+  margin-top: 28px;
+  border-radius: 14px;
+  font-size: clamp(16px, 4.3vw, 20px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tm-button:hover {
+  opacity: 0.9;
+}
+
+/* ----------------------------- */
+/* FOOTER */
+/* ----------------------------- */
+
+.tm-secure {
+  margin-top: 12px;
+  font-size: clamp(12px, 3vw, 15px);
+  color: var(--text);
+}
+
+/* ----------------------------- */
+/* EXTRA RESPONSIVE FIX FOR SMALL DEVICES */
+/* ----------------------------- */
+@media (max-width: 360px) {
+  .tm-wallpaper {
+    border-radius: 14px;
+  }
+}
