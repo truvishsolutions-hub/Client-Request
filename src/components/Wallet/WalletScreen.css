@@ -1,0 +1,331 @@
+:root {
+
+  /* =========================
+     TRUVISH BRAND COLORS
+  ========================= */
+
+  --primary: #0E4A63;      /* Deep Teal */
+  --cyan: #1AB0B7;         /* Accent Cyan */
+  --sky: #A9D6E2;          /* Light Tint */
+  --text: #1D2E39;         /* Text */
+  --soft-white: #F3F7FA;   /* Page / cards */
+
+  --credit: #1fb26a;
+  --debit: #e44b4b;
+
+  --shadow: 0 18px 55px rgba(6,42,56,0.16);
+}
+
+/* =========================
+   PAGE BACKGROUND
+========================= */
+
+.wl-page{
+
+  min-height:100vh;
+  padding:22px 16px 34px;
+  font-family:"Inter",sans-serif;
+
+  background:
+  radial-gradient(1000px 600px at 10% 20%, rgba(255,255,255,0.12), transparent 50%),
+  linear-gradient(135deg,var(--primary) 0%,var(--cyan) 100%);
+}
+
+/* Desktop center */
+@media (min-width:900px){
+  .wl-page{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.wl-topbar{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  max-width:520px;
+  width:100%;
+  margin:auto;
+}
+
+.wl-back{
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  border:none;
+  background:transparent;
+
+  color:white;
+  font-size:20px;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+.wl-backIcon{
+  font-size:26px;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.wl-profileBtn{
+  border:none;
+  background:transparent;
+}
+
+.wl-profileImg{
+
+  width:44px;
+  height:44px;
+
+  border-radius:50%;
+  object-fit:cover;
+
+  border:2px solid white;
+}
+
+/* =========================
+   CLIENT NAME
+========================= */
+
+.wl-greet{
+
+  max-width:520px;
+  width:100%;
+
+  margin:18px auto;
+  color:white;
+}
+
+.wl-dear{
+  font-size:36px;
+  font-weight:500;
+}
+
+/* =========================
+   CARD BASE
+========================= */
+
+.wl-card{
+
+  max-width:520px;
+  width:100%;
+
+  margin:14px auto 0;
+
+  background:white;
+  border-radius:28px;
+
+  box-shadow:var(--shadow);
+}
+
+/* =========================
+   BALANCE CARD
+========================= */
+
+.wl-balanceCard{
+
+  padding:22px 20px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:linear-gradient(
+    135deg,
+    white,
+    var(--soft-white)
+  );
+}
+
+.wl-balanceLabel{
+  color:#5b7280;
+  font-size:18px;
+}
+
+.wl-balanceValue{
+
+  margin-top:6px;
+
+  font-size:52px;
+  font-weight:800;
+
+  color:var(--text);
+}
+
+/* info button */
+
+.wl-infoBtn{
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  border:none;
+
+  background:var(--cyan);
+  color:white;
+
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================
+   TRANSACTION CARD
+========================= */
+
+.wl-paymentsCard{
+
+  padding:20px 0 30px;
+  background:white;
+  margin-bottom:40px;
+}
+
+.wl-cardTitle{
+
+  padding:0 18px 14px;
+
+  font-size:28px;
+  font-weight:800;
+
+  color:var(--text);
+}
+
+/* =========================
+   LIST
+========================= */
+
+.wl-list{
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+
+  padding:0 18px 10px;
+}
+
+/* =========================
+   ROW
+========================= */
+
+.wl-row{
+
+  display:flex;
+  align-items:center;
+  gap:16px;
+
+  padding:16px 14px;
+
+  background:var(--soft-white);
+  border-radius:18px;
+
+  transition:0.2s ease;
+}
+
+.wl-row:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* =========================
+   ICON
+========================= */
+
+.wl-iconWrap{
+
+  width:54px;
+  height:38px;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(26,176,183,0.15);
+}
+
+.wl-moneyIcon{
+  width:40px;
+  height:28px;
+}
+
+/* =========================
+   TEXT AREA
+========================= */
+
+.wl-rowMid{
+  flex:1;
+}
+
+.wl-title{
+
+  font-size:20px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.wl-sub{
+
+  font-size:13px;
+  color:#5b7280;
+}
+
+/* =========================
+   AMOUNT
+========================= */
+
+.wl-amount{
+
+  font-size:20px;
+  font-weight:800;
+
+  min-width:90px;
+  text-align:right;
+}
+
+.wl-credit{
+  color:var(--credit);
+}
+
+.wl-debit{
+  color:var(--debit);
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width:900px){
+
+  .wl-dear{
+    font-size:44px;
+  }
+
+  .wl-balanceValue{
+    font-size:60px;
+  }
+
+  .wl-card{
+    max-width:640px;
+  }
+
+  .wl-topbar,
+  .wl-greet{
+    max-width:640px;
+  }
+
+}

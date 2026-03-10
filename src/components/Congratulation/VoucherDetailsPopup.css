@@ -1,0 +1,182 @@
+/* ✅ components/VoucherDetailsPopup/VoucherDetailsPopup.css (FINAL UPDATE - OTP style button) */
+
+.vd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.vd-modal {
+  width: min(390px, 92vw);
+  background: #f4fbff;
+  border: 2px solid #9fd8e6;
+  border-radius: 26px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.25);
+  padding: 18px 18px 14px;
+  position: relative;
+}
+
+.vd-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: none;
+  background: #cfeff6;
+  color: #0d3f55;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.vd-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.vd-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+.vd-title {
+  text-align: center;
+  color: #0c3f55;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 10px 0 12px;
+}
+
+/* ✅ Code pill becomes button (copy) */
+.vd-code-pill {
+  width: 100%;
+  background: #bfe6f0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.vd-code-pill:active {
+  transform: translateY(1px);
+}
+
+.vd-code-pill:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.vd-code {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #21323b;
+}
+
+.vd-clip {
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+.vd-rows {
+  margin-top: 14px;
+  padding: 4px 2px;
+}
+
+.vd-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px;
+}
+
+.vd-left {
+  font-size: 16px;
+  color: #1b2d36;
+}
+
+.vd-right {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1b2d36;
+}
+
+.vd-line {
+  height: 1px;
+  background: #cfe3ea;
+  margin: 0 4px;
+}
+
+.vd-row-brands {
+  align-items: flex-start;
+}
+
+.vd-brands {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 220px;
+}
+
+.vd-brand-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* ✅ DONE BUTTON (OTP STYLE) */
+.vd-done {
+  width: 100%;
+  margin-top: 12px;
+
+  padding: 18px;
+  border-radius: 20px;
+  border: none;
+
+  background: linear-gradient(180deg, #1AB0B7, #0E4A63);
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.vd-done:hover {
+  opacity: 0.95;
+}
+
+.vd-done:active {
+  transform: translateY(1px);
+}
+
+.vd-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: #586b75;
+  font-size: 13px;
+}

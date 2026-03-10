@@ -1,0 +1,134 @@
+:root {
+  --primary: #0E4A63;
+  --cyan: #1AB0B7;
+  --background: #ffffff;
+  --overlay: rgba(0, 0, 0, 0.45);
+}
+
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+
+}
+
+/* Popup Box */
+.popup-box {
+  background: var(--soft-white);
+  padding: clamp(18px, 4vw, 26px);
+  max-width: 480px;
+  margin: auto;
+  width: 90%;
+  border-radius: 14px;
+  font-family: "Inter", sans-serif;
+
+  /* existing popup style preserve */
+  position: relative;
+}
+
+
+/* Header */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.popup-close {
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* Grid */
+.popup-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.popup-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.popup-card.active {
+  border-color: var(--cyan);
+}
+
+.popup-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+}
+
+.popup-label {
+  padding: 10px;
+    font-size: clamp(14px, 3.5vw, 17px);
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Tick */
+.popup-tick {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--cyan);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 50%;
+}
+
+/* Button */
+.popup-btn {
+  margin-top: 18px;
+  width: 100%;
+
+  padding: 18px;
+  border-radius: 20px;
+  border: none;
+
+  background: linear-gradient(180deg, var(--cyan), var(--primary));
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.popup-btn:active {
+  transform: translateY(1px);
+}
+
+.popup-btn:hover {
+  opacity: 0.95;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}

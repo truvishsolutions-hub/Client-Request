@@ -1,0 +1,334 @@
+/* =========================
+   BRAND VARIABLES
+========================= */
+:root {
+  --primary: #0E4A63;
+  --cyan: #1AB0B7;
+  --sky: #A9D6E2;
+  --text: #1D2E39;
+  --soft-white: #F3F7FA;
+  --border: rgba(14, 74, 99, 0.18);
+  --danger: #ef4444;
+  --white: #ffffff;
+}
+
+/* =========================
+   RESET
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--soft-white);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+  color: var(--text);
+}
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+.otpPage {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--soft-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================
+   TOP LOGO
+========================= */
+.topBrand {
+  padding-top: 36px;
+  padding-bottom: 4px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.brandLogo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+/* =========================
+   CONTENT
+========================= */
+.content {
+  width: min(520px, 100%);
+  padding: 8px 18px 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   TITLE / SUBTITLE
+========================= */
+.title {
+  text-align: center;
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: var(--text);
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+.phoneText {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* =========================
+   OTP CARD (NO BOX)
+========================= */
+.otpCard {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0;
+}
+
+/* =========================
+   OTP INPUTS
+========================= */
+.otpRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 320px;
+  margin: 6px auto 0;
+}
+
+.otpBox {
+  width: 100%;
+  max-width: 74px;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--soft-white);
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  outline: none;
+}
+
+.otpBox:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(26, 176, 183, 0.18);
+  background: var(--white);
+}
+
+.otpBox.error {
+  border-color: var(--danger);
+}
+
+.otpBox:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =========================
+   ERROR TEXT
+========================= */
+.errText {
+  margin: 6px auto 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+.primaryBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 18px;
+  border-radius: 20px;
+  border: none;
+  background: linear-gradient(180deg, var(--cyan), var(--primary));
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.primaryBtn:active {
+  transform: translateY(1px);
+}
+
+/* ✅ LOADING / DISABLED STATE */
+.primaryBtn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.primaryBtn.loading {
+  pointer-events: none;
+}
+
+/* =========================
+   UNDER LINKS ROW
+========================= */
+.otpUnderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.otpLinkBtn {
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 6px 4px;
+  opacity: 0.85;
+  text-decoration: none !important;
+}
+
+.otpLinkBtn:hover,
+.otpLinkBtn:focus {
+  opacity: 1;
+  text-decoration: none !important;
+  outline: none;
+}
+
+.otpLinkBtn.disabled,
+.otpLinkBtn:disabled {
+  cursor: default;
+  opacity: 0.6;
+  color: rgba(29, 46, 57, 0.75);
+}
+
+/* =========================
+   SECURE TEXT
+========================= */
+.secure {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.lock {
+  font-size: 15px;
+}
+
+/* =========================
+   SMALL DEVICES
+========================= */
+@media (max-width: 380px) {
+  .brandLogo {
+    width: 105px;
+    height: 105px;
+  }
+
+  .otpRow {
+    gap: 10px;
+    max-width: 280px;
+  }
+
+  .otpBox {
+    max-width: 64px;
+    height: 52px;
+    font-size: 20px;
+  }
+
+
+}
+/* =========================
+   TOP SLIDE TOAST (UPDATED)
+========================= */
+.topToast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translate(-50%, -160%);
+  z-index: 9999;
+  width: min(560px, calc(100% - 24px)); /* ✅ thoda bada */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.topToast.show {
+  transform: translate(-50%, 0);
+}
+
+.topToastInner {
+  background: linear-gradient(
+    135deg,
+    #e6f7f8,
+    #ffffff
+  ); /* ✅ soft premium gradient */
+
+  border: 1px solid rgba(26, 176, 183, 0.35);
+  box-shadow: 0 14px 40px rgba(14, 74, 99, 0.18);
+  border-radius: 18px;
+
+  padding: 16px 18px; /* ✅ box size bada */
+  min-height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  font-size: 15px;      /* ✅ readable */
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.toastClose {
+  border: none;
+  background: rgba(14, 74, 99, 0.08);
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.8;
+  padding: 6px 8px;
+  border-radius: 12px;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.toastClose:hover {
+  opacity: 1;
+  background: rgba(14, 74, 99, 0.15);
+}
+
+/* =========================
+   MOBILE TUNING
+========================= */
+@media (max-width: 380px) {
+  .topToastInner {
+    font-size: 14px;
+    padding: 14px 16px;
+  }
+}

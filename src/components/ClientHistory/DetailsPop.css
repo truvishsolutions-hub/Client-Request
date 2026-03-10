@@ -1,0 +1,192 @@
+/* ✅ DetailsPop.css (FINAL UPDATE - right side touch fix) */
+:root {
+  --primary: #0e4a63;
+  --cyan: #1ab0b7;
+  --text: #1d2e39;
+  --shadow: 0 18px 45px rgba(15, 45, 70, 0.22);
+}
+
+.dp-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+
+  /* ✅ FIX: screen edge touch stop */
+  padding: 24px; /* was 18px */
+
+  background: rgba(10, 24, 36, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.dp-modal {
+  /* ✅ FIX: width always leaves left-right gap */
+  width: min(520px, calc(100vw - 48px)); /* ✅ 24px left + 24px right */
+
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  padding: 22px 18px 18px;
+  position: relative;
+}
+
+.dp-x {
+  position: absolute;
+
+  /* ✅ little inside */
+  right: 12px; /* was 14px */
+  top: 12px;   /* was 14px */
+
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  background: rgba(26, 176, 183, 0.14);
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.dp-profileWrap {
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+}
+
+.dp-profile {
+  width: clamp(72px, 18vw, 104px);
+  height: clamp(72px, 18vw, 104px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(26, 176, 183, 0.28);
+  background: #fff;
+}
+
+.dp-title {
+  margin: 12px 0 14px;
+  text-align: center;
+  color: var(--primary);
+  font-weight: 900;
+  font-size: clamp(20px, 5.2vw, 30px);
+}
+
+.dp-card {
+  border: 1px solid rgba(14, 74, 99, 0.12);
+  border-radius: 18px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(243, 247, 250, 0.8), #ffffff);
+}
+
+.dp-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+}
+
+.dp-rowCode {
+  align-items: stretch;
+}
+
+.dp-label {
+  color: rgba(29, 46, 57, 0.8);
+  font-weight: 700;
+  font-size: clamp(14px, 3.6vw, 18px);
+}
+
+.dp-value {
+  text-align: right;
+  color: rgba(29, 46, 57, 0.92);
+  font-weight: 800;
+  font-size: clamp(14px, 3.8vw, 18px);
+  white-space: nowrap;
+}
+
+.dp-divider {
+  height: 1px;
+  background: rgba(14, 74, 99, 0.12);
+  margin: 0 4px;
+}
+
+.dp-codeBox {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  background: rgba(26, 176, 183, 0.14);
+  border: 1px solid rgba(26, 176, 183, 0.22);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.dp-codeText {
+  font-weight: 900;
+  color: var(--primary);
+  font-size: clamp(14px, 4vw, 18px);
+  letter-spacing: 0.6px;
+}
+
+.dp-copyBtn {
+  border: 0;
+  cursor: pointer;
+  background: rgba(14, 74, 99, 0.1);
+  color: var(--primary);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.dp-pill {
+  justify-self: end;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: clamp(12px, 3.4vw, 16px);
+  white-space: nowrap;
+}
+
+.dp-pill.active {
+  background: rgba(26, 176, 183, 0.16);
+  color: #148b8f;
+  border: 1px solid rgba(26, 176, 183, 0.26);
+}
+
+.dp-pill.inactive {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  text-transform: capitalize;
+}
+
+.dp-closeBtn {
+  margin-top: 14px;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  border-radius: 18px;
+  padding: 14px;
+  background: linear-gradient(180deg, #0e4a63, #0b3f55);
+  color: #fff;
+  font-weight: 900;
+  font-size: clamp(16px, 4.2vw, 22px);
+  box-shadow: 0 12px 26px rgba(14, 74, 99, 0.25);
+}
+
+@media (max-width: 420px) {
+  /* ✅ mobile edge touch fix */
+  .dp-backdrop {
+    padding: 16px;
+  }
+
+  .dp-modal {
+    width: calc(100vw - 32px); /* ✅ 16px + 16px */
+  }
+
+  .dp-row {
+    grid-template-columns: 90px 1fr;
+  }
+}

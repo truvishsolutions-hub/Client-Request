@@ -1,0 +1,166 @@
+:root {
+  --bg: #f5f8fb;
+  --primary: #0e4a63;
+  --teal: #19b3b3;
+  --soft: rgba(230, 247, 249, 0.9);
+  --soft2: rgba(191, 224, 234, 0.9);
+  --radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* PAGE */
+.cv-page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  padding: 30px 18px 24px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* WRAP */
+.cv-wrap {
+  width: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* LOGO */
+.cv-header {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* top se thoda neeche */
+}
+
+.cv-logo {
+  width: 160px;   /* bigger */
+  height: auto;
+  object-fit: contain;
+}
+
+/* TITLE */
+.cv-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--primary);
+  margin-top: 18px;   /* logo ke neeche gap */
+}
+
+/* LABEL */
+.cv-label {
+  text-align: center;
+  color: #8cb6c7;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 24px;  /* congrats ke neeche gap */
+}
+
+/* CODE */
+.cv-code {
+  width: 100%;
+  border: none;
+  background: var(--soft2);
+  color: var(--primary);
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.cv-code-text {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.cv-copy {
+  font-size: 20px;
+}
+
+/* SHARE */
+.cv-share {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 26px;  /* code ke neeche gap */
+}
+
+.cv-share-item {
+  border: none;
+  background: var(--soft);
+  border-radius: 18px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cv-ico {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(217, 241, 244, 0.95);
+  font-size: 22px;
+}
+
+.cv-ico.gmail { color: #ea4335; }
+.cv-ico.whatsapp { color: #25d366; }
+.cv-ico.sms { color: #1877f2; }
+
+.cv-share-text {
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 14px;
+}
+
+/* VIEW DETAILS BUTTON */
+.cv-btn-dark {
+  width: 100%;
+  margin-top: 28px;  /* share ke neeche gap */
+  border: none;
+  border-radius: 20px;
+  padding: 18px;
+  background: linear-gradient(180deg, var(--teal), var(--primary));
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* FOOTER */
+.cv-foot {
+  margin-top: 40px; /* sabse neeche thoda upar */
+  text-align: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: #6f8f9f;
+}
+
+.cv-lock {
+  margin-right: 6px;
+}
+
+/* SMALL DEVICES */
+@media (max-width: 360px) {
+  .cv-logo {
+    width: 140px;
+  }
+
+  .cv-title {
+    font-size: 30px;
+  }
+
+  .cv-code-text {
+    font-size: 22px;
+  }
+}

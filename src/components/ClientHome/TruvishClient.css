@@ -1,116 +1,240 @@
-/* Brand Colors */
 :root {
   --primary: #0E4A63;
   --cyan: #1AB0B7;
   --sky: #A9D6E2;
   --text: #1D2E39;
   --soft-white: #F3F7FA;
-  --green: #00FF66;
 }
 
-/* Container */
+/* =========================
+MAIN CONTAINER
+========================= */
+
 .tm-container {
   background: var(--soft-white);
-  padding: clamp(16px, 4vw, 28px);
+  padding: 20px;
   max-width: 480px;
   margin: auto;
   text-align: center;
   font-family: "Inter", sans-serif;
+  position: relative;
+  min-height: 100vh;
 }
 
-/* ----------------------------- */
-/* RESPONSIVE LOGO */
-/* ----------------------------- */
-.tm-logo-wrap {
-  margin-top: clamp(10px, 3vw, 20px);
+/* =========================
+TOP BAR
+========================= */
+
+.tm-topbar {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  padding: 0 18px;
+}
+
+/* =========================
+WALLET SECTION
+========================= */
+
+.tm-wallet-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.tm-wallet {
+  font-size: 38px;
+  color: var(--primary);
+}
+
+/* Wallet balance */
+
+.tm-wallet-balance {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* =========================
+PROFILE IMAGE
+========================= */
+
+.tm-profile-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  cursor: pointer;
+}
+
+.tm-profile-wrap {
+  position: relative;
+}
+
+/* =========================
+SLIDE MENU
+========================= */
+
+.tm-slide-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 190px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.tm-slide-menu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* MENU ITEMS */
+
+.tm-menu-item {
+  padding: 15px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text);
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.25s ease;
+}
+
+.tm-menu-item:last-child {
+  border-bottom: none;
+}
+
+.tm-menu-item:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(26,176,183,0.18),
+    rgba(14,74,99,0.10)
+  );
+  color: var(--primary);
+}
+
+/* =========================
+LOGO
+========================= */
+
+.tm-logo-wrap {
+  margin-top: 60px;
 }
 
 .tm-logo {
-  width: clamp(60px, 20vw, 100px);
-  height: auto;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
 }
 
-.tm-title {
-  font-size: clamp(18px, 4.5vw, 24px);
-  font-weight: 600;
-  color: var(--primary);
-  margin-top: -5px;
-}
-
-/* ----------------------------- */
-/* RESPONSIVE WALLPAPER */
-/* ----------------------------- */
+/* =========================
+WALLPAPER
+========================= */
 
 .tm-wallpaper-wrap {
-  margin: clamp(20px, 5vw, 30px) 0;
+  margin: 24px 0;
 }
 
 .tm-wallpaper {
   width: 100%;
-  height: auto;
   border-radius: 20px;
-  object-fit: cover;
   max-height: 320px;
+  object-fit: cover;
 }
 
-/* ----------------------------- */
-/* RESPONSIVE TEXT */
-/* ----------------------------- */
+/* =========================
+TEXT
+========================= */
 
 .tm-heading {
-  font-size: clamp(22px, 5vw, 30px);
+  font-size: clamp(24px, 5vw, 30px);
   font-weight: 700;
   color: var(--text);
 }
 
 .tm-subtext {
-  font-size: clamp(13px, 3.2vw, 16px);
-  color: #4e5e68;
   margin-top: 10px;
-  line-height: 1.5;
+  font-size: clamp(13px, 3vw, 16px);
+  color: #4e5e68;
   padding: 0 10px;
 }
 
-/* ----------------------------- */
-/* RESPONSIVE BUTTON */
-/* ----------------------------- */
+/* =========================
+BUTTON
+========================= */
 
 .tm-button {
-  background: var(--primary);
-  color: #fff;
+  width: 92%;
+  max-width: 440px;
+  position: fixed;
+  bottom: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 18px;
+  border-radius: 20px;
   border: none;
-  padding: clamp(14px, 4vw, 18px);
-  width: 100%;
-  margin-top: 28px;
-  border-radius: 14px;
-  font-size: clamp(16px, 4.3vw, 20px);
-  font-weight: 600;
+  background: linear-gradient(180deg, var(--cyan), var(--primary));
+  color: #ffffff;
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+  transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
 .tm-button:hover {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
-/* ----------------------------- */
-/* FOOTER */
-/* ----------------------------- */
+.tm-button:active {
+  transform: translateX(-50%) translateY(1px);
+}
+
+/* =========================
+SECURE TEXT
+========================= */
 
 .tm-secure {
-  margin-top: 12px;
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  text-align: center;
   font-size: clamp(12px, 3vw, 15px);
   color: var(--text);
 }
 
-/* ----------------------------- */
-/* EXTRA RESPONSIVE FIX FOR SMALL DEVICES */
-/* ----------------------------- */
-@media (max-width: 360px) {
-  .tm-wallpaper {
-    border-radius: 14px;
+/* =========================
+MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 420px) {
+
+  .tm-wallet {
+    font-size: 34px;
   }
+
+  .tm-wallet-balance {
+    font-size: 16px;
+  }
+
+  .tm-profile-img {
+    width: 44px;
+    height: 44px;
+  }
+
 }
