@@ -19,7 +19,10 @@ import ReviewConfirm from "./components/ReviewConfirm/ReviewConfirm";
 import Congratulation from "./components/Congratulation/Congratulation.jsx";
 import VoucherDetailsPopup from "./components/Congratulation/VoucherDetailsPopup";
 
-const BASE_URL = "http://localhost:8080";
+
+// ✅ PRODUCTION BACKEND (RAILWAY)
+const BASE_URL = "https://grateful-warmth-production-b64e.up.railway.app";
+
 
 const STEPS = {
   LOGIN: "login",
@@ -50,7 +53,7 @@ export default function App() {
   const [voucherValue, setVoucherValue] = useState("50");
 
   const [occasion, setOccasion] = useState({ name: "", img: "" });
-  const [recipients, setRecipients] = useState(1);
+  const [recipients] = useState(1);
 
   const [selectedBrands, setSelectedBrands] = useState([]);
 
@@ -58,54 +61,40 @@ export default function App() {
   const [showDetails, setShowDetails] = useState(false);
 
 
-
   return (
     <>
       {/* ================= LOGIN ================= */}
 
       {step === STEPS.LOGIN && (
-
         <Login
           countryCode={authCountryCode}
-
           onGetOtp={({ countryCode, mobile }) => {
-
             setAuthCountryCode(countryCode);
             setAuthMobile10(mobile);
             setAuthPhone(`${countryCode} ${mobile}`);
-
             setStep(STEPS.OTP);
-
           }}
         />
-
       )}
-
 
 
       {/* ================= OTP ================= */}
 
       {step === STEPS.OTP && (
-
         <OtpScreen
           phone={authPhone || "+91 **********"}
           rawMobile={authMobile10}
-
           onVerify={async (otpInput) => {
-
             try {
 
               const otp = String(otpInput || "").trim();
-
-              if (!/^\d{4}$/.test(otp))
-                return { ok: false };
+              if (!/^\d{4}$/.test(otp)) return { ok: false };
 
               const res = await fetch(
                 `${BASE_URL}/api/clients/exists?mobile=${encodeURIComponent(authMobile10)}`
               );
 
-              if (!res.ok)
-                return { ok: false };
+              if (!res.ok) return { ok: false };
 
               const data = await res.json();
 
@@ -116,11 +105,8 @@ export default function App() {
                 );
 
                 if (cRes.ok) {
-
                   const cData = await cRes.json();
-
                   setClient(cData);
-
                 }
 
                 return { ok: true };
@@ -130,37 +116,23 @@ export default function App() {
               return { ok: false, reason: "NO_ACCOUNT" };
 
             } catch {
-
               return { ok: false };
-
             }
-
           }}
-
           onResend={() => {}}
-
           onBack={() => setStep(STEPS.LOGIN)}
-
           onSuccess={() => setStep(STEPS.HOME)}
-
           onCreateAccount={() => setStep(STEPS.CREATE)}
-
         />
-
       )}
-
 
 
       {/* ================= CREATE ACCOUNT ================= */}
 
       {step === STEPS.CREATE && (
-
         <CreateAccount
-
           defaultCountryCode={authCountryCode}
-
           defaultPhone={authMobile10 || "----------"}
-
           onSubmit={async ({ companyName, clientName, email, mobileNumber, logo }) => {
 
             try {
@@ -179,224 +151,144 @@ export default function App() {
                 new Blob([JSON.stringify(clientJson)], { type: "application/json" })
               );
 
-              if (logo)
-                fd.append("logo", logo);
+              if (logo) fd.append("logo", logo);
 
               const res = await fetch(`${BASE_URL}/api/clients`, {
                 method: "POST",
                 body: fd
               });
 
-              if (!res.ok)
-                return;
+              if (!res.ok) return;
 
               const saved = await res.json();
 
               setAuthMobile10(mobileNumber);
               setAuthPhone(`${authCountryCode} ${mobileNumber}`);
-
               setClient(saved);
 
               setStep(STEPS.HOME);
 
             } catch {}
-
           }}
-
         />
-
       )}
-
 
 
       {/* ================= HOME ================= */}
 
       {step === STEPS.HOME && (
-
         <TruvishClient
-
           onStart={() => setStep(STEPS.VOUCHER)}
-
           onOpenHistory={() => setStep(STEPS.HISTORY)}
-
           onOpenTc={() => {}}
-
           onOpenWallet={() => setStep(STEPS.WALLET)}
-
           clientBalance={client?.balance}
-
           profileImg={
             client?.logoImg
               ? `${BASE_URL}/api/clients/${client?.id}/logo`
               : null
           }
-
         />
-
       )}
-
 
 
       {/* ================= WALLET ================= */}
 
       {step === STEPS.WALLET && (
-
         <WalletScreen
-
           clientId={client?.id}
-
           clientName={client?.companyName || "Client"}
-
           profileImg={
             client?.logoImg
               ? `${BASE_URL}/api/clients/${client?.id}/logo`
               : null
           }
-
           onBack={() => setStep(STEPS.HOME)}
-
         />
-
       )}
-
 
 
       {/* ================= HISTORY ================= */}
 
       {step === STEPS.HISTORY && (
-
         <ClientHistory
-
           clientName={client?.companyName}
-
           clientBalance={client?.balance}
-
           profileImg={
             client?.logoImg
               ? `${BASE_URL}/api/clients/${client?.id}/logo`
               : null
           }
-
           onBack={() => setStep(STEPS.HOME)}
-
         />
-
       )}
-
 
 
       {/* ================= VOUCHER VALUE ================= */}
 
       {step === STEPS.VOUCHER && (
-
         <VoucherStep
-
           onBack={() => setStep(STEPS.HOME)}
-
           onContinue={(value) => {
-
             setVoucherValue(value);
-
             setStep(STEPS.VALIDATION);
-
           }}
-
         />
-
       )}
-
 
 
       {/* ================= VALIDITY ================= */}
 
       {step === STEPS.VALIDATION && (
-
         <Validation
-
           defaultDays={validDays}
-
           onBack={() => setStep(STEPS.VOUCHER)}
-
           onContinue={(days) => {
-
             setValidDays(days);
-
             setStep(STEPS.THEME);
-
           }}
-
         />
-
       )}
-
 
 
       {/* ================= THEME ================= */}
 
       {step === STEPS.THEME && (
-
         <SelectTheam
-
           onBack={() => setStep(STEPS.VALIDATION)}
-
           onContinue={(themeData) => {
-
             setOccasion(themeData);
-
             setStep(STEPS.BRANDS);
-
           }}
-
         />
-
       )}
-
 
 
       {/* ================= BRANDS ================= */}
 
       {step === STEPS.BRANDS && (
-
         <ChooseBrands
-
           onBack={() => setStep(STEPS.THEME)}
-
           onContinue={(brands) => {
-
             setSelectedBrands(brands);
-
             setStep(STEPS.REVIEW);
-
           }}
-
         />
-
       )}
-
 
 
       {/* ================= REVIEW ================= */}
 
       {step === STEPS.REVIEW && (
-
         <ReviewConfirm
-
           voucherValue={voucherValue}
-
           occasion={occasion}
-
           recipients={recipients}
-
           selectedBrands={selectedBrands}
-
           onEditValue={() => setStep(STEPS.VOUCHER)}
-
           onEditOccasion={() => setStep(STEPS.THEME)}
-
           onEditRecipients={() => {}}
-
           onEditBrands={() => setStep(STEPS.BRANDS)}
-
           onSubmit={async () => {
 
             try {
@@ -404,97 +296,60 @@ export default function App() {
               const brandLabels = selectedBrands.map((b) => b.label);
 
               const payload = {
-
                 clientId: client?.id,
-
                 clientName: client?.companyName || "",
-
                 truvishCodeValue: Number(voucherValue),
-
                 clientTheme: occasion?.name || "",
-
                 clientThemeImg: occasion?.img || "",
-
                 clientBrand: brandLabels,
-
                 clientImg: client?.logoImg || "",
-
                 validity: Number(validDays),
-
               };
 
               const res = await fetch(`${BASE_URL}/api/truvish/update-client`, {
-
                 method: "POST",
-
                 headers: { "Content-Type": "application/json" },
-
                 body: JSON.stringify(payload),
-
               });
 
-              if (!res.ok)
-                return;
+              if (!res.ok) return;
 
               const saved = await res.json();
 
               const dbCode = saved?.truvishIdCodeNumber;
-
-              if (!dbCode)
-                return;
+              if (!dbCode) return;
 
               setVoucherCode(dbCode);
-
               setStep(STEPS.CONGRATS);
 
             } catch {}
-
           }}
-
         />
-
       )}
 
 
-
-      {/* ================= CONGRATULATION ================= */}
+      {/* ================= CONGRATS ================= */}
 
       {step === STEPS.CONGRATS && (
-
         <Congratulation
-
           voucherCode={voucherCode}
-
           onViewDetails={() => setShowDetails(true)}
-
           onGoSite={() => setStep(STEPS.HOME)}
-
         />
-
       )}
 
 
-
-      {/* ================= VOUCHER DETAILS POPUP ================= */}
+      {/* ================= DETAILS POPUP ================= */}
 
       <VoucherDetailsPopup
-
         isOpen={showDetails}
-
         onClose={() => setShowDetails(false)}
-
         voucherCode={voucherCode}
-
         value={voucherValue}
-
         recipients={recipients}
-
         occasion={occasion?.name}
-
         brands={selectedBrands}
-
       />
-
     </>
   );
 }
