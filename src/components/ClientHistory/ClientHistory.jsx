@@ -1,11 +1,12 @@
-// ✅ ClientHistory.jsx (FINAL WITH BALANCE + CLIENT LOGO)
+// ✅ ClientHistory.jsx (FINAL PRODUCTION VERSION)
 
 import React, { useState, useEffect } from "react";
 import "./ClientHistory.css";
 import DefaultProfile from "../../assets/BRAND/Sw.png";
 import DetailsPop from "./DetailsPop";
 
-const BASE_URL = "http://localhost:8080";
+// ✅ RAILWAY BACKEND
+const BASE_URL = "https://grateful-warmth-production-b64e.up.railway.app";
 
 export default function ClientHistory({
   onBack,
@@ -26,10 +27,10 @@ export default function ClientHistory({
 
     if (!clientName) return;
 
-    fetch(`${BASE_URL}/api/truvish/history/${clientName}`)
+    fetch(`${BASE_URL}/api/truvish/history/${encodeURIComponent(clientName)}`)
       .then(res => res.json())
-      .then(data => setHistory(data))
-      .catch(() => {});
+      .then(data => setHistory(data || []))
+      .catch(() => setHistory([]));
 
   }, [clientName]);
 
@@ -155,6 +156,12 @@ export default function ClientHistory({
 
           <div className="ch-list">
 
+            {history.length === 0 && (
+              <div style={{padding:"20px", textAlign:"center"}}>
+                No history available
+              </div>
+            )}
+
             {history.map((row, idx) => {
 
               const created = new Date(row.truvishCodeTimestamp);
@@ -202,10 +209,10 @@ export default function ClientHistory({
             <h3>Terms & Conditions</h3>
 
             <ul>
-              <li>TRUVISH point 1</li>
-              <li>TRUVISH point 2</li>
-              <li>TRUVISH point 3</li>
-              <li>TRUVISH point 4</li>
+              <li>Voucher once issued cannot be cancelled.</li>
+              <li>Voucher must be redeemed before expiry.</li>
+              <li>Partial redemption depends on brand policy.</li>
+              <li>TRUVISH reserves the right to modify terms.</li>
             </ul>
 
           </div>
