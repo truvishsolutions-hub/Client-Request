@@ -118,49 +118,26 @@ export default function WalletScreen({
           : [];
 
         const mapped = list.map((t) => {
-
           const typeUpper = String(t.type || "").toUpperCase();
+          const typeLower = typeUpper === "DEBIT" ? "debit" : "credit";
 
-          const typeLower =
-            typeUpper === "DEBIT"
-              ? "debit"
-              : "credit";
-
-          const refType =
-            String(t.referenceType || "").toUpperCase();
-
-
-          // ===============================
-          // TITLE RULE
-          // ===============================
-
+          // ✅ TITLE RULE
           let title = "";
 
-          if (refType === "VOUCHER")
+          if (typeLower === "credit") {
             title = "Truvish Gifts";
-
-          else
-            title =
-              typeLower === "debit"
-                ? "Debited"
-                : "Credited";
-
+          } else {
+            title = "Debited";
+          }
 
           const amtNum = Number(t.amount ?? 0);
 
           return {
-
             title,
             amount: Math.abs(amtNum),
-
             type: typeLower,
-
-            date: formatDateTime(
-              t.txnDateTime || t.createdAt
-            ),
-
+            date: formatDateTime(t.txnDateTime || t.createdAt),
           };
-
         });
 
         setPayments(mapped);
