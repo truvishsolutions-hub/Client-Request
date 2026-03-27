@@ -1,6 +1,7 @@
-// src/components/Wallet/WalletScreen.jsx (FINAL PRODUCTION VERSION)
+// src/components/Wallet/WalletScreen.jsx (FINAL PRODUCTION VERSION WITH BACK ICON)
 
 import React, { useEffect, useMemo, useState } from "react";
+import { IoChevronBack } from "react-icons/io5";
 import "./WalletScreen.css";
 
 import moneyIcon from "../../assets/MONEY/RU.png";
@@ -177,8 +178,8 @@ export default function WalletScreen({
           onClick={onBack}
         >
 
-          <span className="wl-backIcon">←</span>
-          <span>Back</span>
+          <IoChevronBack className="wl-backIcon" size={26} />
+
 
         </button>
 

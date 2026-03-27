@@ -1,4 +1,4 @@
-// ✅ components/VoucherDetailsPopup/VoucherDetailsPopup.jsx (FINAL UPDATE)
+// ✅ components/VoucherDetailsPopup/VoucherDetailsPopup.jsx (FINAL UPDATE - Removed Recipients, Added Validity)
 import React from "react";
 import "./VoucherDetailsPopup.css";
 import logo from "../../assets/LOGO/TRV.png";
@@ -8,15 +8,12 @@ export default function VoucherDetailsPopup({
   onClose,
   voucherCode,          // ✅ no hardcode
   value,
-  recipients,
+  validity,             // ✅ validity prop
   occasion,
   brands,
   onCopy,               // ✅ optional copy callback
 }) {
   if (!isOpen) return null;
-
-  const safeRecipients = Number(recipients ?? 0);
-  const peopleText = `${safeRecipients} ${safeRecipients === 1 ? "person" : "people"}`;
 
   const safeValue = Number(value ?? 0);
 
@@ -28,6 +25,32 @@ export default function VoucherDetailsPopup({
     } catch (e) {
       onCopy?.(voucherCode);
     }
+  };
+
+  // Format validity date if provided
+  const formatValidity = (validityData) => {
+    if (!validityData) return "-";
+
+    // If validity is already a formatted string like "6 Months"
+    if (typeof validityData === 'string' && validityData.includes('Month')) {
+      return validityData;
+    }
+
+    // If validity is a date
+    try {
+      const validDate = new Date(validityData);
+      if (!isNaN(validDate.getTime())) {
+        return validDate.toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+    } catch (e) {
+      return validityData;
+    }
+
+    return validityData;
   };
 
   return (
@@ -68,15 +91,15 @@ export default function VoucherDetailsPopup({
           <div className="vd-line" />
 
           <div className="vd-row">
-            <div className="vd-left">Recipients</div>
-            <div className="vd-right">{peopleText}</div>
+            <div className="vd-left">Validity</div>
+            <div className="vd-right">{formatValidity(validity)}</div>
           </div>
 
           <div className="vd-line" />
 
           <div className="vd-row">
             <div className="vd-left">Occasion</div>
-            <div className="vd-right">{occasion || "-"}</div>
+            <div className="vd-right">{occasion?.name || occasion || "-"}</div>
           </div>
 
           <div className="vd-line" />

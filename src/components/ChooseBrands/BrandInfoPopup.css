@@ -1,0 +1,105 @@
+.bip-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.bip-modal {
+  width: 90%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  animation: popupFade 0.2s ease;
+}
+
+@keyframes popupFade {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* HEADER */
+.bip-header {
+  position: relative;
+  padding: 18px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.bip-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0E4A63;
+}
+
+.bip-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+
+  border: none;
+  background: #f1f1f1;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* CONTENT */
+.bip-content {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+
+  /* ✅ LIST READABLE */
+  text-align: left;
+}
+
+/* SECTION */
+.bip-section {
+  margin-bottom: 26px;
+}
+
+/* HEADINGS (CENTER) */
+.bip-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1D2E39;
+  margin-bottom: 14px;
+
+  text-align: center;
+}
+
+/* ORDERED LIST (1,2,3) */
+.bip-ol {
+  padding-left: 20px;
+}
+
+.bip-ol li {
+  margin-bottom: 12px;
+  line-height: 1.7;
+  font-size: 14px;
+  color: #444;
+}
+
+/* UNORDERED LIST */
+.bip-ul {
+  padding-left: 20px;
+}
+
+.bip-ul li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+  font-size: 14px;
+  color: #444;
+}

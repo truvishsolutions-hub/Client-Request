@@ -1,5 +1,3 @@
-/* ✅ ClientHistory.css (FINAL UPDATE) */
-
 :root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
@@ -29,16 +27,29 @@
   background: var(--soft);
 }
 
-/* ✅ FULL WIDTH WHITE NAVBAR */
+/* ✅ NAVBAR */
 .ch-navbar {
   width: 100%;
   background: #fff;
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
   padding: 16px 16px;
+  position: relative; /* ✅ important */
 }
 
-/* ✅ LEFT WRAP */
+/* ✅ BACK BUTTON LEFT */
+.ch-backIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* ✅ LEFT WRAP (UNCHANGED STRUCTURE) */
 .ch-leftWrap {
   width: 100%;
   display: flex;
@@ -47,44 +58,40 @@
   gap: 14px;
 }
 
-/* BRAND */
+/* ✅ PROFILE CENTER FIX */
 .ch-brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 0;
 }
 
-/* ✅ profile/logo size increased */
+/* LOGO */
 .ch-logo {
   width: clamp(58px, 12vw, 82px);
-  height: clamp(58px, 12vw, 82px);   /* ✅ height add */
-  border-radius: 50%;                /* ✅ circle */
+  height: clamp(58px, 12vw, 82px);
+  border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary);  /* ✅ same theme border */
+  border: 2px solid var(--primary);
   background: #fff;
-  flex: 0 0 auto;
 }
 
-.ch-brandName {
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  font-size: clamp(16px, 3.6vw, 22px);
-  color: var(--primary);
-  line-height: 1.1;
+/* BALANCE RIGHT SAME */
+.ch-balance {
+  margin-left: auto;
+  text-align: right;
 }
 
-/* ✅ Current Value label bold */
+/* LABEL */
 .ch-balanceLabel {
-  font-size: clamp(14px, 3.6vw, 18px);  /* ✅ bigger */
+  font-size: clamp(14px, 3.6vw, 18px);
   font-weight: 900;
   color: #148b8f;
 }
 
-.ch-balance {
-  text-align: right;
-}
-
+/* VALUE */
 .ch-balanceValue {
   font-size: clamp(26px, 6.5vw, 44px);
   font-weight: 800;
@@ -93,20 +100,11 @@
   line-height: 1;
 }
 
-.ch-pill {
-  margin-top: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: rgba(26, 176, 183, 0.14);
-  color: #148b8f;
-  font-weight: 700;
-  font-size: clamp(12px, 3.2vw, 16px);
+.ch-clientName {
+  font-size: 14px;
 }
 
-/* ✅ TABS */
+/* TABS */
 .ch-tabsWrap {
   position: relative;
   background: #fff;
@@ -150,11 +148,11 @@
   border-radius: 6px;
 }
 
-/* ✅ ONLY SCROLL AREA */
+/* SCROLL AREA */
 .ch-scrollArea {
   height: calc(100vh - 140px);
   overflow-y: auto;
-  padding: 16px 14px 28px;
+  padding: 16px 14px 28px; /* ✅ bottom button removed */
 }
 
 /* LIST */
@@ -196,48 +194,31 @@
   white-space: nowrap;
 }
 
-/* ✅ AMOUNT RIGHT SIDE: DOT + AMOUNT ALWAYS ONE LINE (FINAL) */
+/* AMOUNT */
 .ch-amountWrap {
   justify-self: end;
   display: inline-flex;
-  align-items: center;       /* ✅ dot + amount center line */
+  align-items: center;
   gap: 10px;
-  flex-wrap: nowrap;         /* ✅ wrap off */
-  white-space: nowrap;       /* ✅ break off */
-  min-width: max-content;    /* ✅ force one line */
+  white-space: nowrap;
 }
 
-/* ===== DOT BASE ===== */
 .ch-dot {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  flex: 0 0 auto;            /* ✅ shrink na ho */
 }
 
-/* ===== GREEN DOT (default) ===== */
 .ch-dot.green {
   background: #1fa56a;
-  box-shadow: 0 6px 14px rgba(31, 165, 106, 0.35);
 }
 
-/* ===== RED DOT (2025) ===== */
-.ch-dot.red {
-  background: #ef4444;
-  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
-}
-
-/* ✅ AMOUNT NEVER WRAP */
 .ch-amount {
   font-size: clamp(18px, 4.6vw, 32px);
   font-weight: 800;
-  color: rgba(29, 46, 57, 0.95);
-  flex: 0 0 auto;
-  white-space: nowrap;
-  line-height: 1;
 }
 
-/* T&C CARD */
+/* T&C */
 .ch-tcCard {
   background: #fff;
   border: 1px solid var(--border);
@@ -246,24 +227,10 @@
   padding: 16px 18px;
 }
 
-.ch-tcCard h3 {
-  margin: 0 0 10px;
-  color: var(--primary);
-}
-
-/* ✅ responsive */
+/* RESPONSIVE */
 @media (max-width: 520px) {
-  .ch-navbar {
-    padding: 14px;
-  }
-
-  .ch-scrollArea {
-    height: calc(100vh - 150px);
-  }
-
   .ch-row {
     padding: 14px;
-    border-radius: 20px;
     gap: 10px;
   }
 
@@ -271,26 +238,4 @@
     width: 18px;
     height: 18px;
   }
-}
-/* ✅ ClientHistory.css (ADD ONLY THIS - bottom back button) */
-.ch-backBottomBtn{
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 14px;
-  height: 52px;
-  border: 0;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 16px;
-  background: #0E4A63; /* same brand primary */
-  color: #fff;
-  box-shadow: 0 14px 30px rgba(15, 45, 70, 0.22);
-  z-index: 20;
-}
-
-/* ✅ Scroll area ko button se upar space */
-.ch-scrollArea{
-  padding-bottom: 84px;
 }

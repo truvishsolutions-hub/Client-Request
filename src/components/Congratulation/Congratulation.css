@@ -1,10 +1,23 @@
+/* Truvish Brand Color Guide */
 :root {
-  --bg: #f5f8fb;
-  --primary: #0e4a63;
-  --teal: #19b3b3;
-  --soft: rgba(230, 247, 249, 0.9);
-  --soft2: rgba(191, 224, 234, 0.9);
-  --radius: 22px;
+  /* Primary Palette */
+  --deep-teal: #0E4A63;
+  --cyan-teal: #1AB0B7;
+  --cyan-teal-light: #2EC4C9;
+  
+  /* Secondary Palette */
+  --sky-blue: #A9D6E2;
+  --dark-slate: #1D2E39;
+  
+  /* Neutral Palette */
+  --soft-white: #F3F7FA;
+  
+  /* Additional UI Colors */
+  --gmail-red: #ea4335;
+  --whatsapp-green: #25d366;
+  --sms-blue: #1877f2;
+  --redeem-gradient: linear-gradient(135deg, #2EC4C9, #1AB0B7);
+  --redeem-hover: linear-gradient(135deg, #1AB0B7, #0E9CA3);
 }
 
 * {
@@ -14,7 +27,7 @@
 /* PAGE */
 .cv-page {
   min-height: 100vh;
-  background: var(--bg);
+  background: var(--soft-white);
   display: flex;
   justify-content: center;
   padding: 30px 18px 24px;
@@ -32,11 +45,11 @@
 .cv-header {
   display: flex;
   justify-content: center;
-  margin-top: 10px; /* top se thoda neeche */
+  margin-top: 10px;
 }
 
 .cv-logo {
-  width: 160px;   /* bigger */
+  width: 160px;
   height: auto;
   object-fit: contain;
 }
@@ -46,25 +59,26 @@
   text-align: center;
   font-size: 36px;
   font-weight: 900;
-  color: var(--primary);
-  margin-top: 18px;   /* logo ke neeche gap */
+  color: var(--deep-teal);
+  margin-top: 18px;
 }
 
 /* LABEL */
 .cv-label {
   text-align: center;
-  color: #8cb6c7;
+  color: var(--deep-teal);
   font-size: 18px;
   font-weight: 700;
-  margin-top: 24px;  /* congrats ke neeche gap */
+  margin-top: 24px;
+  opacity: 0.8;
 }
 
 /* CODE */
 .cv-code {
   width: 100%;
   border: none;
-  background: var(--soft2);
-  color: var(--primary);
+  background: var(--sky-blue);
+  color: var(--deep-teal);
   border-radius: 18px;
   padding: 18px;
   margin-top: 14px;
@@ -73,6 +87,12 @@
   align-items: center;
   gap: 14px;
   cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cv-code:hover {
+  background: rgba(169, 214, 226, 0.9);
+  transform: scale(1.01);
 }
 
 .cv-code-text {
@@ -85,21 +105,35 @@
   font-size: 20px;
 }
 
-/* SHARE */
+/* SHARE - No movement on click */
 .cv-share {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin-top: 26px;  /* code ke neeche gap */
+  margin-top: 26px;
 }
 
 .cv-share-item {
   border: none;
-  background: var(--soft);
+  background: var(--sky-blue);
   border-radius: 18px;
   padding: 14px 10px;
   text-align: center;
   cursor: pointer;
+  transition: background 0.2s ease;
+  /* Remove any transform or movement */
+  transform: none !important;
+}
+
+.cv-share-item:hover {
+  background: rgba(169, 214, 226, 0.9);
+  /* No transform on hover */
+  transform: none !important;
+}
+
+.cv-share-item:active {
+  transform: none !important;
+  background: rgba(169, 214, 226, 0.8);
 }
 
 .cv-ico {
@@ -109,45 +143,113 @@
   margin: 0 auto 10px;
   display: grid;
   place-items: center;
-  background: rgba(217, 241, 244, 0.95);
+  background: var(--soft-white);
   font-size: 22px;
+  transition: none;
 }
 
-.cv-ico.gmail { color: #ea4335; }
-.cv-ico.whatsapp { color: #25d366; }
-.cv-ico.sms { color: #1877f2; }
+.cv-ico.gmail { color: var(--gmail-red); }
+.cv-ico.whatsapp { color: var(--whatsapp-green); }
+.cv-ico.sms { color: var(--sms-blue); }
 
 .cv-share-text {
   font-weight: 800;
-  color: var(--primary);
+  color: var(--deep-teal);
   font-size: 14px;
 }
 
-/* VIEW DETAILS BUTTON */
+/* VIEW DETAILS BUTTON - Original color restored */
 .cv-btn-dark {
   width: 100%;
-  margin-top: 28px;  /* share ke neeche gap */
+  margin-top: 28px;
   border: none;
   border-radius: 20px;
   padding: 18px;
-  background: linear-gradient(180deg, var(--teal), var(--primary));
+  background: linear-gradient(180deg, #19b3b3, #0e4a63);
   color: white;
   font-weight: 900;
   font-size: 18px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.cv-btn-dark:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #19b3b3, #0e4a63);
+  box-shadow: 0 6px 20px rgba(25, 179, 179, 0.3);
+}
+
+.cv-btn-dark:active {
+  transform: translateY(0);
+}
+
+/* REDEEM NOW BUTTON */
+.cv-btn-redeem {
+  width: 100%;
+  margin-top: 16px;
+  border: none;
+  border-radius: 20px;
+  padding: 18px;
+  background: var(--redeem-gradient);
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0.95;
+}
+
+.cv-btn-redeem:hover {
+  transform: translateY(-2px);
+  background: var(--redeem-hover);
+  box-shadow: 0 6px 20px rgba(26, 176, 183, 0.4);
+  opacity: 1;
+}
+
+.cv-btn-redeem:active {
+  transform: translateY(0);
+}
+
+.cv-redeem-icon {
+  font-size: 24px;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* FOOTER */
 .cv-foot {
-  margin-top: 40px; /* sabse neeche thoda upar */
+  margin-top: 40px;
   text-align: center;
   font-weight: 800;
   font-size: 14px;
-  color: #6f8f9f;
+  color: var(--dark-slate);
+  opacity: 0.7;
 }
 
 .cv-lock {
   margin-right: 6px;
+}
+
+/* BUTTON DISABLED STATE */
+.cv-btn-dark:disabled,
+.cv-btn-redeem:disabled,
+.cv-share-item:disabled,
+.cv-code:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* SMALL DEVICES */
@@ -162,5 +264,14 @@
 
   .cv-code-text {
     font-size: 22px;
+  }
+  
+  .cv-btn-redeem {
+    font-size: 16px;
+    padding: 16px;
+  }
+  
+  .cv-redeem-icon {
+    font-size: 20px;
   }
 }

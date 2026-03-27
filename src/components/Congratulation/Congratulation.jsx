@@ -1,4 +1,4 @@
-// ✅ Congratulation.jsx (FINAL UPDATE - Go to Truvish button removed)
+// ✅ Congratulation.jsx (FINAL UPDATE - WhatsApp icon click fixed, no movement)
 import React from "react";
 import "./Congratulation.css";
 import logo from "../../assets/LOGO/TRV.png";
@@ -6,10 +6,12 @@ import logo from "../../assets/LOGO/TRV.png";
 import { MdEmail } from "react-icons/md";
 import { BsWhatsapp } from "react-icons/bs";
 import { BiMessageRoundedDetail } from "react-icons/bi";
+import { TbLocationCode } from "react-icons/tb";
 
 export default function Congratulation({
   voucherCode,
   onViewDetails,
+  onRedeemNow,
   onShareGmail,
   onShareWhatsApp,
   onShareSMS,
@@ -23,6 +25,16 @@ export default function Congratulation({
     } catch (e) {
       onCopy?.(voucherCode);
     }
+  };
+
+  // Prevent any default behavior and stop propagation
+  const handleShareClick = (callback) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (callback && voucherCode) {
+      callback();
+    }
+    return false;
   };
 
   return (
@@ -50,8 +62,9 @@ export default function Congratulation({
           <div className="cv-share">
             <button
               className="cv-share-item"
-              onClick={onShareGmail}
+              onClick={handleShareClick(onShareGmail)}
               disabled={!voucherCode}
+              type="button"
             >
               <div className="cv-ico gmail">
                 <MdEmail />
@@ -61,8 +74,9 @@ export default function Congratulation({
 
             <button
               className="cv-share-item"
-              onClick={onShareWhatsApp}
+              onClick={handleShareClick(onShareWhatsApp)}
               disabled={!voucherCode}
+              type="button"
             >
               <div className="cv-ico whatsapp">
                 <BsWhatsapp />
@@ -72,8 +86,9 @@ export default function Congratulation({
 
             <button
               className="cv-share-item"
-              onClick={onShareSMS}
+              onClick={handleShareClick(onShareSMS)}
               disabled={!voucherCode}
+              type="button"
             >
               <div className="cv-ico sms">
                 <BiMessageRoundedDetail />
@@ -82,13 +97,25 @@ export default function Congratulation({
             </button>
           </div>
 
-          {/* ✅ ONLY THIS BUTTON EXISTS NOW */}
+          {/* View details button */}
           <button
             className="cv-btn-dark"
             onClick={onViewDetails}
             disabled={!voucherCode}
+            type="button"
           >
             View details
+          </button>
+
+          {/* Redeem Now button with icon */}
+          <button
+            className="cv-btn-redeem"
+            onClick={onRedeemNow}
+            disabled={!voucherCode}
+            type="button"
+          >
+            <TbLocationCode className="cv-redeem-icon" />
+            <span>Redeem Now</span>
           </button>
         </div>
 

@@ -4,46 +4,50 @@ import { IoChevronBack } from "react-icons/io5";
 import "./ReviewConfirm.css";
 
 import voucherImg from "../../assets/REVIEW/Ru.png";
-import recipientsImg from "../../assets/REVIEW/recipients.png";
+import validityImg from "../../assets/REVIEW/VL.png";
 import tickSound from "../../assets/MUSIC/tik.mp3";
 
 const ReviewConfirm = ({
   voucherValue,
   occasion,
-  recipients,
+  validityMonths,
   selectedBrands,
   onEditValue,
   onEditOccasion,
-  onEditRecipients,
+  onEditValidity,
   onEditBrands,
   onSubmit
 }) => {
 
-  const [index,setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const soundRef = useRef(new Audio(tickSound));
 
-  const playSound = ()=>{
+  const playSound = () => {
     soundRef.current.currentTime = 0;
     soundRef.current.play();
   };
 
-  const next = ()=>{
+  const next = () => {
     setIndex(prev => (prev + 1) % selectedBrands.length);
     playSound();
   };
 
-  const prev = ()=>{
+  const prev = () => {
     setIndex(prev =>
       prev === 0 ? selectedBrands.length - 1 : prev - 1
     );
     playSound();
   };
 
-  const getBrand = (i)=>{
+  const getBrand = (i) => {
     return selectedBrands[
       (index + i + selectedBrands.length) % selectedBrands.length
     ];
   };
+
+  // ✅ Convert voucherValue to number if it's a string
+  const numericValue = typeof voucherValue === 'string' ? parseFloat(voucherValue) : voucherValue;
+  const displayValue = isNaN(numericValue) ? 0 : numericValue;
 
   return (
 
@@ -54,12 +58,12 @@ const ReviewConfirm = ({
       <div className="rc-header">
 
         <button className="rc-back-btn" onClick={onEditValue}>
-          <IoChevronBack size={26}/>
+          <IoChevronBack size={26} />
         </button>
 
         <h2 className="rc-title">Review & Confirm</h2>
 
-        <div style={{width:26}}/>
+        <div style={{ width: 26 }} />
 
       </div>
 
@@ -86,7 +90,7 @@ const ReviewConfirm = ({
           </span>
 
           <h2 className="rc-value">
-            ₹{voucherValue}.00
+            ₹{displayValue}.00
           </h2>
 
           <button
@@ -98,7 +102,7 @@ const ReviewConfirm = ({
 
         </div>
 
-        <img src={voucherImg} className="rc-img" alt=""/>
+        <img src={voucherImg} className="rc-img" alt="" />
 
       </div>
 
@@ -127,36 +131,36 @@ const ReviewConfirm = ({
         </div>
 
         {occasion?.img &&
-          <img src={occasion.img} className="rc-img" alt="occasion"/>
+          <img src={occasion.img} className="rc-img" alt="occasion" />
         }
 
       </div>
 
 
-      {/* RECIPIENTS */}
+      {/* VALIDITY (MONTHS) */}
 
       <div className="rc-card">
 
         <div className="rc-left">
 
           <span className="rc-label">
-            RECIPIENTS
+            VALIDITY
           </span>
 
           <h2 className="rc-value">
-            {recipients}
+            {validityMonths} {validityMonths === 1 ? 'Month' : 'Months'}
           </h2>
 
           <button
             className="rc-edit-btn"
-            onClick={onEditRecipients}
+            onClick={onEditValidity}
           >
             Edit
           </button>
 
         </div>
 
-        <img src={recipientsImg} className="rc-img" alt=""/>
+        <img src={validityImg} className="rc-img" alt="validity" />
 
       </div>
 
@@ -194,13 +198,13 @@ const ReviewConfirm = ({
           <div className="rc-carousel-track">
 
             {selectedBrands.length > 1 &&
-              <img src={getBrand(-1)?.img} className="rc-brand-small" alt=""/>
+              <img src={getBrand(-1)?.img} className="rc-brand-small" alt="" />
             }
 
-            <img src={getBrand(0)?.img} className="rc-brand-big" alt=""/>
+            <img src={getBrand(0)?.img} className="rc-brand-big" alt="" />
 
             {selectedBrands.length > 1 &&
-              <img src={getBrand(1)?.img} className="rc-brand-small" alt=""/>
+              <img src={getBrand(1)?.img} className="rc-brand-small" alt="" />
             }
 
           </div>
@@ -217,13 +221,23 @@ const ReviewConfirm = ({
       {/* TOTAL */}
 
       <p className="rc-total">
-        Total estimated value: ₹{(voucherValue * recipients).toFixed(2)}
+        Total value: ₹{displayValue}.00
       </p>
 
 
       {/* BUTTON */}
 
-      <button className="rc-submit-btn" onClick={onSubmit}>
+      <button
+        className="rc-submit-btn"
+        onClick={() => {
+          onSubmit({
+            voucherValue: displayValue,
+            occasion,
+            validityMonths,
+            selectedBrands
+          });
+        }}
+      >
         Get Code ➤
       </button>
 

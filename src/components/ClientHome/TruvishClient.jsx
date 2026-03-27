@@ -21,7 +21,12 @@ const TruvishClient = ({
 
   const menuRef = useRef();
 
-  const profileImage = profileImg || defaultProfile;
+  // ✅ SAFE PROFILE IMAGE (404 FIX)
+  const [imgSrc, setImgSrc] = useState(profileImg || defaultProfile);
+
+  useEffect(() => {
+    setImgSrc(profileImg || defaultProfile);
+  }, [profileImg]);
 
   useEffect(() => {
 
@@ -46,23 +51,21 @@ const TruvishClient = ({
 
         {/* WALLET */}
         <div className="tm-wallet-wrap" onClick={onOpenWallet}>
-
           <IoWalletSharp className="tm-wallet" />
-
           <span className="tm-wallet-balance">
             ₹{clientBalance ?? 0}
           </span>
-
         </div>
 
         {/* PROFILE */}
         <div className="tm-profile-wrap" ref={menuRef}>
 
           <img
-            src={profileImage}
+            src={imgSrc}
             alt="Profile"
             className="tm-profile-img"
             onClick={() => setOpenMenu(!openMenu)}
+            onError={() => setImgSrc(defaultProfile)} // ✅ fallback
           />
 
           <div className={`tm-slide-menu ${openMenu ? "open" : ""}`}>
@@ -100,9 +103,14 @@ const TruvishClient = ({
 
       {/* WALLPAPER */}
       <div className="tm-wallpaper-wrap">
-        <img src={wallpaper} className="tm-wallpaper" alt="Wallpaper" />
+        <img
+          src={wallpaper}
+          className="tm-wallpaper"
+          alt="Wallpaper"
+        />
       </div>
 
+      {/* CONTENT */}
       <h1 className="tm-heading">Request a Voucher Code</h1>
 
       <p className="tm-subtext">

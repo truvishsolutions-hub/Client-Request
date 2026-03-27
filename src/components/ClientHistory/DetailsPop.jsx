@@ -1,4 +1,4 @@
-// ✅ DetailsPop.jsx (NEW COMPONENT)
+// ✅ DetailsPop.jsx (FINAL UPDATE - Status colors fixed)
 import React from "react";
 import "./DetailsPop.css";
 import DefaultProfile from "../../assets/DefaultProfile/DP.png";
@@ -18,10 +18,25 @@ export default function DetailsPop({
     status = "Active",
   } = details || {};
 
-  const isActive = String(status).toLowerCase() === "active";
+  // ✅ Check if status is Active/Unredeemed
+  const isActive = String(status).toLowerCase() === "Redeemd" ||
+                   String(status).toLowerCase() === "unredeemed";
+
+  // ✅ Display text based on status
+  const displayStatus = isActive ? "unredeemed" : "Redeemed";
 
   const handleBackdrop = (e) => {
     if (e.target.classList.contains("dp-backdrop")) onClose?.();
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      // Optional: Show a toast notification
+      console.log("Code copied:", code);
+    } catch (e) {
+      console.error("Failed to copy:", e);
+    }
   };
 
   return (
@@ -47,11 +62,7 @@ export default function DetailsPop({
               <button
                 className="dp-copyBtn"
                 title="Copy"
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(code);
-                  } catch (e) {}
-                }}
+                onClick={handleCopy}
               >
                 📋
               </button>
@@ -77,7 +88,7 @@ export default function DetailsPop({
           <div className="dp-row">
             <div className="dp-label">Status</div>
             <div className={`dp-pill ${isActive ? "active" : "inactive"}`}>
-              {status}
+              {displayStatus}
             </div>
           </div>
         </div>

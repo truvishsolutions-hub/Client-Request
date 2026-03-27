@@ -1,4 +1,4 @@
-// App.jsx (FINAL PRODUCTION VERSION)
+// App.jsx (FINAL PRODUCTION VERSION WITH REDEEM PORTAL)
 
 import { useState } from "react";
 
@@ -270,6 +270,7 @@ export default function App() {
         <ChooseBrands
           onBack={() => setStep(STEPS.THEME)}
           onContinue={(brands) => {
+            // ✅ brands now contains objects with id, label, img, category
             setSelectedBrands(brands);
             setStep(STEPS.REVIEW);
           }}
@@ -283,17 +284,28 @@ export default function App() {
         <ReviewConfirm
           voucherValue={voucherValue}
           occasion={occasion}
-          recipients={recipients}
+          validityMonths={validDays}  // ✅ Pass validity months
           selectedBrands={selectedBrands}
           onEditValue={() => setStep(STEPS.VOUCHER)}
           onEditOccasion={() => setStep(STEPS.THEME)}
-          onEditRecipients={() => {}}
+          onEditValidity={() => setStep(STEPS.VALIDATION)}  // ✅ Edit validity
           onEditBrands={() => setStep(STEPS.BRANDS)}
           onSubmit={async () => {
 
             try {
 
               const brandLabels = selectedBrands.map((b) => b.label);
+
+              // ✅ Extract unique categories from selected brands
+              const uniqueCategories = [...new Set(
+                selectedBrands
+                  .map((b) => b.category)
+                  .filter(cat => cat && cat.trim() !== "")
+              )];
+
+              console.log("📦 Extracted Categories:", uniqueCategories);
+              console.log("📦 Brand Labels:", brandLabels);
+              console.log("📦 Validity Months:", validDays);
 
               const payload = {
                 clientId: client?.id,
@@ -302,9 +314,12 @@ export default function App() {
                 clientTheme: occasion?.name || "",
                 clientThemeImg: occasion?.img || "",
                 clientBrand: brandLabels,
+                clientCategory: uniqueCategories,
                 clientImg: client?.logoImg || "",
-                validity: Number(validDays),
+                validity: Number(validDays),  // ✅ Send validity to backend
               };
+
+              console.log("📦 Submitting payload:", payload);
 
               const res = await fetch(`${BASE_URL}/api/truvish/update-client`, {
                 method: "POST",
@@ -312,9 +327,14 @@ export default function App() {
                 body: JSON.stringify(payload),
               });
 
-              if (!res.ok) return;
+              if (!res.ok) {
+                const errorText = await res.text();
+                console.error("❌ API Error:", errorText);
+                return;
+              }
 
               const saved = await res.json();
+              console.log("✅ Saved response:", saved);
 
               const dbCode = saved?.truvishIdCodeNumber;
               if (!dbCode) return;
@@ -322,7 +342,9 @@ export default function App() {
               setVoucherCode(dbCode);
               setStep(STEPS.CONGRATS);
 
-            } catch {}
+            } catch (error) {
+              console.error("❌ Submission error:", error);
+            }
           }}
         />
       )}
@@ -334,7 +356,26 @@ export default function App() {
         <Congratulation
           voucherCode={voucherCode}
           onViewDetails={() => setShowDetails(true)}
-          onGoSite={() => setStep(STEPS.HOME)}
+          onRedeemNow={() => {
+            // ✅ Open redemption portal in new tab
+            window.open("https://truvishredeemcode.netlify.app", "_blank");
+          }}
+          onShareGmail={() => {
+            // ✅ Share via Gmail
+            window.location.href = `mailto:?subject=Truvish Voucher Code&body=Your Truvish voucher code is: ${voucherCode}`;
+          }}
+          onShareWhatsApp={() => {
+            // ✅ Share via WhatsApp
+            window.open(`https://wa.me/?text=Your Truvish voucher code is: ${voucherCode}`, "_blank");
+          }}
+          onShareSMS={() => {
+            // ✅ Share via SMS
+            window.location.href = `sms:?body=Your Truvish voucher code is: ${voucherCode}`;
+          }}
+          onCopy={(code) => {
+            // ✅ Copy notification
+            alert(`✅ Voucher code ${code} copied to clipboard!`);
+          }}
         />
       )}
 
@@ -346,7 +387,7 @@ export default function App() {
         onClose={() => setShowDetails(false)}
         voucherCode={voucherCode}
         value={voucherValue}
-        recipients={recipients}
+        validity={`${validDays} ${validDays === 1 ? 'Month' : 'Months'}`}  // ✅ Format validity as "X Months"
         occasion={occasion?.name}
         brands={selectedBrands}
       />

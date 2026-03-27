@@ -1,9 +1,18 @@
-/* ✅ DetailsPop.css (FINAL UPDATE - right side touch fix) */
+/* ✅ DetailsPop.css (FINAL UPDATE - Status colors fixed) */
 :root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --text: #1d2e39;
   --shadow: 0 18px 45px rgba(15, 45, 70, 0.22);
+
+  /* Status colors */
+  --active-green: #2e7d32;
+  --active-bg: rgba(46, 125, 50, 0.12);
+  --active-border: rgba(46, 125, 50, 0.22);
+
+  --inactive-red: #c62828;
+  --inactive-bg: rgba(198, 40, 40, 0.12);
+  --inactive-border: rgba(198, 40, 40, 0.22);
 }
 
 .dp-backdrop {
@@ -14,7 +23,7 @@
   place-items: center;
 
   /* ✅ FIX: screen edge touch stop */
-  padding: 24px; /* was 18px */
+  padding: 24px;
 
   background: rgba(10, 24, 36, 0.45);
   backdrop-filter: blur(6px);
@@ -22,7 +31,7 @@
 
 .dp-modal {
   /* ✅ FIX: width always leaves left-right gap */
-  width: min(520px, calc(100vw - 48px)); /* ✅ 24px left + 24px right */
+  width: min(520px, calc(100vw - 48px));
 
   border-radius: 26px;
   background: #fff;
@@ -35,8 +44,8 @@
   position: absolute;
 
   /* ✅ little inside */
-  right: 12px; /* was 14px */
-  top: 12px;   /* was 14px */
+  right: 12px;
+  top: 12px;
 
   width: 40px;
   height: 40px;
@@ -47,6 +56,12 @@
   color: var(--primary);
   font-size: 18px;
   font-weight: 900;
+  transition: all 0.2s ease;
+}
+
+.dp-x:hover {
+  background: rgba(26, 176, 183, 0.3);
+  transform: scale(1.05);
 }
 
 .dp-profileWrap {
@@ -138,28 +153,48 @@
   padding: 10px 12px;
   font-size: 16px;
   font-weight: 900;
+  transition: all 0.2s ease;
 }
 
+.dp-copyBtn:hover {
+  background: rgba(14, 74, 99, 0.2);
+  transform: scale(1.02);
+}
+
+/* ✅ Status Pill Styles - Updated with proper colors */
 .dp-pill {
   justify-self: end;
-  padding: 10px 18px;
+  padding: 8px 16px;
   border-radius: 999px;
-  font-weight: 900;
-  font-size: clamp(12px, 3.4vw, 16px);
+  font-weight: 700;
+  font-size: clamp(12px, 3.4vw, 14px);
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+/* ✅ Active/Unredeemed Status - GREEN */
 .dp-pill.active {
-  background: rgba(26, 176, 183, 0.16);
-  color: #148b8f;
-  border: 1px solid rgba(26, 176, 183, 0.26);
+  background: var(--active-bg);
+  color: var(--active-green);
+  border: 1px solid var(--active-border);
+}
+
+/* ✅ Inactive/Redeemed Status - RED */
+.dp-pill.inactive {
+  background: var(--inactive-bg);
+  color: var(--inactive-red);
+  border: 1px solid var(--inactive-border);
+  text-transform: uppercase;
+}
+
+/* Optional: Add a subtle glow effect for better visibility */
+.dp-pill.active {
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.1);
 }
 
 .dp-pill.inactive {
-  background: rgba(239, 68, 68, 0.12);
-  color: #b91c1c;
-  border: 1px solid rgba(239, 68, 68, 0.22);
-  text-transform: capitalize;
+  box-shadow: 0 2px 6px rgba(198, 40, 40, 0.1);
 }
 
 .dp-closeBtn {
@@ -174,8 +209,20 @@
   font-weight: 900;
   font-size: clamp(16px, 4.2vw, 22px);
   box-shadow: 0 12px 26px rgba(14, 74, 99, 0.25);
+  transition: all 0.2s ease;
 }
 
+.dp-closeBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(14, 74, 99, 0.3);
+  background: linear-gradient(180deg, #0e5a7a, #0b3f55);
+}
+
+.dp-closeBtn:active {
+  transform: translateY(0);
+}
+
+/* ✅ Responsive */
 @media (max-width: 420px) {
   /* ✅ mobile edge touch fix */
   .dp-backdrop {
@@ -183,10 +230,15 @@
   }
 
   .dp-modal {
-    width: calc(100vw - 32px); /* ✅ 16px + 16px */
+    width: calc(100vw - 32px);
   }
 
   .dp-row {
     grid-template-columns: 90px 1fr;
+  }
+
+  .dp-pill {
+    padding: 6px 12px;
+    font-size: 11px;
   }
 }
