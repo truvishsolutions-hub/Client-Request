@@ -1,124 +1,385 @@
+* {
+  box-sizing: border-box;
+}
+
 .loginPage {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #f5f8fb;
-  padding: 20px 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(160, 220, 226, 0.22), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(117, 215, 210, 0.18), transparent 28%),
+    linear-gradient(180deg, #f8fcfd 0%, #eef6f7 45%, #ecf5f6 100%);
+  padding: 28px 20px 24px;
 }
 
-/* 🔝 TOP */
+/* soft background circles */
+.bgOrbs {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(76, 151, 165, 0.08);
+  pointer-events: none;
+}
+
+.orb1 {
+  width: 360px;
+  height: 360px;
+  top: 80px;
+  right: -140px;
+}
+
+.orb2 {
+  width: 300px;
+  height: 300px;
+  left: -120px;
+  bottom: 140px;
+}
+
+.orb3 {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  bottom: -30px;
+}
+
+.contentWrap {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP */
 .topSection {
   text-align: center;
   margin-top: 6px;
 }
 
+.logoWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .brandLogo {
-  width: 135px;   /* Bigger logo */
+  width: 150px; /* logo size increase */
+  max-width: 20vw;
   height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.brandName {
+  margin: 8px 0 4px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: #11364d;
+  line-height: 1;
+}
+
+.brandTagline {
+  margin: 6;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5d6f7e;
 }
 
 .title {
-  margin-top: 8px;
-  font-size: 30px;
+  margin: 34px 0 16px;
+  font-size: 28px;
+  line-height: 2.9;
   font-weight: 800;
-  color: #0a5870;
+  color: #12384f;
 }
 
-/* 🔼 MIDDLE — SHIFTED UP */
+.offerPill {
+  width: 100%;
+  max-width: 420px;
+  min-height: 42px;
+  margin: 0 auto;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #173c57;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(23, 60, 87, 0.18);
+
+  /* 🔥 animation add */
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: offerExpand 0.7s ease-out forwards;
+}
+
+@keyframes offerExpand {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scaleX(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* MIDDLE */
 .middleSection {
-  margin-top: -5px;   /* 🔥 Upar shift */
+  width: 100%;
+  max-width: 420px;
+  margin: 110px auto 0;
+  text-align: center;
 }
 
 .subtitle {
-  font-size: 14px;
-  color: #6b7c88;
-  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-/* Phone Input */
 .phoneRow {
   display: grid;
-  grid-template-columns: 90px 1fr;
-  border: 1px solid #d7e2ea;
-  border-radius: 18px;
+  grid-template-columns: 94px 1fr;
+  align-items: center;
+  width: 100%;
+  min-height: 62px;
+  border-radius: 20px;
   overflow: hidden;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e1ebef;
+  box-shadow: 0 8px 24px rgba(30, 84, 104, 0.08);
 }
 
 .codePill {
-  height: 56px;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  color: #0a5870;
-  background: #bfe1ea;
+  height: 100%;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6eef4;
+  color: #16384c;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .phoneInput {
-  height: 56px;
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
   border: none;
   outline: none;
-  padding: 0 14px;
-  font-size: 16px;
+  background: transparent;
+  padding: 0 18px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #16384c;
 }
 
 .phoneInput::placeholder {
-  color: #95a6b2;
+  color: #b8c0c8;
+  font-weight: 400;
 }
 
 .errorText {
-  margin-top: 6px;
+  margin-top: 8px;
+  text-align: left;
+  padding-left: 8px;
   font-size: 12px;
-  color: red;
+  color: #d93025;
 }
 
-/* 🔻 BOTTOM */
+.helperText {
+  margin: 28px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #637786;
+}
+
+/* BOTTOM */
 .bottomSection {
-  margin-bottom: 18px;  /* bottom se thoda upar */
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding-top: 22px;
+  padding-bottom: 8px;
 }
 
 .primaryBtn {
   width: 100%;
-  height: 58px;
+  height: 68px;
   border: none;
-  border-radius: 18px;
-  font-size: 18px;
+  border-radius: 22px;
+  font-size: 22px;
   font-weight: 800;
-  color: #fff;
-  background: linear-gradient(180deg, #1fb0ad 0%, #0b6c85 100%);
-  box-shadow: 0 10px 20px rgba(11, 108, 133, 0.2);
+  color: #ffffff;
+  background: linear-gradient(180deg, #5ac0b7 0%, #3eb2ad 100%);
+  box-shadow: 0 16px 28px rgba(62, 178, 173, 0.28);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.primaryBtn:active {
+  transform: scale(0.985);
 }
 
 .primaryBtn:disabled {
-  opacity: 0.5;
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-/* Secure */
-.secure {
-  text-align: center;
-  margin-top: 12px;
-  font-weight: 700;
-  color: #0a5870;
-}
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .loginPage {
+    padding: 24px 16px 22px;
+  }
 
-/* 📱 Responsive */
-@media (max-height: 700px) {
+  .brandLogo {
+    width: 135px;
+  }
+
+  .brandName {
+    font-size: 26px;
+    letter-spacing: 4px;
+  }
+
+  .brandTagline {
+    font-size: 13px;
+  }
+
+  .title {
+    margin-top: 30px;
+    font-size: 24px;
+  }
+
+  .offerPill {
+    font-size: 13px;
+    padding: 11px 14px;
+  }
+
   .middleSection {
-    margin-top: -15px;
+    margin-top: 90px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .phoneRow {
+    grid-template-columns: 86px 1fr;
+    min-height: 58px;
+  }
+
+  .codePill,
+  .phoneInput {
+    min-height: 58px;
+    font-size: 17px;
+  }
+
+  .helperText {
+    font-size: 13px;
+  }
+
+  .primaryBtn {
+    height: 62px;
+    font-size: 20px;
   }
 }
 
 @media (max-width: 360px) {
   .brandLogo {
-    width: 110px;
+    width: 122px;
+  }
+
+  .brandName {
+    font-size: 23px;
+    letter-spacing: 3px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 21px;
+  }
+
+  .offerPill {
+    font-size: 12px;
+  }
+
+  .middleSection {
+    margin-top: 74px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+  }
+
+  .phoneRow {
+    grid-template-columns: 78px 1fr;
+    border-radius: 18px;
+  }
+
+  .codePill,
+  .phoneInput {
+    min-height: 54px;
+    font-size: 16px;
   }
 
   .primaryBtn {
-    height: 52px;
+    height: 58px;
+    border-radius: 18px;
+    font-size: 19px;
   }
+}
+
+@media (max-height: 760px) {
+  .middleSection {
+    margin-top: 70px;
+  }
+
+  .title {
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .loginPage {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .contentWrap,
+  .bottomSection {
+    max-width: 460px;
+  }
+
+  .brandLogo {
+    width: 165px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+}
+.loginPage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 28px 20px 24px;
+
+  background-size: cover;
+  background-position: center;
 }

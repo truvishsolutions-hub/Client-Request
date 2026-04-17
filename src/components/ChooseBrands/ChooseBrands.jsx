@@ -3,7 +3,7 @@ import { IoChevronBack } from "react-icons/io5";
 import "./ChooseBrands.css";
 import BrandInfoPopup from "../ChooseBrands/BrandInfoPopup";
 
-const BASE_URL = "https://grateful-warmth-production-b64e.up.railway.app";
+const BASE_URL = "http://localhost:8080";
 
 const ChooseBrands = ({ onBack, onContinue }) => {
 

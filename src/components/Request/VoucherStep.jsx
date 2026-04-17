@@ -9,10 +9,10 @@ const VoucherStep = ({ onBack, onContinue }) => {
   const [selected, setSelected] = useState("50");
 
   const options = [
-    { id: "50", label: "₹50" },
     { id: "100", label: "₹100" },
     { id: "250", label: "₹250" },
     { id: "500", label: "₹500" },
+    { id: "1000", label: "₹1000" },
   ];
 
   return (

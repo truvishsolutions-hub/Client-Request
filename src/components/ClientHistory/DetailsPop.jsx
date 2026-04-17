@@ -1,4 +1,3 @@
-// ✅ DetailsPop.jsx (FINAL UPDATE - Status colors fixed)
 import React from "react";
 import "./DetailsPop.css";
 import DefaultProfile from "../../assets/DefaultProfile/DP.png";
@@ -14,16 +13,49 @@ export default function DetailsPop({
   const {
     code = "TR******",
     value = 100.0,
-    validity = "1 feb, 2026",
-    status = "Active",
+    validity = "-",
+    status = "Issued",
+    remainingBalance = 0,
+    eventType = "",
+    message = "",
+    eventTime = null
   } = details || {};
 
-  // ✅ Check if status is Active/Unredeemed
-  const isActive = String(status).toLowerCase() === "Redeemd" ||
-                   String(status).toLowerCase() === "unredeemed";
+  const normalizedEventType = String(eventType || "").trim().toUpperCase();
 
-  // ✅ Display text based on status
-  const displayStatus = isActive ? "unredeemed" : "Redeemed";
+  let pillClass = "active";
+  let displayStatus = status;
+
+  if (normalizedEventType === "FULL_REDEEM") {
+    pillClass = "inactive";
+    displayStatus = "Redeemed";
+  } else if (normalizedEventType === "PARTIAL_REDEEM") {
+    pillClass = "partial";
+    displayStatus = "Partially Redeemed";
+  } else if (normalizedEventType === "CODE_ASSIGNED") {
+    pillClass = "active";
+    displayStatus = "Issued";
+  }
+
+  const formatDateTime = (value) => {
+    if (!value) return "-";
+
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "-";
+
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = String(d.getFullYear()).slice(-2);
+
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+
+    return `${day}/${month}/${year} ${String(hours).padStart(2, "0")}:${minutes} ${ampm}`;
+  };
 
   const handleBackdrop = (e) => {
     if (e.target.classList.contains("dp-backdrop")) onClose?.();
@@ -32,8 +64,6 @@ export default function DetailsPop({
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      // Optional: Show a toast notification
-      console.log("Code copied:", code);
     } catch (e) {
       console.error("Failed to copy:", e);
     }
@@ -72,22 +102,43 @@ export default function DetailsPop({
           <div className="dp-divider" />
 
           <div className="dp-row">
-            <div className="dp-label">Value</div>
-            <div className="dp-value">₹{Number(value).toFixed(2)}</div>
+            <div className="dp-label">Amount</div>
+            <div className="dp-value">₹{Number(value || 0).toFixed(2)}</div>
           </div>
 
           <div className="dp-divider" />
 
           <div className="dp-row">
-            <div className="dp-label">Validity</div>
+            <div className="dp-label">Remaining Balance</div>
+            <div className="dp-value">₹{Number(remainingBalance || 0).toFixed(2)}</div>
+          </div>
+
+          <div className="dp-divider" />
+
+          <div className="dp-row">
+            <div className="dp-label">Date</div>
+            <div className="dp-value">{formatDateTime(eventTime)}</div>
+          </div>
+
+          <div className="dp-divider" />
+
+          <div className="dp-row">
+            <div className="dp-label">Expiry Date</div>
             <div className="dp-value">{validity}</div>
           </div>
 
           <div className="dp-divider" />
 
           <div className="dp-row">
+            <div className="dp-label">Message</div>
+            <div className="dp-value">{message || "-"}</div>
+          </div>
+
+          <div className="dp-divider" />
+
+          <div className="dp-row">
             <div className="dp-label">Status</div>
-            <div className={`dp-pill ${isActive ? "active" : "inactive"}`}>
+            <div className={`dp-pill ${pillClass}`}>
               {displayStatus}
             </div>
           </div>

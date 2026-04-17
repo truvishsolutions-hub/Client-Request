@@ -19,7 +19,6 @@
   border: none;
 }
 
-
 .ca-brand{
   display:flex;
   justify-content:center;
@@ -27,7 +26,7 @@
 }
 
 .ca-logo{
-  height:90px;      /* 🔥 Bigger logo */
+  height:90px;
   width:auto;
   object-fit:contain;
 }
@@ -64,7 +63,6 @@
   padding:12px 12px;
 }
 
-/* ✅ Icon wrap now for React Icons (MdDriveFileRenameOutline, MdOutlineMail) */
 .ca-iconWrap{
   width:40px;
   height:40px;
@@ -73,15 +71,10 @@
   place-items:center;
   background: rgba(36, 135, 155, 0.10);
   border: 1px solid rgba(36, 135, 155, 0.12);
-  color:#2f7f92;      /* ✅ icon color */
-  font-size:20px;     /* ✅ icon size base */
+  color:#2f7f92;
+  font-size:20px;
   flex: 0 0 40px;
 }
-
-/* ❌ OLD CSS ICONS REMOVED
-.ca-userIcon { ... }
-.ca-mailIcon { ... }
-*/
 
 .ca-input{
   width:100%;
@@ -145,9 +138,9 @@
   border-radius:50%;
   overflow:hidden;
   position:relative;
-  box-shadow: 0 12px 30px rgba(16,24,40,0.12);
-  border: 5px solid rgba(255,255,255,0.75);
-  background: rgba(255,255,255,0.6);
+  box-shadow: none;     /* ✅ shadow removed */
+  border: none;         /* ✅ white border removed */
+  background: transparent;
   cursor:pointer;
 }
 
@@ -159,18 +152,7 @@
 }
 
 .ca-avatarCam{
-  position:absolute;
-  left:12px;
-  bottom:12px;
-  width:40px;
-  height:40px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background: rgba(47, 127, 146, 0.95);
-  color:#fff;
-  box-shadow: 0 10px 20px rgba(16,24,40,0.18);
-  border: 1px solid rgba(255,255,255,0.35);
+  display:none;         /* ✅ camera overlay removed */
 }
 
 .ca-avatarLabel{

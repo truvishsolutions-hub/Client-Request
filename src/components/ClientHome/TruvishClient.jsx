@@ -13,15 +13,15 @@ const TruvishClient = ({
   onOpenHistory,
   onOpenTc,
   onOpenWallet,
+  onOpenProfile,
   clientBalance,
   profileImg
 }) => {
-
   const [openMenu, setOpenMenu] = useState(false);
+  const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
   const menuRef = useRef();
 
-  // ✅ SAFE PROFILE IMAGE (404 FIX)
   const [imgSrc, setImgSrc] = useState(profileImg || defaultProfile);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ const TruvishClient = ({
   }, [profileImg]);
 
   useEffect(() => {
-
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpenMenu(false);
@@ -40,35 +39,79 @@ const TruvishClient = ({
 
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
-
   }, []);
+
+  // wallet sparkle effect on first load only
+  useEffect(() => {
+    setMoneyEffectActive(true);
+
+    const timer = setTimeout(() => {
+      setMoneyEffectActive(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const sparkles = [
+    { className: "s1", symbol: "✦" },
+    { className: "s2", symbol: "✦" },
+    { className: "s3", symbol: "✦" },
+    { className: "s4", symbol: "✦" },
+    { className: "s5", symbol: "✦" },
+    { className: "s6", symbol: "✦" },
+  ];
 
   return (
     <div className="tm-container">
-
       {/* TOP BAR */}
       <div className="tm-topbar">
-
         {/* WALLET */}
         <div className="tm-wallet-wrap" onClick={onOpenWallet}>
           <IoWalletSharp className="tm-wallet" />
-          <span className="tm-wallet-balance">
-            ₹{clientBalance ?? 0}
-          </span>
+
+          <div className="tm-wallet-balance-wrap">
+            {moneyEffectActive &&
+              sparkles.map((item, i) => (
+                <span
+                  key={i}
+                  className={`tm-money-star ${item.className}`}
+                >
+                  {item.symbol}
+                </span>
+              ))}
+
+            {moneyEffectActive && <span className="tm-wallet-shine" />}
+
+            <span
+              className={`tm-wallet-balance ${
+                moneyEffectActive ? "tm-wallet-balance-active" : ""
+              }`}
+            >
+              ₹{clientBalance ?? 0}
+            </span>
+          </div>
         </div>
 
         {/* PROFILE */}
         <div className="tm-profile-wrap" ref={menuRef}>
-
           <img
             src={imgSrc}
             alt="Profile"
             className="tm-profile-img"
             onClick={() => setOpenMenu(!openMenu)}
-            onError={() => setImgSrc(defaultProfile)} // ✅ fallback
+            onError={() => setImgSrc(defaultProfile)}
           />
 
           <div className={`tm-slide-menu ${openMenu ? "open" : ""}`}>
+            <div
+              className="tm-menu-item"
+              onClick={() => {
+                setOpenMenu(false);
+                onOpenProfile?.();
+              }}
+            >
+              Profile
+            </div>
 
             <div
               className="tm-menu-item"
@@ -89,11 +132,8 @@ const TruvishClient = ({
             >
               T&C
             </div>
-
           </div>
-
         </div>
-
       </div>
 
       {/* LOGO */}
@@ -124,7 +164,6 @@ const TruvishClient = ({
       <div className="tm-secure">
         🔒 Secure & Encrypted
       </div>
-
     </div>
   );
 };

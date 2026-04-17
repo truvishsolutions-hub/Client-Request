@@ -1,11 +1,10 @@
-/* ✅ DetailsPop.css (FINAL UPDATE - Status colors fixed) */
+/* ✅ DetailsPop.css (FINAL UPDATE - Redeemed red, UnRedeemed green) */
 :root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --text: #1d2e39;
   --shadow: 0 18px 45px rgba(15, 45, 70, 0.22);
 
-  /* Status colors */
   --active-green: #2e7d32;
   --active-bg: rgba(46, 125, 50, 0.12);
   --active-border: rgba(46, 125, 50, 0.22);
@@ -21,18 +20,13 @@
   z-index: 9999;
   display: grid;
   place-items: center;
-
-  /* ✅ FIX: screen edge touch stop */
   padding: 24px;
-
   background: rgba(10, 24, 36, 0.45);
   backdrop-filter: blur(6px);
 }
 
 .dp-modal {
-  /* ✅ FIX: width always leaves left-right gap */
   width: min(520px, calc(100vw - 48px));
-
   border-radius: 26px;
   background: #fff;
   box-shadow: var(--shadow);
@@ -42,11 +36,8 @@
 
 .dp-x {
   position: absolute;
-
-  /* ✅ little inside */
   right: 12px;
   top: 12px;
-
   width: 40px;
   height: 40px;
   border-radius: 999px;
@@ -161,7 +152,6 @@
   transform: scale(1.02);
 }
 
-/* ✅ Status Pill Styles - Updated with proper colors */
 .dp-pill {
   justify-self: end;
   padding: 8px 16px;
@@ -173,27 +163,17 @@
   letter-spacing: 0.5px;
 }
 
-/* ✅ Active/Unredeemed Status - GREEN */
 .dp-pill.active {
   background: var(--active-bg);
   color: var(--active-green);
   border: 1px solid var(--active-border);
-}
-
-/* ✅ Inactive/Redeemed Status - RED */
-.dp-pill.inactive {
-  background: var(--inactive-bg);
-  color: var(--inactive-red);
-  border: 1px solid var(--inactive-border);
-  text-transform: uppercase;
-}
-
-/* Optional: Add a subtle glow effect for better visibility */
-.dp-pill.active {
   box-shadow: 0 2px 6px rgba(46, 125, 50, 0.1);
 }
 
 .dp-pill.inactive {
+  background: var(--inactive-bg);
+  color: var(--inactive-red);
+  border: 1px solid var(--inactive-border);
   box-shadow: 0 2px 6px rgba(198, 40, 40, 0.1);
 }
 
@@ -222,9 +202,7 @@
   transform: translateY(0);
 }
 
-/* ✅ Responsive */
 @media (max-width: 420px) {
-  /* ✅ mobile edge touch fix */
   .dp-backdrop {
     padding: 16px;
   }
@@ -241,4 +219,9 @@
     padding: 6px 12px;
     font-size: 11px;
   }
+}
+.dp-pill.partial {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffe69c;
 }

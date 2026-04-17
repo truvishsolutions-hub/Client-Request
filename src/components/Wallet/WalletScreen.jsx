@@ -8,7 +8,7 @@ import moneyIcon from "../../assets/MONEY/RU.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
 // ✅ Railway Backend
-const BASE_URL = "https://grateful-warmth-production-b64e.up.railway.app";
+const BASE_URL = "http://localhost:8080";
 
 
 // ✅ helper: backend datetime -> "12/2/2026 11:20 AM"

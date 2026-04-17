@@ -4,14 +4,14 @@
   --deep-teal: #0E4A63;
   --cyan-teal: #1AB0B7;
   --cyan-teal-light: #2EC4C9;
-  
+
   /* Secondary Palette */
   --sky-blue: #A9D6E2;
   --dark-slate: #1D2E39;
-  
+
   /* Neutral Palette */
   --soft-white: #F3F7FA;
-  
+
   /* Additional UI Colors */
   --gmail-red: #ea4335;
   --whatsapp-green: #25d366;
@@ -28,6 +28,8 @@
 .cv-page {
   min-height: 100vh;
   background: var(--soft-white);
+  position: relative;
+    overflow: hidden;
   display: flex;
   justify-content: center;
   padding: 30px 18px 24px;
@@ -37,6 +39,8 @@
 /* WRAP */
 .cv-wrap {
   width: min(420px, 100%);
+    position: relative;
+    z-index: 2;
   display: flex;
   flex-direction: column;
 }
@@ -265,13 +269,45 @@
   .cv-code-text {
     font-size: 22px;
   }
-  
+
   .cv-btn-redeem {
     font-size: 16px;
     padding: 16px;
   }
-  
+
   .cv-redeem-icon {
     font-size: 20px;
   }
+}
+.cv-confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+.cv-home-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+
+  color: #ffffff;
+  background: #0f766e;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s ease;
+}
+
+.cv-home-btn:hover {
+  transform: translateY(-2px);
+  background: #0b5e57;
 }

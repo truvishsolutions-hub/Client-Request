@@ -1,4 +1,4 @@
-git add .:root {
+:root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --soft: #f3f7fa;
@@ -19,7 +19,6 @@ git add .:root {
   overflow: hidden;
 }
 
-/* ✅ STICKY HEADER */
 .ch-stickyHeader {
   position: sticky;
   top: 0;
@@ -27,17 +26,15 @@ git add .:root {
   background: var(--soft);
 }
 
-/* ✅ NAVBAR */
 .ch-navbar {
   width: 100%;
   background: #fff;
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
   padding: 16px 16px;
-  position: relative; /* ✅ important */
+  position: relative;
 }
 
-/* ✅ BACK BUTTON LEFT */
 .ch-backIcon {
   position: absolute;
   left: 10px;
@@ -49,7 +46,6 @@ git add .:root {
   color: var(--primary);
 }
 
-/* ✅ LEFT WRAP (UNCHANGED STRUCTURE) */
 .ch-leftWrap {
   width: 100%;
   display: flex;
@@ -58,7 +54,6 @@ git add .:root {
   gap: 14px;
 }
 
-/* ✅ PROFILE CENTER FIX */
 .ch-brand {
   position: absolute;
   left: 50%;
@@ -68,7 +63,6 @@ git add .:root {
   align-items: center;
 }
 
-/* LOGO */
 .ch-logo {
   width: clamp(58px, 12vw, 82px);
   height: clamp(58px, 12vw, 82px);
@@ -78,20 +72,17 @@ git add .:root {
   background: #fff;
 }
 
-/* BALANCE RIGHT SAME */
 .ch-balance {
   margin-left: auto;
   text-align: right;
 }
 
-/* LABEL */
 .ch-balanceLabel {
   font-size: clamp(14px, 3.6vw, 18px);
   font-weight: 900;
   color: #148b8f;
 }
 
-/* VALUE */
 .ch-balanceValue {
   font-size: clamp(26px, 6.5vw, 44px);
   font-weight: 800;
@@ -102,9 +93,10 @@ git add .:root {
 
 .ch-clientName {
   font-size: 14px;
+  margin-top: 4px;
+  color: rgba(29, 46, 57, 0.82);
 }
 
-/* TABS */
 .ch-tabsWrap {
   position: relative;
   background: #fff;
@@ -148,21 +140,18 @@ git add .:root {
   border-radius: 6px;
 }
 
-/* SCROLL AREA */
 .ch-scrollArea {
   height: calc(100vh - 140px);
   overflow-y: auto;
-  padding: 16px 14px 28px; /* ✅ bottom button removed */
+  padding: 16px 14px 28px;
 }
 
-/* LIST */
 .ch-list {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* ROW */
 .ch-row {
   background: #fff;
   border: 1px solid var(--border);
@@ -170,15 +159,16 @@ git add .:root {
   border-radius: 22px;
   padding: 16px 18px;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 110px 120px 1fr auto;
   align-items: center;
   gap: 12px;
 }
 
 .ch-date {
-  font-size: clamp(16px, 4.2vw, 28px);
-  font-weight: 500;
+  font-size: clamp(14px, 3.8vw, 22px);
+  font-weight: 600;
   color: rgba(29, 46, 57, 0.92);
+  line-height: 1.3;
 }
 
 .ch-viewBtn {
@@ -194,7 +184,29 @@ git add .:root {
   white-space: nowrap;
 }
 
-/* AMOUNT */
+.ch-viewBtn:hover {
+  background: rgba(26, 176, 183, 0.16);
+}
+
+.ch-info {
+  min-width: 0;
+}
+
+.ch-message {
+  font-size: clamp(14px, 3.6vw, 18px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.ch-subText {
+  font-size: 12px;
+  color: rgba(29, 46, 57, 0.72);
+  margin-top: 4px;
+  word-break: break-word;
+}
+
 .ch-amountWrap {
   justify-self: end;
   display: inline-flex;
@@ -207,18 +219,38 @@ git add .:root {
   width: 22px;
   height: 22px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .ch-dot.green {
   background: #1fa56a;
 }
 
+.ch-dot.orange {
+  background: #f59e0b;
+}
+
+.ch-dot.red {
+  background: #c62828;
+}
+
 .ch-amount {
   font-size: clamp(18px, 4.6vw, 32px);
   font-weight: 800;
+  color: var(--primary);
 }
 
-/* T&C */
+.ch-empty {
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 22px;
+  padding: 24px 18px;
+  text-align: center;
+  color: rgba(29, 46, 57, 0.72);
+  font-weight: 600;
+}
+
 .ch-tcCard {
   background: #fff;
   border: 1px solid var(--border);
@@ -227,15 +259,113 @@ git add .:root {
   padding: 16px 18px;
 }
 
-/* RESPONSIVE */
+.ch-tcCard h3 {
+  margin: 0 0 12px;
+  color: var(--primary);
+}
+
+.ch-tcCard ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ch-tcCard li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .ch-row {
+    grid-template-columns: 90px 110px 1fr;
+    grid-template-areas:
+      "date action amount"
+      "info info info";
+    align-items: start;
+  }
+
+  .ch-date {
+    grid-area: date;
+  }
+
+  .ch-viewBtn {
+    grid-area: action;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .ch-info {
+    grid-area: info;
+    margin-top: 4px;
+  }
+
+  .ch-amountWrap {
+    grid-area: amount;
+    justify-self: end;
+  }
+}
+
 @media (max-width: 520px) {
+  .ch-scrollArea {
+    padding: 14px 12px 24px;
+  }
+
   .ch-row {
     padding: 14px;
     gap: 10px;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "date amount"
+      "info info"
+      "action action";
+  }
+
+  .ch-date {
+    font-size: 14px;
+  }
+
+  .ch-info {
+    margin-top: 2px;
+  }
+
+  .ch-message {
+    font-size: 14px;
+  }
+
+  .ch-subText {
+    font-size: 11px;
+  }
+
+  .ch-viewBtn {
+    grid-area: action;
+    justify-self: stretch;
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .ch-amountWrap {
+    gap: 8px;
   }
 
   .ch-dot {
     width: 18px;
     height: 18px;
+  }
+
+  .ch-amount {
+    font-size: 18px;
+  }
+
+  .ch-logo {
+    width: 58px;
+    height: 58px;
+  }
+
+  .ch-balanceValue {
+    font-size: 24px;
+  }
+
+  .ch-clientName {
+    font-size: 12px;
   }
 }

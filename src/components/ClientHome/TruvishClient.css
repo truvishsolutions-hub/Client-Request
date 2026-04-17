@@ -37,31 +37,134 @@ TOP BAR
 }
 
 /* =========================
-WALLET SECTION
+WALLET SECTION (FIXED)
 ========================= */
 
 .tm-wallet-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px; /* 🔥 closer spacing */
   cursor: pointer;
 }
 
 .tm-wallet {
   font-size: 38px;
   color: var(--primary);
+  margin-right: -2px; /* 🔥 extra tight */
 }
 
-/* Wallet balance */
+.tm-wallet-balance-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: auto; /* 🔥 remove extra space */
+  min-height: 32px;
+  padding: 0 2px; /* 🔥 tight padding */
+  border-radius: 12px;
+  overflow: visible;
+}
 
 .tm-wallet-balance {
+  position: relative;
+  z-index: 5;
   font-size: 18px;
   font-weight: 700;
   color: var(--primary);
 }
 
 /* =========================
-PROFILE IMAGE
+AMOUNT ANIMATION
+========================= */
+
+.tm-wallet-balance-active {
+  animation:
+    tmAmountPop 0.9s ease-in-out infinite,
+    tmAmountGlow 1.6s ease-in-out infinite;
+}
+
+@keyframes tmAmountPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.08); }
+  55% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+@keyframes tmAmountGlow {
+  0%,100% {
+    text-shadow: 0 0 0 rgba(255,215,0,0);
+  }
+  40% {
+    text-shadow:
+      0 0 10px rgba(255,215,0,0.85),
+      0 0 20px rgba(255,245,180,0.9);
+  }
+}
+
+/* =========================
+STAR EFFECT (VISIBLE)
+========================= */
+
+.tm-money-star {
+  position: absolute;
+  z-index: 4;
+  font-size: 16px;
+  color: #ffd54a;
+  text-shadow:
+    0 0 6px rgba(255, 213, 74, 1),
+    0 0 10px rgba(255,255,255,0.9);
+  animation: tmStarBlink 1.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* positions FIXED closer */
+
+.tm-money-star.s1 { top: -6px; left: -4px; }
+.tm-money-star.s2 { bottom: -4px; left: 4px; font-size: 12px; }
+.tm-money-star.s3 { top: -6px; right: -2px; }
+.tm-money-star.s4 { bottom: -4px; right: 4px; font-size: 12px; }
+.tm-money-star.s5 { top: 0; left: 50%; transform: translateX(-50%); font-size: 10px; }
+.tm-money-star.s6 { bottom: 0; left: 50%; transform: translateX(-50%); font-size: 10px; }
+
+@keyframes tmStarBlink {
+  0%,100% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* =========================
+SHINE EFFECT
+========================= */
+
+.tm-wallet-shine {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 18px;
+  height: 140%;
+  z-index: 3;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.8),
+    transparent
+  );
+  animation: tmShineSweep 1.4s infinite;
+}
+
+@keyframes tmShineSweep {
+  0% { transform: translateX(-150%); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateX(250%); opacity: 0; }
+}
+
+/* =========================
+PROFILE
 ========================= */
 
 .tm-profile-img {
@@ -78,7 +181,7 @@ PROFILE IMAGE
 }
 
 /* =========================
-SLIDE MENU
+MENU
 ========================= */
 
 .tm-slide-menu {
@@ -93,7 +196,6 @@ SLIDE MENU
   transform: translateY(-10px) scale(0.95);
   pointer-events: none;
   transition: all 0.25s ease;
-  overflow: hidden;
 }
 
 .tm-slide-menu.open {
@@ -102,8 +204,6 @@ SLIDE MENU
   pointer-events: auto;
 }
 
-/* MENU ITEMS */
-
 .tm-menu-item {
   padding: 15px 18px;
   font-size: 16px;
@@ -111,24 +211,14 @@ SLIDE MENU
   cursor: pointer;
   color: var(--text);
   border-bottom: 1px solid #f0f0f0;
-  transition: all 0.25s ease;
-}
-
-.tm-menu-item:last-child {
-  border-bottom: none;
 }
 
 .tm-menu-item:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(26,176,183,0.18),
-    rgba(14,74,99,0.10)
-  );
-  color: var(--primary);
+  background: rgba(26,176,183,0.15);
 }
 
 /* =========================
-LOGO
+LOGO + CONTENT
 ========================= */
 
 .tm-logo-wrap {
@@ -138,39 +228,22 @@ LOGO
 .tm-logo {
   width: 150px;
   height: 150px;
-  object-fit: contain;
-}
-
-/* =========================
-WALLPAPER
-========================= */
-
-.tm-wallpaper-wrap {
-  margin: 24px 0;
 }
 
 .tm-wallpaper {
   width: 100%;
   border-radius: 20px;
-  max-height: 320px;
-  object-fit: cover;
+  margin: 20px 0;
 }
 
-/* =========================
-TEXT
-========================= */
-
 .tm-heading {
-  font-size: clamp(24px, 5vw, 30px);
+  font-size: 28px;
   font-weight: 700;
-  color: var(--text);
 }
 
 .tm-subtext {
   margin-top: 10px;
-  font-size: clamp(13px, 3vw, 16px);
-  color: #4e5e68;
-  padding: 0 10px;
+  font-size: 14px;
 }
 
 /* =========================
@@ -179,7 +252,6 @@ BUTTON
 
 .tm-button {
   width: 92%;
-  max-width: 440px;
   position: fixed;
   bottom: 54px;
   left: 50%;
@@ -188,19 +260,9 @@ BUTTON
   border-radius: 20px;
   border: none;
   background: linear-gradient(180deg, var(--cyan), var(--primary));
-  color: #ffffff;
-  font-size: clamp(16px, 4vw, 20px);
+  color: #fff;
+  font-size: 18px;
   font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.1s ease;
-}
-
-.tm-button:hover {
-  opacity: 0.95;
-}
-
-.tm-button:active {
-  transform: translateX(-50%) translateY(1px);
 }
 
 /* =========================
@@ -212,18 +274,14 @@ SECURE TEXT
   bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
-  width: 92%;
-  text-align: center;
-  font-size: clamp(12px, 3vw, 15px);
-  color: var(--text);
+  font-size: 13px;
 }
 
 /* =========================
-MOBILE RESPONSIVE
+MOBILE
 ========================= */
 
 @media (max-width: 420px) {
-
   .tm-wallet {
     font-size: 34px;
   }
@@ -236,5 +294,4 @@ MOBILE RESPONSIVE
     width: 44px;
     height: 44px;
   }
-
 }

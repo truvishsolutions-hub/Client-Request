@@ -4,8 +4,7 @@ import DefaultProfile from "../../assets/DefaultProfile/DP.png";
 import DetailsPop from "./DetailsPop";
 import { IoChevronBack } from "react-icons/io5";
 
-// ✅ RAILWAY BACKEND
-const BASE_URL = "https://grateful-warmth-production-b64e.up.railway.app";
+const BASE_URL = "http://localhost:8080";
 
 export default function ClientHistory({
   onBack,
@@ -13,10 +12,8 @@ export default function ClientHistory({
   clientBalance,
   profileImg
 }) {
-
   const [activeTab, setActiveTab] = useState("history");
   const [history, setHistory] = useState([]);
-
   const [openPop, setOpenPop] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -24,51 +21,67 @@ export default function ClientHistory({
     if (!clientName) return;
 
     fetch(`${BASE_URL}/api/truvish/history/${encodeURIComponent(clientName)}`)
-      .then(res => res.json())
-      .then(data => setHistory(data || []))
+      .then((res) => res.json())
+      .then((data) => setHistory(Array.isArray(data) ? data : []))
       .catch(() => setHistory([]));
   }, [clientName]);
 
-  const makeDetails = (row) => {
-    const created = new Date(row.truvishCodeTimestamp);
-    const validityDate = new Date(created);
-    validityDate.setDate(validityDate.getDate() + row.validity);
+  const getDotClass = (eventType) => {
+    const type = String(eventType || "").trim().toUpperCase();
 
-    const today = new Date();
+    if (type === "CODE_ASSIGNED") return "green";
+    if (type === "PARTIAL_REDEEM") return "orange";
+    if (type === "FULL_REDEEM") return "red";
 
-    let status = "Redeemed";
+    return "green";
+  };
 
-    if (row.truvishCodeStatus === "INACTIVE") {
-      status = "UnRedeemed";
-    }
-    else if (today > validityDate) {
-      status = "Expired";
-    }
+  const getReadableStatus = (eventType) => {
+    const type = String(eventType || "").trim().toUpperCase();
 
-    return {
-      code: row.truvishIdCodeNumber,
-      value: row.truvishCodeValue,
-      validity: validityDate.toLocaleDateString(),
-      status
-    };
+    if (type === "CODE_ASSIGNED") return "Issued";
+    if (type === "PARTIAL_REDEEM") return "Partially Redeemed";
+    if (type === "FULL_REDEEM") return "Redeemed";
+
+    return "Issued";
+  };
+
+  const formatDate = (value) => {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "-";
+
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = String(d.getFullYear()).slice(-2);
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const openDetails = (row) => {
+    setSelected({
+      code: row?.code || "TR******",
+      value: Number(row?.amount || 0),
+      remainingBalance: Number(row?.remainingBalance || 0),
+      validity: formatDate(row?.expiryDate),
+      status: getReadableStatus(row?.eventType),
+      eventType: row?.eventType || "",
+      message: row?.message || "",
+      eventTime: row?.eventTime || null
+    });
+
+    setOpenPop(true);
   };
 
   return (
     <div className="ch-page">
-
       <div className="ch-stickyHeader">
-
         <div className="ch-navbar">
-
-          {/* ✅ LEFT BACK */}
           <button className="ch-backIcon" onClick={() => onBack?.()}>
             <IoChevronBack size={26} />
           </button>
 
-          {/* ✅ ORIGINAL STRUCTURE (UNCHANGED) */}
           <div className="ch-leftWrap">
-
-            {/* CLIENT LOGO (NOW CENTERED VIA CSS) */}
             <div className="ch-brand">
               <img
                 src={profileImg || DefaultProfile}
@@ -77,11 +90,8 @@ export default function ClientHistory({
               />
             </div>
 
-            {/* CLIENT INFO (RIGHT SAME) */}
             <div className="ch-balance">
-              <div className="ch-balanceLabel">
-                Current Balance
-              </div>
+              <div className="ch-balanceLabel">Current Balance</div>
 
               <div className="ch-balanceValue">
                 ₹{Number(clientBalance || 0).toFixed(2)}
@@ -91,16 +101,11 @@ export default function ClientHistory({
                 {clientName}
               </div>
             </div>
-
           </div>
-
         </div>
 
-        {/* TABS SAME */}
         <div className="ch-tabsWrap">
-
           <div className="ch-tabs">
-
             <button
               className={`ch-tab ${activeTab === "history" ? "active" : ""}`}
               onClick={() => setActiveTab("history")}
@@ -116,7 +121,6 @@ export default function ClientHistory({
             >
               T&amp;C
             </button>
-
           </div>
 
           <div
@@ -128,78 +132,69 @@ export default function ClientHistory({
                   : "translateX(100%)"
             }}
           />
-
         </div>
-
       </div>
 
-      {/* CONTENT SAME */}
       <div className="ch-scrollArea">
-
         {activeTab === "history" ? (
-
           <div className="ch-list">
-
             {history.length === 0 && (
-              <div style={{padding:"20px", textAlign:"center"}}>
+              <div className="ch-empty">
                 No history available
               </div>
             )}
 
             {history.map((row, idx) => {
-
-              const created = new Date(row.truvishCodeTimestamp);
+              const dotClass = getDotClass(row?.eventType);
 
               return (
-
                 <div className="ch-row" key={idx}>
-
                   <div className="ch-date">
-                    {created.toLocaleDateString()}
+                    {formatDate(row?.eventTime)}
                   </div>
 
                   <button
                     className="ch-viewBtn"
-                    onClick={() => {
-                      setSelected(makeDetails(row));
-                      setOpenPop(true);
-                    }}
+                    onClick={() => openDetails(row)}
                   >
                     View Details
                   </button>
 
-                  <div className="ch-amountWrap">
+                  <div className="ch-info">
+                    <div className="ch-message">
+                      {row?.message || "-"}
+                    </div>
 
-                    <span className="ch-dot green" />
+                    <div className="ch-subText">
+                      Code: {row?.code || "-"}
+                    </div>
 
-                    <span className="ch-amount">
-                      ₹{row.truvishCodeValue}
-                    </span>
-
+                    <div className="ch-subText">
+                      Remaining Balance: ₹{Number(row?.remainingBalance || 0).toFixed(2)}
+                    </div>
                   </div>
 
+                  <div className="ch-amountWrap">
+                    <span className={`ch-dot ${dotClass}`} />
+                    <span className="ch-amount">
+                      ₹{Number(row?.amount || 0).toFixed(2)}
+                    </span>
+                  </div>
                 </div>
-
               );
-
             })}
-
           </div>
-
         ) : (
-
           <div className="ch-tcCard">
             <h3>Terms & Conditions</h3>
             <ul>
-              <li>Voucher once issued cannot be cancelled.</li>
-              <li>Voucher must be redeemed before expiry.</li>
+              <li>Once issued, a voucher cannot be cancelled.</li>
+              <li>The voucher must be redeemed before expiry.</li>
               <li>Partial redemption depends on brand policy.</li>
-              <li>TRUVISH reserves the right to modify terms.</li>
+              <li>TRUVISH reserves the right to update the terms at any time.</li>
             </ul>
           </div>
-
         )}
-
       </div>
 
       <DetailsPop
@@ -208,7 +203,6 @@ export default function ClientHistory({
         details={selected}
         profileImg={profileImg || DefaultProfile}
       />
-
     </div>
   );
 }

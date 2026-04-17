@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./CreateAccount.css";
+import "./ProfileScreen.css";
 import { FaCamera } from "react-icons/fa";
+import { IoChevronBack } from "react-icons/io5";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 import logo from "../../assets/LOGO/TRV.png";
@@ -101,61 +102,67 @@ export default function ProfileScreen({
   };
 
   return (
-    <div className="ca-page">
-      <div className="ca-card">
-        <div className="ca-brand">
-          <img src={logo} alt="TRUVISH" className="ca-logo" />
+    <div className="ps-page">
+      {/* TOP LEFT BACK BUTTON */}
+      <button
+        type="button"
+        className="ps-backBtnTop"
+        onClick={onBack}
+        aria-label="Go back"
+      >
+        <IoChevronBack size={24} />
+      </button>
+
+      <div className="ps-card">
+        <div className="ps-brand">
+          <img src={logo} alt="TRUVISH" className="ps-logo" />
         </div>
 
-        <h1 className="ca-title">My Profile</h1>
-        <p className="ca-subtitle">
+        <h1 className="ps-title">Client Profile</h1>
+        <p className="ps-subtitle">
           View your details and update your profile photo.
         </p>
 
-        <form className="ca-form" onSubmit={handleSave}>
-          {/* Company Name */}
-          <div className="ca-field">
-            <span className="ca-iconWrap" aria-hidden="true">
+        <form className="ps-form" onSubmit={handleSave}>
+          <div className="ps-field">
+            <span className="ps-iconWrap" aria-hidden="true">
               <MdDriveFileRenameOutline size={20} />
             </span>
             <input
-              className="ca-input"
+              className="ps-input"
               placeholder="Company Name"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
             />
           </div>
 
-          {/* Client Name */}
-          <div className="ca-field">
-            <span className="ca-iconWrap" aria-hidden="true">
+          <div className="ps-field">
+            <span className="ps-iconWrap" aria-hidden="true">
               <MdDriveFileRenameOutline size={20} />
             </span>
             <input
-              className="ca-input"
+              className="ps-input"
               placeholder="Client Name"
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
             />
           </div>
 
-          {/* Email */}
-          <div className="ca-field">
-            <span className="ca-iconWrap" aria-hidden="true">
+          <div className="ps-field">
+            <span className="ps-iconWrap" aria-hidden="true">
               <MdOutlineMail size={20} />
             </span>
             <input
-              className="ca-input"
+              className="ps-input"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          {/* Profile Preview */}
-          <div className="ca-avatarWrap">
+          <div className="ps-avatarWrap">
             <div
-              className="ca-avatar"
+              className="ps-avatar"
               onClick={openFilePicker}
               role="button"
               tabIndex={0}
@@ -163,31 +170,27 @@ export default function ProfileScreen({
               <img
                 src={profilePreview}
                 alt="Profile"
-                className="ca-avatarImg"
+                className="ps-avatarImg"
                 onError={(e) => {
                   e.currentTarget.src = defaultProfile;
                 }}
               />
-              <div className="ca-avatarCam">
-                <FaCamera />
-              </div>
             </div>
 
-            <div className="ca-avatarLabel">Profile Photo</div>
+            <div className="ps-avatarLabel">Profile Photo</div>
           </div>
 
-          {/* Edit Photo Button */}
           <button
             type="button"
-            className="ca-uploadBox"
+            className="ps-uploadBox"
             onClick={openFilePicker}
           >
-            <div className="ca-uploadIcon">
+            <div className="ps-uploadIcon">
               <FaCamera />
             </div>
-            <div className="ca-uploadText">
-              <div className="ca-uploadTitle">Edit Photo</div>
-              <div className="ca-uploadHint">Change your profile picture</div>
+            <div className="ps-uploadText">
+              <div className="ps-uploadTitle">Edit Photo</div>
+              <div className="ps-uploadHint">Change your profile picture</div>
             </div>
           </button>
 
@@ -195,15 +198,14 @@ export default function ProfileScreen({
             ref={fileRef}
             type="file"
             accept="image/*"
-            className="ca-hiddenFile"
+            className="ps-hiddenFile"
             onChange={onPickFile}
           />
 
-          {/* Phone */}
-          <div className="ca-phoneRow">
-            <div className="ca-code">+91</div>
+          <div className="ps-phoneRow">
+            <div className="ps-code">+91</div>
             <input
-              className="ca-phone"
+              className="ps-phone"
               value={phone}
               onChange={(e) =>
                 setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
@@ -213,13 +215,12 @@ export default function ProfileScreen({
             />
           </div>
 
-          {/* Save Button */}
-          <button className="ca-btn" type="submit" disabled={saving}>
+          <button className="ps-btn" type="submit" disabled={saving}>
             {saving ? "Saving..." : "Save"}
           </button>
 
-          <div className="ca-secure">
-            <span className="ca-lock" aria-hidden="true">🔒</span>
+          <div className="ps-secure">
+            <span className="ps-lock" aria-hidden="true">🔒</span>
             <span>Secure &amp; Encrypted</span>
           </div>
         </form>

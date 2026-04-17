@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import "./Login.css";
-import logo from "../../assets/LOGO/TRV.png";
+import logo from "../../assets/LOGO/TVBG.png";
+import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ background import
 
 export default function Login({ countryCode = "+91", onGetOtp }) {
   const [mobile, setMobile] = useState("");
@@ -20,41 +21,70 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
   };
 
   return (
-    <div className="loginPage">
-      {/* 🔝 TOP */}
-      <div className="topSection">
-        <img src={logo} alt="Truvish" className="brandLogo" />
-        <h1 className="title">Welcome to Truvish</h1>
-      </div>
+    <div
+      className="loginPage"
+      style={{
+        backgroundImage: `url(${bgImage})`, // 🔥 background apply
+      }}
+    >
+      <div className="overlay"></div>
 
-      {/* 🔼 MIDDLE */}
-      <div className="middleSection">
-        <p className="subtitle">Enter your mobile number to continue</p>
+      <div className="contentWrap">
+        {/* TOP */}
+        <div className="topSection">
+          <div className="logoWrap">
+            <img src={logo} alt="Truvish" className="brandLogo" />
+          </div>
 
-        <div className="phoneRow">
-          <div className="codePill">{countryCode}</div>
+          <div className="brandTextWrap">
+            <h2 className="brandName">TRUVISH</h2>
+            <p className="brandTagline">A Partner in Reward Marketing</p>
+          </div>
 
-          <input
-            className="phoneInput"
-            placeholder="Enter 10-digit number"
-            value={value}
-            onChange={handleChange}
-            onBlur={() => setTouched(true)}
-          />
+          <h1 className="title">Welcome to Truvish</h1>
+
+          <div className="offerPill">
+            Rs.1000 free credit. Signup today. limited time offer.
+          </div>
         </div>
 
-        {touched && !isValid && (
-          <div className="errorText">Please enter a valid 10-digit number</div>
-        )}
+        {/* MIDDLE */}
+        <div className="middleSection">
+          <p className="subtitle">Enter your mobile number to continue</p>
+
+          <div className="phoneRow">
+            <div className="codePill">{countryCode}</div>
+
+            <input
+              type="tel"
+              inputMode="numeric"
+              className="phoneInput"
+              placeholder="Enter 10-digit number"
+              value={value}
+              onChange={handleChange}
+              onBlur={() => setTouched(true)}
+            />
+          </div>
+
+          {touched && !isValid && (
+            <div className="errorText">Please enter a valid 10-digit number</div>
+          )}
+
+          <p className="helperText">
+            Performance Marketing Powered by Rewards
+          </p>
+        </div>
       </div>
 
-      {/* 🔻 BOTTOM */}
+      {/* BOTTOM */}
       <div className="bottomSection">
-        <button className="primaryBtn" onClick={handleGetOtp} disabled={!isValid}>
+        <button
+          className="primaryBtn"
+          onClick={handleGetOtp}
+          disabled={!isValid}
+        >
           Get OTP
         </button>
-
-        <div className="secure">🔒 Secure & Encrypted</div>
       </div>
     </div>
   );
