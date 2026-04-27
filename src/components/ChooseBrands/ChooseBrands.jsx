@@ -3,10 +3,10 @@ import { IoChevronBack } from "react-icons/io5";
 import "./ChooseBrands.css";
 import BrandInfoPopup from "../ChooseBrands/BrandInfoPopup";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
 const ChooseBrands = ({ onBack, onContinue }) => {
-
   const [brands, setBrands] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [search, setSearch] = useState("");
@@ -14,22 +14,19 @@ const ChooseBrands = ({ onBack, onContinue }) => {
   const [categories, setCategories] = useState(["All"]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ POPUP STATE
+  // POPUP STATE
   const [showPopup, setShowPopup] = useState(false);
   const [selectedBrandInfo, setSelectedBrandInfo] = useState(null);
 
   // FETCH
   useEffect(() => {
     fetch(`${BASE_URL}/api/client-choose-brand`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const list = Array.isArray(data) ? data : [];
         setBrands(list);
 
-        const cats = [
-          "All",
-          ...new Set(list.map(b => b.category).filter(Boolean))
-        ];
+        const cats = ["All", ...new Set(list.map((b) => b.category).filter(Boolean))];
         setCategories(cats);
       })
       .catch(() => setBrands([]))
@@ -50,44 +47,46 @@ const ChooseBrands = ({ onBack, onContinue }) => {
       ?.toLowerCase()
       .includes(search.toLowerCase());
 
-    const matchTab =
-      activeTab === "All" || b.category === activeTab;
+    const matchTab = activeTab === "All" || b.category === activeTab;
 
     return matchSearch && matchTab;
   });
 
-  // ✅ UPDATED SELECT - Store full brand object with category
+  // SELECT - Store full brand object with category
   const toggleBrand = (id) => {
     const brand = brands.find((b) => b.id === id);
     if (!brand) return;
 
     setSelectedBrands((prev) => {
-      const isSelected = prev.some(item => item.id === id);
+      const isSelected = prev.some((item) => item.id === id);
 
       if (isSelected) {
-        // Remove brand
         return prev.filter((item) => item.id !== id);
-      } else if (prev.length < 5) {
-        // Add brand with full details including category
-        return [...prev, {
-          id: brand.id,
-          label: brand.brandName,
-          img: getImageUrl(brand.brandImg),
-          category: brand.category  // ✅ Include category
-        }];
       }
+
+      if (prev.length < 5) {
+        return [
+          ...prev,
+          {
+            id: brand.id,
+            label: brand.brandName,
+            img: getImageUrl(brand.brandImg),
+            category: brand.category,
+          },
+        ];
+      }
+
       return prev;
     });
   };
 
-  // ✅ Check if brand is selected
+  // Check if brand is selected
   const isBrandSelected = (id) => {
-    return selectedBrands.some(item => item.id === id);
+    return selectedBrands.some((item) => item.id === id);
   };
 
   return (
     <div className="cb-container">
-
       {/* HEADER */}
       <div className="cb-header">
         <button className="cb-back-btn" onClick={onBack}>
@@ -131,9 +130,7 @@ const ChooseBrands = ({ onBack, onContinue }) => {
           {filteredBrands.map((b) => (
             <div
               key={b.id}
-              className={`cb-card ${
-                isBrandSelected(b.id) ? "active" : ""
-              }`}
+              className={`cb-card ${isBrandSelected(b.id) ? "active" : ""}`}
               onClick={() => toggleBrand(b.id)}
             >
               <img
@@ -147,15 +144,13 @@ const ChooseBrands = ({ onBack, onContinue }) => {
               />
 
               {/* SELECT TICK */}
-              {isBrandSelected(b.id) && (
-                <div className="cb-tick">✔</div>
-              )}
+              {isBrandSelected(b.id) && <div className="cb-tick">✔</div>}
 
               {/* INFO ICON */}
               <div
                 className="cb-info-icon"
                 onClick={(e) => {
-                  e.stopPropagation(); // ❗ prevent card click
+                  e.stopPropagation();
                   setSelectedBrandInfo(b);
                   setShowPopup(true);
                 }}
@@ -173,13 +168,13 @@ const ChooseBrands = ({ onBack, onContinue }) => {
           className="cb-btn"
           disabled={selectedBrands.length === 0}
           onClick={() => {
-            // ✅ Pass full brand objects with categories
             const brandsToPass = selectedBrands.map((brand) => ({
               id: brand.id,
               label: brand.label,
               img: brand.img,
-              category: brand.category  // ✅ Include category
+              category: brand.category,
             }));
+
             onContinue(brandsToPass);
           }}
         >
@@ -191,13 +186,12 @@ const ChooseBrands = ({ onBack, onContinue }) => {
         </p>
       </div>
 
-      {/* ✅ POPUP */}
+      {/* POPUP */}
       <BrandInfoPopup
         isOpen={showPopup}
         onClose={() => setShowPopup(false)}
         brand={selectedBrandInfo}
       />
-
     </div>
   );
 };

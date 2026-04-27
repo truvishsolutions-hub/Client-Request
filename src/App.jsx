@@ -18,7 +18,11 @@ import ReviewConfirm from "./components/ReviewConfirm/ReviewConfirm";
 import Congratulation from "./components/Congratulation/Congratulation.jsx";
 import VoucherDetailsPopup from "./components/Congratulation/VoucherDetailsPopup";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+
+const REDEEM_URL =
+  "https://modest-patience-production-eab9.up.railway.app";
 
 const STEPS = {
   LOGIN: "login",
@@ -78,7 +82,9 @@ export default function App() {
               if (!/^\d{4}$/.test(otp)) return { ok: false };
 
               const res = await fetch(
-                `${BASE_URL}/api/clients/exists?mobile=${encodeURIComponent(authMobile10)}`
+                `${BASE_URL}/api/clients/exists?mobile=${encodeURIComponent(
+                  authMobile10
+                )}`
               );
 
               if (!res.ok) return { ok: false };
@@ -87,7 +93,9 @@ export default function App() {
 
               if (data?.exists) {
                 const cRes = await fetch(
-                  `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(authMobile10)}`
+                  `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(
+                    authMobile10
+                  )}`
                 );
 
                 if (cRes.ok) {
@@ -114,7 +122,13 @@ export default function App() {
         <CreateAccount
           defaultCountryCode={authCountryCode}
           defaultPhone={authMobile10 || "----------"}
-          onSubmit={async ({ companyName, clientName, email, mobileNumber, logo }) => {
+          onSubmit={async ({
+            companyName,
+            clientName,
+            email,
+            mobileNumber,
+            logo,
+          }) => {
             try {
               const fd = new FormData();
 
@@ -127,7 +141,9 @@ export default function App() {
 
               fd.append(
                 "client",
-                new Blob([JSON.stringify(clientJson)], { type: "application/json" })
+                new Blob([JSON.stringify(clientJson)], {
+                  type: "application/json",
+                })
               );
 
               if (logo) fd.append("logo", logo);
@@ -160,6 +176,7 @@ export default function App() {
           onOpenTc={() => {}}
           onOpenWallet={() => setStep(STEPS.WALLET)}
           onOpenProfile={() => setStep(STEPS.PROFILE)}
+          clientId={client?.id}
           clientBalance={client?.balance}
           profileImg={
             client?.logoImg ? `${BASE_URL}/api/clients/${client?.id}/logo` : null
@@ -194,6 +211,7 @@ export default function App() {
 
       {step === STEPS.HISTORY && (
         <ClientHistory
+          clientId={client?.id}
           clientName={client?.companyName}
           clientBalance={client?.balance}
           profileImg={
@@ -295,7 +313,7 @@ export default function App() {
               if (!dbCode) return;
 
               setVoucherCode(dbCode);
-              setStep(STEPS.CONGRATS); // ✅ congrats page open hoga, confetti wahi chalega
+              setStep(STEPS.CONGRATS);
             } catch (error) {
               console.error("Submission error:", error);
             }
@@ -306,10 +324,10 @@ export default function App() {
       {step === STEPS.CONGRATS && (
         <Congratulation
           voucherCode={voucherCode}
-          onGoHome={() => setStep(STEPS.HOME)} // ✅ ADD THIS
+          onGoHome={() => setStep(STEPS.HOME)}
           onViewDetails={() => setShowDetails(true)}
           onRedeemNow={() => {
-            window.open("https://truvishredeemcode.netlify.app", "_blank");
+            window.open(REDEEM_URL, "_blank", "noopener,noreferrer");
           }}
           onShareGmail={() => {
             window.location.href = `mailto:?subject=Truvish Voucher Code&body=Your Truvish voucher code is: ${voucherCode}`;
@@ -317,7 +335,8 @@ export default function App() {
           onShareWhatsApp={() => {
             window.open(
               `https://wa.me/?text=Your Truvish voucher code is: ${voucherCode}`,
-              "_blank"
+              "_blank",
+              "noopener,noreferrer"
             );
           }}
           onShareSMS={() => {

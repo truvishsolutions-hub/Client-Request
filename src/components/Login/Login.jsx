@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import "./Login.css";
 import logo from "../../assets/LOGO/TVBG.png";
-import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ background import
+import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
 export default function Login({ countryCode = "+91", onGetOtp }) {
   const [mobile, setMobile] = useState("");
@@ -24,7 +24,7 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
     <div
       className="loginPage"
       style={{
-        backgroundImage: `url(${bgImage})`, // 🔥 background apply
+        backgroundImage: `url(${bgImage})`,
       }}
     >
       <div className="overlay"></div>

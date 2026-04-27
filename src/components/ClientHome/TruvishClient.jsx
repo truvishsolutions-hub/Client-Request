@@ -8,17 +8,22 @@ import { IoWalletSharp } from "react-icons/io5";
 
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+
 const TruvishClient = ({
   onStart,
   onOpenHistory,
   onOpenTc,
   onOpenWallet,
   onOpenProfile,
+  clientId,
   clientBalance,
-  profileImg
+  profileImg,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [moneyEffectActive, setMoneyEffectActive] = useState(false);
+  const [liveBalance, setLiveBalance] = useState(clientBalance ?? 0);
 
   const menuRef = useRef();
 
@@ -27,6 +32,10 @@ const TruvishClient = ({
   useEffect(() => {
     setImgSrc(profileImg || defaultProfile);
   }, [profileImg]);
+
+  useEffect(() => {
+    setLiveBalance(clientBalance ?? 0);
+  }, [clientBalance]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -51,6 +60,38 @@ const TruvishClient = ({
 
     return () => clearTimeout(timer);
   }, []);
+
+  // live balance update
+  useEffect(() => {
+    if (!clientId) return;
+
+    let isMounted = true;
+
+    const fetchLatestBalance = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/clients/${clientId}`);
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        if (isMounted && data?.balance != null) {
+          setLiveBalance(data.balance);
+        }
+      } catch (error) {
+        console.error("Live balance update failed:", error);
+      }
+    };
+
+    fetchLatestBalance();
+
+    const interval = setInterval(fetchLatestBalance, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [clientId]);
 
   const sparkles = [
     { className: "s1", symbol: "✦" },
@@ -87,7 +128,7 @@ const TruvishClient = ({
                 moneyEffectActive ? "tm-wallet-balance-active" : ""
               }`}
             >
-              ₹{clientBalance ?? 0}
+              ₹{Number(liveBalance || 0)}
             </span>
           </div>
         </div>
@@ -162,7 +203,7 @@ const TruvishClient = ({
       </button>
 
       <div className="tm-secure">
-        🔒 Secure & Encrypted
+        🔒 Secure &amp; Encrypted
       </div>
     </div>
   );

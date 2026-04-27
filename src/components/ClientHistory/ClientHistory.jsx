@@ -4,18 +4,29 @@ import DefaultProfile from "../../assets/DefaultProfile/DP.png";
 import DetailsPop from "./DetailsPop";
 import { IoChevronBack } from "react-icons/io5";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+
+const formatAmount = (value) => {
+  return Number(value || 0);
+};
 
 export default function ClientHistory({
   onBack,
+  clientId,
   clientName,
   clientBalance,
-  profileImg
+  profileImg,
 }) {
   const [activeTab, setActiveTab] = useState("history");
   const [history, setHistory] = useState([]);
   const [openPop, setOpenPop] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [liveBalance, setLiveBalance] = useState(clientBalance ?? 0);
+
+  useEffect(() => {
+    setLiveBalance(clientBalance ?? 0);
+  }, [clientBalance]);
 
   useEffect(() => {
     if (!clientName) return;
@@ -25,6 +36,37 @@ export default function ClientHistory({
       .then((data) => setHistory(Array.isArray(data) ? data : []))
       .catch(() => setHistory([]));
   }, [clientName]);
+
+  useEffect(() => {
+    if (!clientId) return;
+
+    let isMounted = true;
+
+    const fetchLatestBalance = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/clients/${clientId}`);
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        if (isMounted && data?.balance != null) {
+          setLiveBalance(data.balance);
+        }
+      } catch (error) {
+        console.error("Client history balance update failed:", error);
+      }
+    };
+
+    fetchLatestBalance();
+
+    const interval = setInterval(fetchLatestBalance, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [clientId]);
 
   const getDotClass = (eventType) => {
     const type = String(eventType || "").trim().toUpperCase();
@@ -48,7 +90,9 @@ export default function ClientHistory({
 
   const formatDate = (value) => {
     if (!value) return "-";
+
     const d = new Date(value);
+
     if (Number.isNaN(d.getTime())) return "-";
 
     const day = String(d.getDate()).padStart(2, "0");
@@ -61,13 +105,13 @@ export default function ClientHistory({
   const openDetails = (row) => {
     setSelected({
       code: row?.code || "TR******",
-      value: Number(row?.amount || 0),
-      remainingBalance: Number(row?.remainingBalance || 0),
+      value: formatAmount(row?.amount),
+      remainingBalance: formatAmount(row?.remainingBalance),
       validity: formatDate(row?.expiryDate),
       status: getReadableStatus(row?.eventType),
       eventType: row?.eventType || "",
       message: row?.message || "",
-      eventTime: row?.eventTime || null
+      eventTime: row?.eventTime || null,
     });
 
     setOpenPop(true);
@@ -93,13 +137,9 @@ export default function ClientHistory({
             <div className="ch-balance">
               <div className="ch-balanceLabel">Current Balance</div>
 
-              <div className="ch-balanceValue">
-                ₹{Number(clientBalance || 0).toFixed(2)}
-              </div>
+              <div className="ch-balanceValue">₹{formatAmount(liveBalance)}</div>
 
-              <div className="ch-clientName">
-                {clientName}
-              </div>
+              <div className="ch-clientName">{clientName}</div>
             </div>
           </div>
         </div>
@@ -129,7 +169,7 @@ export default function ClientHistory({
               transform:
                 activeTab === "history"
                   ? "translateX(0%)"
-                  : "translateX(100%)"
+                  : "translateX(100%)",
             }}
           />
         </div>
@@ -139,9 +179,7 @@ export default function ClientHistory({
         {activeTab === "history" ? (
           <div className="ch-list">
             {history.length === 0 && (
-              <div className="ch-empty">
-                No history available
-              </div>
+              <div className="ch-empty">No history available</div>
             )}
 
             {history.map((row, idx) => {
@@ -149,9 +187,7 @@ export default function ClientHistory({
 
               return (
                 <div className="ch-row" key={idx}>
-                  <div className="ch-date">
-                    {formatDate(row?.eventTime)}
-                  </div>
+                  <div className="ch-date">{formatDate(row?.eventTime)}</div>
 
                   <button
                     className="ch-viewBtn"
@@ -161,23 +197,19 @@ export default function ClientHistory({
                   </button>
 
                   <div className="ch-info">
-                    <div className="ch-message">
-                      {row?.message || "-"}
-                    </div>
+                    <div className="ch-message">{row?.message || "-"}</div>
+
+                    <div className="ch-subText">Code: {row?.code || "-"}</div>
 
                     <div className="ch-subText">
-                      Code: {row?.code || "-"}
-                    </div>
-
-                    <div className="ch-subText">
-                      Remaining Balance: ₹{Number(row?.remainingBalance || 0).toFixed(2)}
+                      Remaining Balance: ₹{formatAmount(row?.remainingBalance)}
                     </div>
                   </div>
 
                   <div className="ch-amountWrap">
                     <span className={`ch-dot ${dotClass}`} />
                     <span className="ch-amount">
-                      ₹{Number(row?.amount || 0).toFixed(2)}
+                      ₹{formatAmount(row?.amount)}
                     </span>
                   </div>
                 </div>
@@ -191,7 +223,9 @@ export default function ClientHistory({
               <li>Once issued, a voucher cannot be cancelled.</li>
               <li>The voucher must be redeemed before expiry.</li>
               <li>Partial redemption depends on brand policy.</li>
-              <li>TRUVISH reserves the right to update the terms at any time.</li>
+              <li>
+                TRUVISH reserves the right to update the terms at any time.
+              </li>
             </ul>
           </div>
         )}

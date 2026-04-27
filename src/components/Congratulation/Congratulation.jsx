@@ -1,4 +1,4 @@
-// ✅ Congratulation.jsx (FINAL UPDATE WITH HOME BUTTON)
+// ✅ Congratulation.jsx (FINAL UPDATE WITH HOME BUTTON + REDEEM URL)
 
 import React, { useEffect, useRef } from "react";
 import "./Congratulation.css";
@@ -8,9 +8,11 @@ import { MdEmail } from "react-icons/md";
 import { BsWhatsapp } from "react-icons/bs";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { TbLocationCode } from "react-icons/tb";
-import { IoIosHome } from "react-icons/io"; // ✅ NEW
+import { IoIosHome } from "react-icons/io";
 
 import confetti from "canvas-confetti";
+
+const REDEEM_URL = "https://modest-patience-production-eab9.up.railway.app";
 
 export default function Congratulation({
   voucherCode,
@@ -20,7 +22,7 @@ export default function Congratulation({
   onShareWhatsApp,
   onShareSMS,
   onCopy,
-  onGoHome // ✅ NEW PROP
+  onGoHome,
 }) {
   const confettiCanvasRef = useRef(null);
 
@@ -37,10 +39,26 @@ export default function Congratulation({
   const handleShareClick = (callback) => (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     if (callback && voucherCode) {
       callback();
     }
+
     return false;
+  };
+
+  const handleRedeemNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!voucherCode) return;
+
+    if (onRedeemNow) {
+      onRedeemNow();
+      return;
+    }
+
+    window.open(REDEEM_URL, "_blank", "noopener,noreferrer");
   };
 
   useEffect(() => {
@@ -100,7 +118,7 @@ export default function Congratulation({
 
   return (
     <div className="cv-page">
-      {/* ✅ HOME BUTTON */}
+      {/* HOME BUTTON */}
       <div className="cv-home-btn" onClick={onGoHome}>
         <IoIosHome />
       </div>
@@ -128,27 +146,53 @@ export default function Congratulation({
           </button>
 
           <div className="cv-share">
-            <button className="cv-share-item" onClick={handleShareClick(onShareGmail)} disabled={!voucherCode}>
-              <div className="cv-ico gmail"><MdEmail /></div>
+            <button
+              className="cv-share-item"
+              onClick={handleShareClick(onShareGmail)}
+              disabled={!voucherCode}
+            >
+              <div className="cv-ico gmail">
+                <MdEmail />
+              </div>
               <div className="cv-share-text">Email</div>
             </button>
 
-            <button className="cv-share-item" onClick={handleShareClick(onShareWhatsApp)} disabled={!voucherCode}>
-              <div className="cv-ico whatsapp"><BsWhatsapp /></div>
+            <button
+              className="cv-share-item"
+              onClick={handleShareClick(onShareWhatsApp)}
+              disabled={!voucherCode}
+            >
+              <div className="cv-ico whatsapp">
+                <BsWhatsapp />
+              </div>
               <div className="cv-share-text">WhatsApp</div>
             </button>
 
-            <button className="cv-share-item" onClick={handleShareClick(onShareSMS)} disabled={!voucherCode}>
-              <div className="cv-ico sms"><BiMessageRoundedDetail /></div>
+            <button
+              className="cv-share-item"
+              onClick={handleShareClick(onShareSMS)}
+              disabled={!voucherCode}
+            >
+              <div className="cv-ico sms">
+                <BiMessageRoundedDetail />
+              </div>
               <div className="cv-share-text">SMS</div>
             </button>
           </div>
 
-          <button className="cv-btn-dark" onClick={onViewDetails} disabled={!voucherCode}>
+          <button
+            className="cv-btn-dark"
+            onClick={onViewDetails}
+            disabled={!voucherCode}
+          >
             View details
           </button>
 
-          <button className="cv-btn-redeem" onClick={onRedeemNow} disabled={!voucherCode}>
+          <button
+            className="cv-btn-redeem"
+            onClick={handleRedeemNow}
+            disabled={!voucherCode}
+          >
             <TbLocationCode className="cv-redeem-icon" />
             <span>Redeem Now</span>
           </button>
@@ -156,7 +200,7 @@ export default function Congratulation({
 
         <div className="cv-foot">
           <span className="cv-lock">🔒</span>
-          <span>This voucher is secure & unique</span>
+          <span>This voucher is secure &amp; unique</span>
         </div>
       </div>
     </div>

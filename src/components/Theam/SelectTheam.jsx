@@ -4,22 +4,20 @@ import { IoChevronBack } from "react-icons/io5";
 import "./SelectTheam.css";
 import FestivalPopup from "../../components/Theam/TheamPopup";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
 const SelectTheam = ({ onBack, onContinue }) => {
-
   const [selected, setSelected] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [config, setConfig] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-
     fetch(`${BASE_URL}/api/admin/config`)
-      .then(res => res.json())
-      .then(data => setConfig(data))
+      .then((res) => res.json())
+      .then((data) => setConfig(data))
       .catch(() => setConfig({}));
-
   }, []);
 
   const cards = [
@@ -47,35 +45,26 @@ const SelectTheam = ({ onBack, onContinue }) => {
 
   return (
     <div className="vs2-container">
-
       <div className="vs2-header">
-
         <button className="vs2-back-btn" onClick={onBack}>
           <IoChevronBack size={26} />
         </button>
 
         <h3 className="vs2-title">Voucher Request</h3>
 
-        <div style={{width:26}} />
-
+        <div style={{ width: 26 }} />
       </div>
 
-      <div className="vs2-step-text">
-        STEP 3: THEME SELECTION
-      </div>
+      <div className="vs2-step-text">STEP 3: THEME SELECTION</div>
 
       <div className="vs2-progress-bar">
         <div className="vs2-progress" />
       </div>
 
-      <h2 className="vs2-question">
-        What's the occasion?
-      </h2>
+      <h2 className="vs2-question">What's the occasion?</h2>
 
       <div className="vs2-grid">
-
         {cards.map((card) => (
-
           <div
             key={card.id}
             className={`vs2-card ${selected === card.id ? "active" : ""}`}
@@ -84,27 +73,15 @@ const SelectTheam = ({ onBack, onContinue }) => {
               setShowPopup(true);
             }}
           >
-
             {card.img && (
-              <img
-                src={card.img}
-                className="vs2-card-img"
-                alt=""
-              />
+              <img src={card.img} className="vs2-card-img" alt="" />
             )}
 
-            <div className="vs2-card-label">
-              {card.label}
-            </div>
+            <div className="vs2-card-label">{card.label}</div>
 
-            {selected === card.id && (
-              <div className="vs2-check">✔</div>
-            )}
-
+            {selected === card.id && <div className="vs2-check">✔</div>}
           </div>
-
         ))}
-
       </div>
 
       <button
@@ -112,9 +89,9 @@ const SelectTheam = ({ onBack, onContinue }) => {
         onClick={() =>
           onContinue({
             id: selected,
-            name: cards.find(c => c.id === selected)?.label,
+            name: cards.find((c) => c.id === selected)?.label,
             img: selectedImage?.img,
-            imageName: selectedImage?.name
+            imageName: selectedImage?.name,
           })
         }
       >
@@ -131,7 +108,6 @@ const SelectTheam = ({ onBack, onContinue }) => {
         config={config}
         baseUrl={BASE_URL}
       />
-
     </div>
   );
 };

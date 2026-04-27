@@ -1,4 +1,4 @@
-// src/components/Wallet/WalletScreen.jsx (FINAL PRODUCTION VERSION WITH BACK ICON)
+// src/components/Wallet/WalletScreen.jsx
 
 import React, { useEffect, useMemo, useState } from "react";
 import { IoChevronBack } from "react-icons/io5";
@@ -7,19 +7,19 @@ import "./WalletScreen.css";
 import moneyIcon from "../../assets/MONEY/RU.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
-// ✅ Railway Backend
-const BASE_URL = "http://localhost:8080";
+// Railway Backend
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
-
-// ✅ helper: backend datetime -> "12/2/2026 11:20 AM"
+// helper: backend datetime -> "12/2/2026 11:20 AM"
 function formatDateTime(dt) {
-
   if (!dt) return "";
 
   const d = new Date(dt);
 
-  if (Number.isNaN(d.getTime()))
+  if (Number.isNaN(d.getTime())) {
     return String(dt);
+  }
 
   const day = d.getDate();
   const month = d.getMonth() + 1;
@@ -34,80 +34,55 @@ function formatDateTime(dt) {
   if (hours === 0) hours = 12;
 
   return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
-
 }
 
-
 export default function WalletScreen({
-
   onBack,
   clientId = null,
   clientName = "Client",
   profileImg = null,
-
 }) {
-
   const [balance, setBalance] = useState(1000);
   const [payments, setPayments] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  const profileSrc = useMemo(
-    () => profileImg || defaultProfile,
-    [profileImg]
-  );
-
+  const profileSrc = useMemo(() => profileImg || defaultProfile, [profileImg]);
 
   useEffect(() => {
-
     if (!clientId) {
-
       setErr("clientId missing. Wallet cannot load.");
       return;
-
     }
 
     const loadWallet = async () => {
-
       setErr("");
       setLoading(true);
 
       try {
-
-        // ===============================
         // CLIENT BALANCE
-        // ===============================
-
         const clientRes = await fetch(`${BASE_URL}/api/clients/${clientId}`);
 
         if (!clientRes.ok) {
-
           const txt = await clientRes.text();
           throw new Error(`Client API failed (${clientRes.status}): ${txt}`);
-
         }
 
         const clientData = await clientRes.json();
 
-        if (clientData?.balance != null)
+        if (clientData?.balance != null) {
           setBalance(clientData.balance);
+        }
 
-
-
-        // ===============================
         // WALLET TRANSACTIONS
-        // ===============================
-
         const txRes = await fetch(
           `${BASE_URL}/api/wallet/${clientId}/transactions?page=0&size=20`
         );
 
         if (!txRes.ok) {
-
           const txt = await txRes.text();
           throw new Error(`Wallet API failed (${txRes.status}): ${txt}`);
-
         }
 
         const data = await txRes.json();
@@ -122,7 +97,6 @@ export default function WalletScreen({
           const typeUpper = String(t.type || "").toUpperCase();
           const typeLower = typeUpper === "DEBIT" ? "debit" : "credit";
 
-          // ✅ TITLE RULE
           let title = "";
 
           if (typeLower === "credit") {
@@ -142,102 +116,49 @@ export default function WalletScreen({
         });
 
         setPayments(mapped);
-
       } catch (e) {
-
         console.error("Wallet load error:", e);
 
-        setErr(
-          e?.message ||
-            "Something went wrong while loading wallet."
-        );
-
+        setErr(e?.message || "Something went wrong while loading wallet.");
       } finally {
-
         setLoading(false);
-
       }
-
     };
 
     loadWallet();
-
   }, [clientId]);
 
-
   return (
-
     <div className="wl-page">
-
-      {/* 🔝 TOP BAR */}
-
+      {/* TOP BAR */}
       <div className="wl-topbar">
-
-        <button
-          className="wl-back"
-          onClick={onBack}
-        >
-
+        <button className="wl-back" onClick={onBack}>
           <IoChevronBack className="wl-backIcon" size={26} />
-
-
         </button>
-
 
         <button className="wl-profileBtn">
-
-          <img
-            src={profileSrc}
-            alt="Profile"
-            className="wl-profileImg"
-          />
-
+          <img src={profileSrc} alt="Profile" className="wl-profileImg" />
         </button>
-
       </div>
-
-
 
       {/* CLIENT NAME */}
-
       <div className="wl-greet">
-
-        <div className="wl-dear">
-          {clientName}
-        </div>
-
+        <div className="wl-dear">{clientName}</div>
       </div>
-
-
 
       {/* CURRENT BALANCE */}
-
       <div className="wl-card wl-balanceCard">
-
         <div className="wl-balanceLeft">
+          <div className="wl-balanceLabel">Current Balance</div>
 
-          <div className="wl-balanceLabel">
-            Current Balance
-          </div>
-
-          <div className="wl-balanceValue">
-            ₹{balance}
-          </div>
-
+          <div className="wl-balanceValue">₹{balance}</div>
         </div>
 
-        <button className="wl-infoBtn">
-          i
-        </button>
-
+        <button className="wl-infoBtn">i</button>
       </div>
 
-
-
       {/* ERROR MESSAGE */}
-
       {err ? (
-
         <div
           className="wl-card"
           style={{
@@ -245,10 +166,7 @@ export default function WalletScreen({
             marginTop: "10px",
           }}
         >
-
-          <div style={{ fontWeight: 700 }}>
-            Error
-          </div>
+          <div style={{ fontWeight: 700 }}>Error</div>
 
           <div
             style={{
@@ -258,29 +176,15 @@ export default function WalletScreen({
           >
             {err}
           </div>
-
         </div>
-
       ) : null}
 
-
-
       {/* RECENT PAYMENTS */}
-
       <div className="wl-card wl-paymentsCard">
-
-        <div className="wl-cardTitle">
-
-          Recent payments {loading ? "..." : ""}
-
-        </div>
-
+        <div className="wl-cardTitle">Recent payments {loading ? "..." : ""}</div>
 
         <div className="wl-list">
-
-          {!loading &&
-          payments.length === 0 ? (
-
+          {!loading && payments.length === 0 ? (
             <div
               className="wl-sub"
               style={{
@@ -289,69 +193,35 @@ export default function WalletScreen({
             >
               No transactions yet.
             </div>
-
           ) : (
-
             payments.map((p, idx) => {
-
-              const isCredit =
-                p.type === "credit";
+              const isCredit = p.type === "credit";
 
               return (
-
-                <div
-                  className="wl-row"
-                  key={idx}
-                >
-
+                <div className="wl-row" key={idx}>
                   <div className="wl-iconWrap">
-
-                    <img
-                      src={moneyIcon}
-                      alt="Money"
-                      className="wl-moneyIcon"
-                    />
-
+                    <img src={moneyIcon} alt="Money" className="wl-moneyIcon" />
                   </div>
-
 
                   <div className="wl-rowMid">
+                    <div className="wl-title">{p.title}</div>
 
-                    <div className="wl-title">
-                      {p.title}
-                    </div>
-
-                    <div className="wl-sub">
-                      {p.date}
-                    </div>
-
+                    <div className="wl-sub">{p.date}</div>
                   </div>
-
 
                   <div
                     className={`wl-amount ${
-                      isCredit
-                        ? "wl-credit"
-                        : "wl-debit"
+                      isCredit ? "wl-credit" : "wl-debit"
                     }`}
                   >
                     {isCredit ? "+" : "-"} ₹{p.amount}
                   </div>
-
                 </div>
-
               );
-
             })
-
           )}
-
         </div>
-
       </div>
-
     </div>
-
   );
-
 }

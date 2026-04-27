@@ -9,40 +9,26 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(160, 220, 226, 0.22), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(117, 215, 210, 0.18), transparent 28%),
-    linear-gradient(180deg, #f8fcfd 0%, #eef6f7 45%, #ecf5f6 100%);
   padding: 28px 20px 24px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* soft background circles */
-.bgOrbs {
+/* optional dark overlay for readable text */
+.overlay {
   position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(76, 151, 165, 0.08);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.08);
   pointer-events: none;
+  z-index: 0;
 }
 
-.orb1 {
-  width: 360px;
-  height: 360px;
-  top: 80px;
-  right: -140px;
-}
-
-.orb2 {
-  width: 300px;
-  height: 300px;
-  left: -120px;
-  bottom: 140px;
-}
-
-.orb3 {
-  width: 240px;
-  height: 240px;
-  right: -80px;
-  bottom: -30px;
+.contentWrap,
+.bottomSection {
+  position: relative;
+  z-index: 1;
 }
 
 .contentWrap {
@@ -67,7 +53,7 @@
 }
 
 .brandLogo {
-  width: 150px; /* logo size increase */
+  width: 150px;
   max-width: 20vw;
   height: auto;
   object-fit: contain;
@@ -84,7 +70,7 @@
 }
 
 .brandTagline {
-  margin: 6;
+  margin: 6px 0 0;
   font-size: 14px;
   font-weight: 500;
   color: #5d6f7e;
@@ -113,10 +99,10 @@
   text-align: center;
   box-shadow: 0 10px 20px rgba(23, 60, 87, 0.18);
 
-  /* 🔥 animation add */
+  /* pehle jaisa expand animation, har 5 second repeat */
   transform: scaleX(0);
   transform-origin: center;
-  animation: offerExpand 0.7s ease-out forwards;
+  animation: offerExpand 5s ease-out infinite;
 }
 
 @keyframes offerExpand {
@@ -124,10 +110,17 @@
     transform: scaleX(0);
     opacity: 0.4;
   }
-  60% {
+
+  12% {
     transform: scaleX(1.05);
     opacity: 1;
   }
+
+  18% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
   100% {
     transform: scaleX(1);
     opacity: 1;
@@ -147,7 +140,7 @@
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .phoneRow {
@@ -370,16 +363,4 @@
   .title {
     font-size: 30px;
   }
-}
-.loginPage {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  padding: 28px 20px 24px;
-
-  background-size: cover;
-  background-position: center;
 }
