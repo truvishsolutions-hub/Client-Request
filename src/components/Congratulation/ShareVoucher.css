@@ -1,0 +1,226 @@
+/* ShareVoucher.css */
+
+.share-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.share-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.share-sheet {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+
+  background: #fff;
+
+  border-radius: 30px 30px 0 0;
+
+  padding: 18px 24px 35px;
+
+  animation: slideUp 0.35s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+TOP LINE
+========================= */
+
+.sheet-line {
+  width: 90px;
+  height: 8px;
+
+  border-radius: 50px;
+
+  background: #e4e7ee;
+
+  margin: 0 auto;
+}
+
+/* =========================
+HEADER
+========================= */
+
+.share-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.share-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #081b44;
+}
+
+.close-btn {
+  width: 54px;
+  height: 54px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #f1f3fa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-size: 30px;
+  color: #2f3a4f;
+}
+
+/* =========================
+FIELDS
+========================= */
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label-row label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #3c4b63;
+}
+
+.label-row span {
+  font-size: 13px;
+  color: #9ba4b5;
+}
+
+.input-box {
+  height: 60px;
+
+  border: 2px solid #e6e8ef;
+  border-radius: 22px;
+
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.input-box svg {
+  font-size: 28px;
+  color: #97a1b3;
+}
+
+.input-box input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  font-size: 18px;
+  color: #374151;
+
+  background: transparent;
+}
+
+.input-box input::placeholder {
+  color: #9ca3af;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.send-btn {
+  height: 50px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #1db7b7;
+  color: white;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  cursor: pointer;
+}
+
+.send-btn svg {
+  font-size: 32px;
+}
+
+.later-btn {
+  height: 50px;
+
+  border-radius: 10px;
+
+  border: 3px solid #e5e7ee;
+
+  background: white;
+  color: #34506d;
+
+  font-size: 22px;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  cursor: pointer;
+}
+
+.later-btn svg {
+  font-size: 30px;
+}
+
+/* =========================
+INFO
+========================= */
+
+.share-info {
+  text-align: center;
+
+  font-size: 15px;
+  line-height: 1.6;
+
+  color: #a0a8b8;
+
+  padding: 0 12px;
+}

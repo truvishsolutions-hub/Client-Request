@@ -1,208 +1,330 @@
-// ✅ Congratulation.jsx (FINAL UPDATE WITH HOME BUTTON + REDEEM URL)
-
-import React, { useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "./Congratulation.css";
-import logo from "../../assets/LOGO/TRV.png";
 
-import { MdEmail } from "react-icons/md";
-import { BsWhatsapp } from "react-icons/bs";
-import { BiMessageRoundedDetail } from "react-icons/bi";
-import { TbLocationCode } from "react-icons/tb";
+import { BsCopy } from "react-icons/bs";
+import { MdOutlineSaveAlt } from "react-icons/md";
+import { CiShare2 } from "react-icons/ci";
+
+import { MdOutlineHowToReg } from "react-icons/md";
+import { FaFileContract } from "react-icons/fa";
 import { IoIosHome } from "react-icons/io";
 
-import confetti from "canvas-confetti";
-
-const REDEEM_URL = "https://modest-patience-production-eab9.up.railway.app";
+import ShareVoucher from "./ShareVoucher";
 
 export default function Congratulation({
   voucherCode,
-  onViewDetails,
+  validityDays,
   onRedeemNow,
-  onShareGmail,
-  onShareWhatsApp,
-  onShareSMS,
+  onViewDetails,
   onCopy,
   onGoHome,
 }) {
-  const confettiCanvasRef = useRef(null);
 
-  const handleCopy = async () => {
-    try {
-      if (!voucherCode) return;
-      await navigator.clipboard.writeText(voucherCode);
-      onCopy?.(voucherCode);
-    } catch (e) {
-      onCopy?.(voucherCode);
-    }
+  const [showToast, setShowToast] = useState(false);
+
+  const [showRedeem, setShowRedeem] = useState(false);
+
+  const [showTerms, setShowTerms] = useState(false);
+
+  const [showShare, setShowShare] = useState(false);
+
+  const handleCopy = () => {
+
+    navigator.clipboard.writeText(voucherCode || "");
+
+    onCopy && onCopy(voucherCode);
+
+    setShowToast(true);
+
+    setTimeout(() => setShowToast(false), 2000);
   };
-
-  const handleShareClick = (callback) => (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (callback && voucherCode) {
-      callback();
-    }
-
-    return false;
-  };
-
-  const handleRedeemNow = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!voucherCode) return;
-
-    if (onRedeemNow) {
-      onRedeemNow();
-      return;
-    }
-
-    window.open(REDEEM_URL, "_blank", "noopener,noreferrer");
-  };
-
-  useEffect(() => {
-    if (!voucherCode) return;
-    if (!confettiCanvasRef.current) return;
-
-    const myConfetti = confetti.create(confettiCanvasRef.current, {
-      resize: true,
-      useWorker: true,
-    });
-
-    const duration = 3000;
-    const animationEnd = Date.now() + duration;
-
-    const defaults = {
-      startVelocity: 30,
-      spread: 360,
-      ticks: 60,
-      zIndex: 999,
-    };
-
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    const interval = setInterval(() => {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        clearInterval(interval);
-        return;
-      }
-
-      const particleCount = Math.max(12, 50 * (timeLeft / duration));
-
-      myConfetti({
-        ...defaults,
-        particleCount,
-        origin: {
-          x: randomInRange(0.1, 0.3),
-          y: Math.random() - 0.2,
-        },
-      });
-
-      myConfetti({
-        ...defaults,
-        particleCount,
-        origin: {
-          x: randomInRange(0.7, 0.9),
-          y: Math.random() - 0.2,
-        },
-      });
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [voucherCode]);
 
   return (
-    <div className="cv-page">
-      {/* HOME BUTTON */}
-      <div className="cv-home-btn" onClick={onGoHome}>
+    <div className="success-page">
+
+      {/* HOME */}
+      <div className="home-btn" onClick={onGoHome}>
         <IoIosHome />
       </div>
 
-      <canvas ref={confettiCanvasRef} className="cv-confetti-canvas" />
+      <div className="center-box">
 
-      <div className="cv-wrap">
-        <div className="cv-header">
-          <img src={logo} alt="Logo" className="cv-logo" />
+        {/* TICK */}
+        <div className="circle">
+
+          <svg viewBox="0 0 52 52" className="checkmark">
+
+            <circle
+              cx="26"
+              cy="26"
+              r="25"
+              fill="none"
+              className="checkmark-circle"
+            />
+
+            <path
+              fill="none"
+              d="M14 27l7 7 16-16"
+              className="checkmark-check"
+            />
+
+          </svg>
+
         </div>
 
-        <h1 className="cv-title">Congratulations!</h1>
+        {/* TITLE */}
+        <h1 className="title">
+          Congratulations!
+        </h1>
 
-        <div className="cv-panel">
-          <div className="cv-label">Your voucher code is</div>
+        <p className="subtitle">
+          Your reward is ready
+        </p>
 
-          <button
-            className="cv-code"
-            type="button"
-            onClick={handleCopy}
-            disabled={!voucherCode}
-          >
-            <span className="cv-code-text">{voucherCode || "Loading..."}</span>
-            <span className="cv-copy">📋</span>
-          </button>
+        {/* VOUCHER */}
+        <div className="voucher-box">
 
-          <div className="cv-share">
-            <button
-              className="cv-share-item"
-              onClick={handleShareClick(onShareGmail)}
-              disabled={!voucherCode}
-            >
-              <div className="cv-ico gmail">
-                <MdEmail />
-              </div>
-              <div className="cv-share-text">Email</div>
-            </button>
+          <p className="voucher-label">
+            YOUR UNIQUE VOUCHER CODE
+          </p>
 
-            <button
-              className="cv-share-item"
-              onClick={handleShareClick(onShareWhatsApp)}
-              disabled={!voucherCode}
-            >
-              <div className="cv-ico whatsapp">
-                <BsWhatsapp />
-              </div>
-              <div className="cv-share-text">WhatsApp</div>
-            </button>
-
-            <button
-              className="cv-share-item"
-              onClick={handleShareClick(onShareSMS)}
-              disabled={!voucherCode}
-            >
-              <div className="cv-ico sms">
-                <BiMessageRoundedDetail />
-              </div>
-              <div className="cv-share-text">SMS</div>
-            </button>
+          <div className="voucher-code">
+            {voucherCode || "---- ----"}
           </div>
 
+          {/* ACTIONS */}
+          <div className="actions">
+
+            {/* COPY */}
+            <div
+              className="action-item"
+              onClick={handleCopy}
+            >
+              <BsCopy />
+              <span>Copy</span>
+            </div>
+
+            {/* SAVE */}
+            <div className="action-item">
+              <MdOutlineSaveAlt />
+              <span>Save</span>
+            </div>
+
+            {/* SHARE */}
+            <div
+              className="action-item"
+              onClick={() => setShowShare(true)}
+            >
+              <CiShare2 />
+              <span>Share</span>
+            </div>
+
+          </div>
+        </div>
+
+        {/* VALIDITY */}
+        <div className="validity">
+          📅 VALID FOR {validityDays || 0} MONTHS
+        </div>
+
+        {/* HOW TO REDEEM */}
+        <div className="redeem-wrapper">
+
+          <div
+            className="list-item clickable"
+            onClick={() => setShowRedeem(!showRedeem)}
+          >
+
+            <div className="left">
+              <MdOutlineHowToReg />
+              <span>How to Redeem</span>
+            </div>
+
+            <span
+              className={`arrow ${
+                showRedeem ? "rotate" : ""
+              }`}
+            >
+              ›
+            </span>
+
+          </div>
+
+          <div
+            className={`redeem-dropdown ${
+              showRedeem ? "open" : ""
+            }`}
+          >
+
+            <div className="redeem-content">
+
+              <div className="step">
+                <span>1.</span>
+
+                <p>
+                  Open the app or website and login to your account.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>2.</span>
+
+                <p>
+                  Go to the Wallet / Redeem Voucher section.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>3.</span>
+
+                <p>
+                  Enter your voucher or promo code carefully.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>4.</span>
+
+                <p>
+                  Click on the Redeem Now button to apply the code.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>5.</span>
+
+                <p>
+                  Reward amount or benefits will be added instantly
+                  to your account.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* TERMS & CONDITIONS */}
+        <div className="redeem-wrapper">
+
+          <div
+            className="list-item clickable"
+            onClick={() => setShowTerms(!showTerms)}
+          >
+
+            <div className="left">
+              <FaFileContract />
+              <span>Terms & Conditions</span>
+            </div>
+
+            <span
+              className={`arrow ${
+                showTerms ? "rotate" : ""
+              }`}
+            >
+              ›
+            </span>
+
+          </div>
+
+          <div
+            className={`redeem-dropdown ${
+              showTerms ? "open" : ""
+            }`}
+          >
+
+            <div className="redeem-content">
+
+              <div className="step">
+                <span>1.</span>
+
+                <p>
+                  Each voucher code can be used only once per user.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>2.</span>
+
+                <p>
+                  Voucher codes are valid for a limited time only.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>3.</span>
+
+                <p>
+                  Rewards are non-transferable and cannot be exchanged
+                  for cash.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>4.</span>
+
+                <p>
+                  The company reserves the right to cancel invalid or
+                  suspicious redemptions.
+                </p>
+              </div>
+
+              <div className="step">
+                <span>5.</span>
+
+                <p>
+                  By redeeming the code, users agree to all platform
+                  rules and policies.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* BUTTONS */}
+        <div className="buttons">
+
           <button
-            className="cv-btn-dark"
+            className="redeem-btn"
+            onClick={onRedeemNow}
+          >
+            REDEEM NOW
+          </button>
+
+          <button
+            className="details-btn"
             onClick={onViewDetails}
-            disabled={!voucherCode}
           >
-            View details
+            VIEW DETAILS
           </button>
 
-          <button
-            className="cv-btn-redeem"
-            onClick={handleRedeemNow}
-            disabled={!voucherCode}
-          >
-            <TbLocationCode className="cv-redeem-icon" />
-            <span>Redeem Now</span>
-          </button>
         </div>
 
-        <div className="cv-foot">
-          <span className="cv-lock">🔒</span>
-          <span>This voucher is secure &amp; unique</span>
-        </div>
       </div>
+
+      {/* TOAST */}
+      {showToast && (
+
+        <div className="tm-toast">
+
+          <span className="tm-toast-icon">
+            ✔
+          </span>
+
+          copied to clipboard!
+
+        </div>
+
+      )}
+
+      {/* SHARE MODAL */}
+      <ShareVoucher
+        open={showShare}
+        onClose={() => setShowShare(false)}
+      />
+
     </div>
   );
 }

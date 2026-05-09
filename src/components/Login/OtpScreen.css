@@ -36,29 +36,66 @@ body {
    PAGE LAYOUT
 ========================= */
 .otpPage {
+  position: relative;
   min-height: 100vh;
   width: 100%;
-  background: var(--soft-white);
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+
+  /* ✅ background image support */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* =========================
-   TOP LOGO
+   TOP BRAND (EXACT LOGIN COPY)
 ========================= */
 .topBrand {
   padding-top: 36px;
   padding-bottom: 4px;
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* same as login */
+.logoWrap {
+  display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .brandLogo {
-  width: 120px;
-  height: 120px;
+  width: 140px;       /* ✅ EXACT same */
+  max-width: 20vw;
+  height: auto;
   object-fit: contain;
+  display: block;
+}
+
+/* same spacing + style */
+.brandTextWrap {
+  text-align: center;
+}
+
+.brandName {
+  margin: 8px 0 4px;   /* ✅ EXACT spacing */
+  font-size: 30px;     /* ✅ EXACT size */
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: #11364d;
+  line-height: 1;
+}
+
+.brandTagline {
+  margin: 6px 0 0;     /* ✅ FIXED (login me gap feel ke liye) */
+  font-size: 14px;     /* ✅ EXACT size */
+  font-weight: 500;
+  color: #5d6f7e;
 }
 
 /* =========================
@@ -99,7 +136,7 @@ body {
 }
 
 /* =========================
-   OTP CARD (NO BOX)
+   OTP CARD
 ========================= */
 .otpCard {
   background: transparent !important;
@@ -179,7 +216,6 @@ body {
   transform: translateY(1px);
 }
 
-/* ✅ LOADING / DISABLED STATE */
 .primaryBtn:disabled {
   opacity: 0.75;
   cursor: not-allowed;
@@ -190,7 +226,7 @@ body {
 }
 
 /* =========================
-   UNDER LINKS ROW
+   UNDER LINKS
 ========================= */
 .otpUnderRow {
   display: flex;
@@ -209,14 +245,10 @@ body {
   font-size: 13px;
   padding: 6px 4px;
   opacity: 0.85;
-  text-decoration: none !important;
 }
 
-.otpLinkBtn:hover,
-.otpLinkBtn:focus {
+.otpLinkBtn:hover {
   opacity: 1;
-  text-decoration: none !important;
-  outline: none;
 }
 
 .otpLinkBtn.disabled,
@@ -245,29 +277,7 @@ body {
 }
 
 /* =========================
-   SMALL DEVICES
-========================= */
-@media (max-width: 380px) {
-  .brandLogo {
-    width: 105px;
-    height: 105px;
-  }
-
-  .otpRow {
-    gap: 10px;
-    max-width: 280px;
-  }
-
-  .otpBox {
-    max-width: 64px;
-    height: 52px;
-    font-size: 20px;
-  }
-
-
-}
-/* =========================
-   TOP SLIDE TOAST (UPDATED)
+   TOP TOAST
 ========================= */
 .topToast {
   position: fixed;
@@ -275,7 +285,7 @@ body {
   left: 50%;
   transform: translate(-50%, -160%);
   z-index: 9999;
-  width: min(560px, calc(100% - 24px)); /* ✅ thoda bada */
+  width: min(560px, calc(100% - 24px));
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -284,25 +294,17 @@ body {
 }
 
 .topToastInner {
-  background: linear-gradient(
-    135deg,
-    #e6f7f8,
-    #ffffff
-  ); /* ✅ soft premium gradient */
-
+  background: linear-gradient(135deg, #e6f7f8, #ffffff);
   border: 1px solid rgba(26, 176, 183, 0.35);
   box-shadow: 0 14px 40px rgba(14, 74, 99, 0.18);
   border-radius: 18px;
-
-  padding: 16px 18px; /* ✅ box size bada */
+  padding: 16px 18px;
   min-height: 56px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-
-  font-size: 15px;      /* ✅ readable */
+  font-size: 15px;
   font-weight: 700;
   color: var(--primary);
 }
@@ -315,20 +317,9 @@ body {
   opacity: 0.8;
   padding: 6px 8px;
   border-radius: 12px;
-  transition: background 0.2s ease, opacity 0.2s ease;
 }
 
 .toastClose:hover {
   opacity: 1;
   background: rgba(14, 74, 99, 0.15);
-}
-
-/* =========================
-   MOBILE TUNING
-========================= */
-@media (max-width: 380px) {
-  .topToastInner {
-    font-size: 14px;
-    padding: 14px 16px;
-  }
 }

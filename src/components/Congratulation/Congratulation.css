@@ -1,313 +1,487 @@
-/* Truvish Brand Color Guide */
 :root {
-  /* Primary Palette */
-  --deep-teal: #0E4A63;
-  --cyan-teal: #1AB0B7;
-  --cyan-teal-light: #2EC4C9;
-
-  /* Secondary Palette */
-  --sky-blue: #A9D6E2;
-  --dark-slate: #1D2E39;
-
-  /* Neutral Palette */
-  --soft-white: #F3F7FA;
-
-  /* Additional UI Colors */
-  --gmail-red: #ea4335;
-  --whatsapp-green: #25d366;
-  --sms-blue: #1877f2;
-  --redeem-gradient: linear-gradient(135deg, #2EC4C9, #1AB0B7);
-  --redeem-hover: linear-gradient(135deg, #1AB0B7, #0E9CA3);
+  --primary: #0E4A63;
+  --cyan: #1AB0B7;
+  --light: #A9D6E2;
+  --text: #1D2E39;
+  --bg: #F3F7FA;
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* PAGE */
-.cv-page {
-  min-height: 100vh;
-  background: var(--soft-white);
-  position: relative;
-    overflow: hidden;
+.success-page {
+  min-height: 100dvh;
+  width: 100%;
+  background: var(--bg);
   display: flex;
   justify-content: center;
-  padding: 30px 18px 24px;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  position: relative;
 }
 
-/* WRAP */
-.cv-wrap {
-  width: min(420px, 100%);
-    position: relative;
-    z-index: 2;
+.center-box {
+  width: 100%;
+  max-width: 380px;
+
   display: flex;
   flex-direction: column;
-}
-
-/* LOGO */
-.cv-header {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.cv-logo {
-  width: 160px;
-  height: auto;
-  object-fit: contain;
-}
-
-/* TITLE */
-.cv-title {
-  text-align: center;
-  font-size: 36px;
-  font-weight: 900;
-  color: var(--deep-teal);
-  margin-top: 18px;
-}
-
-/* LABEL */
-.cv-label {
-  text-align: center;
-  color: var(--deep-teal);
-  font-size: 18px;
-  font-weight: 700;
-  margin-top: 24px;
-  opacity: 0.8;
-}
-
-/* CODE */
-.cv-code {
-  width: 100%;
-  border: none;
-  background: var(--sky-blue);
-  color: var(--deep-teal);
-  border-radius: 18px;
-  padding: 18px;
-  margin-top: 14px;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  text-align: center;
+
+  gap: 16px;
+  padding: 30px 16px 30px;
 }
 
-.cv-code:hover {
-  background: rgba(169, 214, 226, 0.9);
-  transform: scale(1.01);
-}
+/* =========================
+HOME BUTTON
+========================= */
 
-.cv-code-text {
+.home-btn {
+  position: absolute;
+  top: 20px;
+  left: 16px;
   font-size: 26px;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.cv-copy {
-  font-size: 20px;
-}
-
-/* SHARE - No movement on click */
-.cv-share {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 26px;
-}
-
-.cv-share-item {
-  border: none;
-  background: var(--sky-blue);
-  border-radius: 18px;
-  padding: 14px 10px;
-  text-align: center;
+  color: var(--primary);
   cursor: pointer;
-  transition: background 0.2s ease;
-  /* Remove any transform or movement */
-  transform: none !important;
 }
 
-.cv-share-item:hover {
-  background: rgba(169, 214, 226, 0.9);
-  /* No transform on hover */
-  transform: none !important;
-}
+/* =========================
+TICK
+========================= */
 
-.cv-share-item:active {
-  transform: none !important;
-  background: rgba(169, 214, 226, 0.8);
-}
-
-.cv-ico {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  margin: 0 auto 10px;
-  display: grid;
-  place-items: center;
-  background: var(--soft-white);
-  font-size: 22px;
-  transition: none;
-}
-
-.cv-ico.gmail { color: var(--gmail-red); }
-.cv-ico.whatsapp { color: var(--whatsapp-green); }
-.cv-ico.sms { color: var(--sms-blue); }
-
-.cv-share-text {
-  font-weight: 800;
-  color: var(--deep-teal);
-  font-size: 14px;
-}
-
-/* VIEW DETAILS BUTTON - Original color restored */
-.cv-btn-dark {
-  width: 100%;
-  margin-top: 28px;
-  border: none;
-  border-radius: 20px;
-  padding: 18px;
-  background: linear-gradient(180deg, #19b3b3, #0e4a63);
-  color: white;
-  font-weight: 900;
-  font-size: 18px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.cv-btn-dark:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(180deg, #19b3b3, #0e4a63);
-  box-shadow: 0 6px 20px rgba(25, 179, 179, 0.3);
-}
-
-.cv-btn-dark:active {
-  transform: translateY(0);
-}
-
-/* REDEEM NOW BUTTON */
-.cv-btn-redeem {
-  width: 100%;
-  margin-top: 16px;
-  border: none;
-  border-radius: 20px;
-  padding: 18px;
-  background: var(--redeem-gradient);
-  color: white;
-  font-weight: 900;
-  font-size: 18px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e6f4f6;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  opacity: 0.95;
+  animation: pulseCircle 2s infinite;
 }
 
-.cv-btn-redeem:hover {
-  transform: translateY(-2px);
-  background: var(--redeem-hover);
-  box-shadow: 0 6px 20px rgba(26, 176, 183, 0.4);
-  opacity: 1;
+.checkmark {
+  width: 75px;
+  height: 75px;
 }
 
-.cv-btn-redeem:active {
-  transform: translateY(0);
+/* 🔥 REPEAT EVERY 2 SEC */
+.checkmark-circle {
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: strokeCircle 2s infinite;
 }
 
-.cv-redeem-icon {
-  font-size: 24px;
-  animation: pulse 2s ease infinite;
+.checkmark-check {
+  stroke: var(--cyan);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: strokeCheck 2s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% {
+/* CIRCLE DRAW */
+@keyframes strokeCircle {
+  0% {
+    stroke-dashoffset: 166;
+    opacity: 1;
+  }
+
+  25% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 166;
+    opacity: 1;
+  }
+}
+
+/* CHECK DRAW */
+@keyframes strokeCheck {
+  0% {
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+
+  20% {
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+
+  40% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+}
+
+/* SOFT PULSE */
+@keyframes pulseCircle {
+  0% {
     transform: scale(1);
   }
+
   50% {
-    transform: scale(1.1);
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
 
-/* FOOTER */
-.cv-foot {
-  margin-top: 40px;
-  text-align: center;
-  font-weight: 800;
+/* =========================
+TEXT
+========================= */
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.subtitle {
   font-size: 14px;
-  color: var(--dark-slate);
+  color: var(--text);
   opacity: 0.7;
 }
 
-.cv-lock {
-  margin-right: 6px;
-}
+/* =========================
+VOUCHER
+========================= */
 
-/* BUTTON DISABLED STATE */
-.cv-btn-dark:disabled,
-.cv-btn-redeem:disabled,
-.cv-share-item:disabled,
-.cv-code:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* SMALL DEVICES */
-@media (max-width: 360px) {
-  .cv-logo {
-    width: 140px;
-  }
-
-  .cv-title {
-    font-size: 30px;
-  }
-
-  .cv-code-text {
-    font-size: 22px;
-  }
-
-  .cv-btn-redeem {
-    font-size: 16px;
-    padding: 16px;
-  }
-
-  .cv-redeem-icon {
-    font-size: 20px;
-  }
-}
-.cv-confetti-canvas {
-  position: fixed;
-  inset: 0;
+.voucher-box {
   width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 999;
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
-.cv-home-btn {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  width: 42px;
-  height: 42px;
+
+.voucher-label {
+  font-size: 11px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.voucher-code {
+  background: linear-gradient(135deg, var(--primary), var(--cyan));
+  color: white;
+
+  padding: 35px 20px;
+
+  border-radius: 12px;
+
+  font-size: 30px;
+
+  letter-spacing: 3px;
+  font-weight: bold;
+
+  min-height: 90px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1000;
 
-  color: #ffffff;
-  background: #0f766e;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  transition: all 0.2s ease;
+  box-shadow: 0 10px 25px rgba(26, 176, 183, 0.25);
 }
 
-.cv-home-btn:hover {
-  transform: translateY(-2px);
-  background: #0b5e57;
+/* =========================
+ACTIONS
+========================= */
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 14px;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.action-item:active {
+  transform: scale(0.9);
+}
+
+.action-item svg {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+/* =========================
+VALIDITY
+========================= */
+
+.validity {
+  background: #e6f4f6;
+  color: var(--primary);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* =========================
+LIST ITEMS
+========================= */
+
+.redeem-wrapper {
+  width: 100%;
+}
+
+.list-item {
+  width: 100%;
+  background: white;
+  border-radius: 14px;
+  padding: 14px 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid #eee;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.left svg {
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.arrow {
+  font-size: 22px;
+  color: #999;
+  transition: 0.3s;
+}
+
+.arrow.rotate {
+  transform: rotate(90deg);
+}
+
+/* =========================
+REDEEM DROPDOWN
+========================= */
+
+.redeem-dropdown {
+  width: 100%;
+  background: white;
+  border-radius: 0 0 14px 14px;
+
+  overflow: hidden;
+
+  max-height: 0;
+  opacity: 0;
+
+  transition: all 0.4s ease;
+}
+
+.redeem-dropdown.open {
+  max-height: 500px;
+  opacity: 1;
+  padding-bottom: 12px;
+}
+
+.redeem-content {
+  padding: 8px 16px 0;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #f1f1f1;
+
+  text-align: left;
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step span {
+  min-width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  background: #e6f4f6;
+  color: var(--primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.step p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.buttons {
+  width: 100%;
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.redeem-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--cyan));
+  color: white;
+
+  border: none;
+  padding: 16px;
+
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.redeem-btn:active {
+  transform: scale(0.97);
+}
+
+.details-btn {
+  width: 100%;
+  background: transparent;
+
+  border: 2px solid var(--primary);
+
+  color: var(--primary);
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.details-btn:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+TOAST
+========================= */
+
+.tm-toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+
+  transform: translateX(-50%) translateY(40px);
+
+  background: #0E4A63;
+  color: #fff;
+
+  padding: 14px 22px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+
+  animation: toastIn 0.35s ease forwards;
+
+  z-index: 999;
+}
+
+.tm-toast-icon {
+  background: #1AB0B7;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+}
+
+/* =========================
+TOAST ANIMATION
+========================= */
+
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(60px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }

@@ -3,6 +3,7 @@ import { IoChevronBack } from "react-icons/io5";
 
 import "./SelectTheam.css";
 import FestivalPopup from "../../components/Theam/TheamPopup";
+import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
 const BASE_URL =
   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
@@ -44,59 +45,75 @@ const SelectTheam = ({ onBack, onContinue }) => {
   ];
 
   return (
-    <div className="vs2-container">
-      <div className="vs2-header">
-        <button className="vs2-back-btn" onClick={onBack}>
-          <IoChevronBack size={26} />
-        </button>
+    <div
+      className="vs2-bg"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
+      <div className="vs2-container">
 
-        <h3 className="vs2-title">Voucher Request</h3>
+        <div className="vs2-top">
 
-        <div style={{ width: 26 }} />
-      </div>
-
-      <div className="vs2-step-text">STEP 3: THEME SELECTION</div>
-
-      <div className="vs2-progress-bar">
-        <div className="vs2-progress" />
-      </div>
-
-      <h2 className="vs2-question">What's the occasion?</h2>
-
-      <div className="vs2-grid">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className={`vs2-card ${selected === card.id ? "active" : ""}`}
-            onClick={() => {
-              setSelected(card.id);
-              setShowPopup(true);
-            }}
-          >
-            {card.img && (
-              <img src={card.img} className="vs2-card-img" alt="" />
-            )}
-
-            <div className="vs2-card-label">{card.label}</div>
-
-            {selected === card.id && <div className="vs2-check">✔</div>}
+          {/* HEADER */}
+          <div className="vs2-header">
+            <button className="vs2-back-btn" onClick={onBack}>
+              <IoChevronBack size={26} />
+            </button>
+            <div style={{ width: 26 }} />
           </div>
-        ))}
-      </div>
 
-      <button
-        className="vs2-btn"
-        onClick={() =>
-          onContinue({
-            id: selected,
-            name: cards.find((c) => c.id === selected)?.label,
-            img: selectedImage?.img,
-            imageName: selectedImage?.name,
-          })
-        }
-      >
-        Continue
-      </button>
+          {/* STEP */}
+          <div className="vs2-step-text">STEP 3: THEME SELECTION</div>
+
+          <div className="vs2-progress-bar">
+            <div className="vs2-progress" />
+          </div>
+
+          <h2 className="vs2-question">What's the occasion?</h2>
+
+          {/* GRID */}
+          <div className="vs2-grid">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className={`vs2-card ${selected === card.id ? "active" : ""}`}
+                onClick={() => {
+                  setSelected(card.id);
+                  setShowPopup(true);
+                }}
+              >
+                {card.img && (
+                  <img src={card.img} className="vs2-card-img" alt="" />
+                )}
+
+                <div className="vs2-card-label">{card.label}</div>
+
+                {selected === card.id && (
+                  <div className="vs2-check">✔</div>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        {/* FOOTER */}
+        <div className="vs2-footer">
+          <button
+            className="vs2-btn"
+            onClick={() =>
+              onContinue({
+                id: selected,
+                name: cards.find((c) => c.id === selected)?.label,
+                img: selectedImage?.img,
+                imageName: selectedImage?.name,
+              })
+            }
+          >
+            Continue
+          </button>
+        </div>
+
+      </div>
 
       <FestivalPopup
         isOpen={showPopup}

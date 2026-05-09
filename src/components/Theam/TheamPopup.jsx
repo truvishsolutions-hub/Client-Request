@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./TheamPopup.css";
+import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ add
 
 const TheamPopup = ({ isOpen, onClose, themeId, config, baseUrl }) => {
 
@@ -40,7 +41,11 @@ const TheamPopup = ({ isOpen, onClose, themeId, config, baseUrl }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-box">
+      {/* ✅ bg image only inside box */}
+      <div
+        className="popup-box"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
 
         <div className="popup-header">
           <h2>Select Theme Image</h2>
@@ -66,7 +71,9 @@ const TheamPopup = ({ isOpen, onClose, themeId, config, baseUrl }) => {
 
         <button
           className="popup-btn"
-          onClick={() => onClose(selectedImg !== null ? data[selectedImg] : null)}
+          onClick={() =>
+            onClose(selectedImg !== null ? data[selectedImg] : null)
+          }
         >
           Done
         </button>

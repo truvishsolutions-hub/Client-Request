@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./TruvishClient.css";
 
-import logo from "../../assets/LOGO/TRV.png";
+import logo from "../../assets/LOGO/TV-BG.png";
 import wallpaper from "../../assets/HOME/HM.png";
-
-import { IoWalletSharp } from "react-icons/io5";
-
+import bgImage from "../../assets/HOMEBG/BG.jpeg";
+import { CiWallet } from "react-icons/ci";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
-
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
 const TruvishClient = ({
   onStart,
@@ -17,16 +13,14 @@ const TruvishClient = ({
   onOpenTc,
   onOpenWallet,
   onOpenProfile,
-  clientId,
   clientBalance,
   profileImg,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [moneyEffectActive, setMoneyEffectActive] = useState(false);
   const [liveBalance, setLiveBalance] = useState(clientBalance ?? 0);
+  const [effect, setEffect] = useState(false);
 
   const menuRef = useRef();
-
   const [imgSrc, setImgSrc] = useState(profileImg || defaultProfile);
 
   useEffect(() => {
@@ -35,6 +29,11 @@ const TruvishClient = ({
 
   useEffect(() => {
     setLiveBalance(clientBalance ?? 0);
+
+    // trigger effect when balance updates
+    setEffect(true);
+    const t = setTimeout(() => setEffect(false), 2000);
+    return () => clearTimeout(t);
   }, [clientBalance]);
 
   useEffect(() => {
@@ -45,165 +44,85 @@ const TruvishClient = ({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // wallet sparkle effect on first load only
-  useEffect(() => {
-    setMoneyEffectActive(true);
-
-    const timer = setTimeout(() => {
-      setMoneyEffectActive(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // live balance update
-  useEffect(() => {
-    if (!clientId) return;
-
-    let isMounted = true;
-
-    const fetchLatestBalance = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/clients/${clientId}`);
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-
-        if (isMounted && data?.balance != null) {
-          setLiveBalance(data.balance);
-        }
-      } catch (error) {
-        console.error("Live balance update failed:", error);
-      }
-    };
-
-    fetchLatestBalance();
-
-    const interval = setInterval(fetchLatestBalance, 5000);
-
-    return () => {
-      isMounted = false;
-      clearInterval(interval);
-    };
-  }, [clientId]);
-
-  const sparkles = [
-    { className: "s1", symbol: "✦" },
-    { className: "s2", symbol: "✦" },
-    { className: "s3", symbol: "✦" },
-    { className: "s4", symbol: "✦" },
-    { className: "s5", symbol: "✦" },
-    { className: "s6", symbol: "✦" },
-  ];
+  const stars = ["s1", "s2", "s3", "s4", "s5", "s6"];
 
   return (
-    <div className="tm-container">
-      {/* TOP BAR */}
-      <div className="tm-topbar">
-        {/* WALLET */}
-        <div className="tm-wallet-wrap" onClick={onOpenWallet}>
-          <IoWalletSharp className="tm-wallet" />
+    <div className="tm-bg" style={{ backgroundImage: `url(${bgImage})` }}>
+      <div className="tm-container">
 
-          <div className="tm-wallet-balance-wrap">
-            {moneyEffectActive &&
-              sparkles.map((item, i) => (
-                <span
-                  key={i}
-                  className={`tm-money-star ${item.className}`}
-                >
-                  {item.symbol}
+        {/* TOPBAR */}
+        <div className="tm-topbar">
+
+          <img src={logo} className="tm-logo-left" alt="logo" />
+
+          {/* BALANCE */}
+          <div className="tm-wallet-pill center" onClick={onOpenWallet}>
+            <CiWallet className="tm-wallet-icon" />
+
+            <div className="tm-wallet-text">
+              <span className="tm-wallet-label">BALANCE</span>
+
+              <div className="tm-amount-wrap">
+                {effect &&
+                  stars.map((s, i) => (
+                    <span key={i} className={`tm-star ${s}`}>✦</span>
+                  ))}
+
+                {effect && <span className="tm-shine" />}
+
+                <span className={`tm-wallet-amount ${effect ? "active" : ""}`}>
+                  ₹{Number(liveBalance || 0)}
                 </span>
-              ))}
+              </div>
+            </div>
 
-            {moneyEffectActive && <span className="tm-wallet-shine" />}
-
-            <span
-              className={`tm-wallet-balance ${
-                moneyEffectActive ? "tm-wallet-balance-active" : ""
-              }`}
-            >
-              ₹{Number(liveBalance || 0)}
-            </span>
+            <span className="tm-wallet-dot" />
           </div>
-        </div>
 
-        {/* PROFILE */}
-        <div className="tm-profile-wrap" ref={menuRef}>
-          <img
-            src={imgSrc}
-            alt="Profile"
-            className="tm-profile-img"
-            onClick={() => setOpenMenu(!openMenu)}
-            onError={() => setImgSrc(defaultProfile)}
-          />
+          {/* PROFILE */}
+          <div className="tm-profile-wrap" ref={menuRef}>
+            <img
+              src={imgSrc}
+              alt="Profile"
+              className="tm-profile-img"
+              onClick={() => setOpenMenu(!openMenu)}
+              onError={() => setImgSrc(defaultProfile)}
+            />
 
-          <div className={`tm-slide-menu ${openMenu ? "open" : ""}`}>
-            <div
-              className="tm-menu-item"
-              onClick={() => {
-                setOpenMenu(false);
-                onOpenProfile?.();
-              }}
-            >
-              Profile
-            </div>
-
-            <div
-              className="tm-menu-item"
-              onClick={() => {
-                setOpenMenu(false);
-                onOpenHistory?.();
-              }}
-            >
-              History
-            </div>
-
-            <div
-              className="tm-menu-item"
-              onClick={() => {
-                setOpenMenu(false);
-                onOpenTc?.();
-              }}
-            >
-              T&C
+            <div className={`tm-slide-menu ${openMenu ? "open" : ""}`}>
+              <div className="tm-menu-item" onClick={() => { setOpenMenu(false); onOpenProfile?.(); }}>
+                Profile
+              </div>
+              <div className="tm-menu-item" onClick={() => { setOpenMenu(false); onOpenHistory?.(); }}>
+                History
+              </div>
+              <div className="tm-menu-item" onClick={() => { setOpenMenu(false); onOpenTc?.(); }}>
+                T&C
+              </div>
             </div>
           </div>
+
         </div>
-      </div>
 
-      {/* LOGO */}
-      <div className="tm-logo-wrap">
-        <img src={logo} className="tm-logo" alt="Truvish Logo" />
-      </div>
+        {/* CONTENT */}
+        <div className="tm-content">
+          <img src={wallpaper} className="tm-wallpaper" alt="Wallpaper" />
+          <h1 className="tm-heading">Request a Voucher Code</h1>
+        </div>
 
-      {/* WALLPAPER */}
-      <div className="tm-wallpaper-wrap">
-        <img
-          src={wallpaper}
-          className="tm-wallpaper"
-          alt="Wallpaper"
-        />
-      </div>
+        {/* FOOTER */}
+        <div className="tm-footer">
+          <button className="tm-button" onClick={onStart}>
+            Start Request →
+          </button>
 
-      {/* CONTENT */}
-      <h1 className="tm-heading">Request a Voucher Code</h1>
+          <div className="tm-secure">🔒 Secure & Encrypted</div>
+        </div>
 
-      <p className="tm-subtext">
-        Chat with our assistant to find and claim your rewards in seconds.
-      </p>
-
-      <button className="tm-button" onClick={onStart}>
-        Start Request →
-      </button>
-
-      <div className="tm-secure">
-        🔒 Secure &amp; Encrypted
       </div>
     </div>
   );

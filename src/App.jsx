@@ -22,7 +22,7 @@ const BASE_URL =
   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
 const REDEEM_URL =
-  "https://modest-patience-production-eab9.up.railway.app";
+  "http://localhost:5173/";
 
 const STEPS = {
   LOGIN: "login",
@@ -324,6 +324,7 @@ export default function App() {
       {step === STEPS.CONGRATS && (
         <Congratulation
           voucherCode={voucherCode}
+          validityDays={validDays}
           onGoHome={() => setStep(STEPS.HOME)}
           onViewDetails={() => setShowDetails(true)}
           onRedeemNow={() => {

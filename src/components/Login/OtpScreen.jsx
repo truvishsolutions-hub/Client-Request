@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./OtpScreen.css";
-import logo from "../../assets/LOGO/TRV.png";
+import logo from "../../assets/LOGO/TV-BG.png";
+import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ background import
 
 export default function OtpScreen({
   phone,
-  rawMobile, // ✅ NEW (10 digit mobile for CreateAccount)
+  rawMobile,
   onVerify,
   onResend,
   onBack,
@@ -28,14 +29,12 @@ export default function OtpScreen({
     refs[0].current?.focus();
   }, []);
 
-  // ✅ 1 second countdown
   useEffect(() => {
     if (seconds <= 0) return;
     const t = setInterval(() => setSeconds((s) => (s > 0 ? s - 1 : 0)), 1000);
     return () => clearInterval(t);
   }, [seconds]);
 
-  // ✅ Auto hide toast
   useEffect(() => {
     if (!toastOpen) return;
     const t = setTimeout(() => setToastOpen(false), 2800);
@@ -86,9 +85,7 @@ export default function OtpScreen({
 
     try {
       setVerifying(true);
-
       const res = await Promise.resolve(onVerify?.(otpValue));
-      // expected: { ok:true } OR { ok:false, reason:"NO_ACCOUNT" }
 
       if (res?.ok) {
         setNoAccount(false);
@@ -110,7 +107,6 @@ export default function OtpScreen({
   };
 
   const handlePrimary = () => {
-    // ✅ FIX: return to prevent double execution
     if (noAccount) return onCreateAccount?.(rawMobile || phone);
     return handleVerify();
   };
@@ -122,8 +118,11 @@ export default function OtpScreen({
   };
 
   return (
-    <div className="otpPage">
-      {/* ✅ TOP SLIDE NOTIFICATION */}
+    <div
+      className="otpPage"
+      style={{ backgroundImage: `url(${bgImage})` }} // ✅ background apply
+    >
+      {/* TOP TOAST */}
       <div className={`topToast ${toastOpen ? "show" : ""}`}>
         <div className="topToastInner">
           {noAccount ? "You have no account" : "Invalid OTP"}
@@ -133,10 +132,19 @@ export default function OtpScreen({
         </div>
       </div>
 
+      {/* BRAND */}
       <div className="topBrand">
-        <img src={logo} alt="Logo" className="brandLogo" />
+        <div className="logoWrap">
+          <img src={logo} alt="Logo" className="brandLogo" />
+        </div>
+
+        <div className="brandTextWrap">
+          <h2 className="brandName">TRUVISH</h2>
+          <p className="brandTagline">Performance Rewards Simplified</p>
+        </div>
       </div>
 
+      {/* CONTENT */}
       <div className="content">
         <h1 className="title">OTP Verification</h1>
 
@@ -173,22 +181,23 @@ export default function OtpScreen({
             onClick={handlePrimary}
             disabled={verifying}
           >
-            {verifying ? "Verifying..." : noAccount ? "Create Account" : "Verify OTP"}
+            {verifying
+              ? "Verifying..."
+              : noAccount
+              ? "Create Account"
+              : "Verify OTP"}
           </button>
 
           <div className="otpUnderRow">
             <button
-              type="button"
-              className={`otpLinkBtn ${verifying ? "disabled" : ""}`}
+              className="otpLinkBtn"
               onClick={() => !verifying && onBack?.()}
-              disabled={verifying}
             >
               ← Change number
             </button>
 
             <button
-              type="button"
-              className={`otpLinkBtn ${seconds > 0 || verifying ? "disabled" : ""}`}
+              className="otpLinkBtn"
               onClick={handleResend}
               disabled={seconds > 0 || verifying}
             >
@@ -200,7 +209,7 @@ export default function OtpScreen({
 
           <div className="secure">
             <span className="lock">🔒</span>
-            <span>Secure &amp; Encrypted</span>
+            <span>Secure & Encrypted</span>
           </div>
         </div>
       </div>

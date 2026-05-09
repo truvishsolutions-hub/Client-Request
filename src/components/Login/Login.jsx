@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./Login.css";
 import logo from "../../assets/LOGO/TVBG.png";
 import bgImage from "../../assets/HOMEBG/BG.jpeg";
@@ -6,6 +6,7 @@ import bgImage from "../../assets/HOMEBG/BG.jpeg";
 export default function Login({ countryCode = "+91", onGetOtp }) {
   const [mobile, setMobile] = useState("");
   const [touched, setTouched] = useState(false);
+  const [animate, setAnimate] = useState(true); // 👈 animation control
 
   const value = useMemo(() => mobile.replace(/\D/g, "").slice(0, 10), [mobile]);
   const isValid = value.length === 10;
@@ -20,17 +21,24 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
     onGetOtp?.({ countryCode, mobile: value });
   };
 
+  // 🔥 har 5 sec me animation restart
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimate(false);
+      setTimeout(() => setAnimate(true), 50); // re-trigger
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
       className="loginPage"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-      }}
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="overlay"></div>
 
       <div className="contentWrap">
-        {/* TOP */}
         <div className="topSection">
           <div className="logoWrap">
             <img src={logo} alt="Truvish" className="brandLogo" />
@@ -38,17 +46,17 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
 
           <div className="brandTextWrap">
             <h2 className="brandName">TRUVISH</h2>
-            <p className="brandTagline">A Partner in Reward Marketing</p>
+            <p className="brandTagline">Performance Rewards Simplified</p>
           </div>
 
           <h1 className="title">Welcome to Truvish</h1>
 
-          <div className="offerPill">
+          {/* 👇 dynamic class */}
+          <div className={`offerPill ${animate ? "animate" : ""}`}>
             Rs.1000 free credit. Signup today. limited time offer.
           </div>
         </div>
 
-        {/* MIDDLE */}
         <div className="middleSection">
           <p className="subtitle">Enter your mobile number to continue</p>
 
@@ -76,7 +84,6 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
         </div>
       </div>
 
-      {/* BOTTOM */}
       <div className="bottomSection">
         <button
           className="primaryBtn"

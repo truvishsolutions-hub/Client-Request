@@ -3,15 +3,19 @@
   --cyan: #1AB0B7;
   --text-dark: #1D2E39;
   --text-light: #6C7A87;
-  --soft-white: #F3F7FA;
 }
 
-/* =========================
-   CONTAINER
-========================= */
+/* ✅ BACKGROUND */
+.vs-bg {
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
+/* CONTAINER */
 .vs-container {
-  background: var(--soft-white);
   padding: clamp(18px,4vw,26px);
   max-width: 480px;
   margin: auto;
@@ -19,24 +23,14 @@
   min-height:100vh;
 }
 
-/* =========================
-   HEADER
-========================= */
-
+/* HEADER */
 .vs-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.vs-title{
-  font-size:clamp(18px,4vw,22px);
-  font-weight:600;
-  color:var(--primary);
-}
-
-/* Back Button */
-
+/* BACK BUTTON */
 .vs-back-btn{
   background:transparent;
   border:none;
@@ -46,10 +40,7 @@
   align-items:center;
 }
 
-/* =========================
-   STEP
-========================= */
-
+/* STEP */
 .vs-step-text{
   margin-top:18px;
   font-size:clamp(12px,3vw,14px);
@@ -71,15 +62,12 @@
   border-radius:10px;
 }
 
-/* =========================
-   QUESTION
-========================= */
-
+/* QUESTION */
 .vs-question{
   margin-top:22px;
-  font-size:clamp(22px,5vw,30px);
-  font-weight:700;
-  color:var(--primary);
+    font-size:clamp(22px,5vw,30px);
+    font-weight:700;
+    color:var(--primary);
 }
 
 .vs-subtext{
@@ -88,16 +76,12 @@
   color:var(--text-light);
 }
 
-/* =========================
-   OPTIONS
-========================= */
-
+/* OPTIONS */
 .vs-options{
   margin-top:20px;
 }
 
 /* CARD */
-
 .vs-card{
   display:flex;
   align-items:center;
@@ -110,7 +94,7 @@
 
   margin-bottom:14px;
 
-  box-shadow:0 2px 4px rgb(0 0 0 / 4%);
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
   cursor:pointer;
 
   transition:.2s ease;
@@ -122,7 +106,6 @@
 }
 
 /* ICON */
-
 .vs-icon img{
   width:clamp(32px,10vw,46px);
   padding:8px;
@@ -131,7 +114,6 @@
 }
 
 /* LABEL */
-
 .vs-label{
   flex:1;
   font-size:clamp(15px,4vw,18px);
@@ -140,14 +122,11 @@
 }
 
 /* RADIO */
-
 .vs-radio{
   width:26px;
   height:26px;
   border-radius:50%;
-
   border:2px solid #C7D3D8;
-
   display:flex;
   justify-content:center;
   align-items:center;
@@ -163,12 +142,8 @@
   font-weight:bold;
 }
 
-/* =========================
-   BUTTON
-========================= */
-
+/* BUTTON */
 .vs-next-btn{
-
   margin-top:26px;
   width:100%;
 
@@ -184,13 +159,8 @@
   font-weight:700;
 
   cursor:pointer;
-  transition:opacity .2s ease, transform .1s ease;
 }
 
 .vs-next-btn:active{
-  transform:translateY(1px);
-}
-
-.vs-next-btn:hover{
-  opacity:0.95;
+  transform:scale(0.98);
 }

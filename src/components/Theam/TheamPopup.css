@@ -17,21 +17,22 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
-
 }
 
 /* Popup Box */
 .popup-box {
-  background: var(--soft-white);
   padding: clamp(18px, 4vw, 26px);
   max-width: 480px;
-  margin: auto;
   width: 90%;
   border-radius: 14px;
   font-family: "Inter", sans-serif;
 
-  /* existing popup style preserve */
   position: relative;
+  overflow: hidden;
+
+  /* ✅ image visible */
+  background-size: cover;
+  background-position: center;
 }
 
 
