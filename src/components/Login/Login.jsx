@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import "./Login.css";
 
 import logo from "../../assets/LOGO/TVBG.png";
-import bgImage from "../../assets/HOMEBG/BG2.png";
+import bgImage from "../../assets/HOMEBG/BG22git push -f origin main.png";
 
 import { FiPhone } from "react-icons/fi";
 

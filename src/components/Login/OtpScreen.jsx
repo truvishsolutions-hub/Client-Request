@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./OtpScreen.css";
 
 import logo from "../../assets/LOGO/TVBG.png";
-import bgImage from "../../assets/HOMEBG/BG2.png";
+import bgImage from "../../assets/HOMEBG/BG22.png";
 
 import { FiRefreshCw } from "react-icons/fi";
 
