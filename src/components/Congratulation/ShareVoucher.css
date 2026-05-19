@@ -1,4 +1,4 @@
-/* ShareVoucher.css */
+/* ShareVoucher.css - FINAL */
 
 .share-overlay {
   position: fixed;
@@ -41,6 +41,61 @@
   to {
     transform: translateY(0);
   }
+}
+
+/* =========================
+SUCCESS TOP NOTIFICATION
+========================= */
+
+.top-success {
+  position: fixed;
+
+  top: -120px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 30px);
+  max-width: 420px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 16px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  z-index: 10000;
+
+  transition: 0.45s ease;
+}
+
+.show-success {
+  top: 20px;
+}
+
+.top-success svg {
+  font-size: 48px;
+  color: #1db7b7;
+  flex-shrink: 0;
+}
+
+.top-success h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #10213d;
+  margin-bottom: 4px;
+}
+
+.top-success p {
+  font-size: 14px;
+  color: #7d8797;
+  line-height: 1.4;
 }
 
 /* =========================
@@ -92,6 +147,13 @@ HEADER
 
   font-size: 30px;
   color: #2f3a4f;
+
+  transition: none;
+}
+
+.close-btn:hover {
+  background: #e4e7ee;
+  transform: none;
 }
 
 /* =========================
@@ -133,6 +195,13 @@ FIELDS
   display: flex;
   align-items: center;
   gap: 16px;
+
+  transition: 0.3s;
+}
+
+.input-box:focus-within {
+  border-color: #1db7b7;
+  box-shadow: 0 0 0 4px rgba(29, 183, 183, 0.12);
 }
 
 .input-box svg {
@@ -157,7 +226,7 @@ FIELDS
 }
 
 /* =========================
-BUTTONS
+BUTTONS - FIXED (NO HOVER MOVE)
 ========================= */
 
 .send-btn {
@@ -179,6 +248,29 @@ BUTTONS
   gap: 14px;
 
   cursor: pointer;
+
+  /* 🔥 REMOVE ALL TRANSITIONS ON HOVER */
+  transition: none;
+  transform: none;
+}
+
+/* 🔥 NO MOVEMENT ON HOVER */
+.send-btn:hover {
+  background: #15a0a0;
+  transform: none;
+  transition: none;
+}
+
+/* 🔥 ONLY CLICK EFFECT */
+.send-btn:active {
+  transform: scale(0.98);
+  transition: transform 0.05s ease;
+}
+
+.send-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .send-btn svg {
@@ -204,6 +296,18 @@ BUTTONS
   gap: 14px;
 
   cursor: pointer;
+
+  transition: none;
+  transform: none;
+}
+
+.later-btn:hover {
+  background: #f8fafc;
+  transform: none;
+}
+
+.later-btn:active {
+  transform: scale(0.98);
 }
 
 .later-btn svg {

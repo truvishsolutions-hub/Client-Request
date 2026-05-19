@@ -485,3 +485,60 @@ TOAST ANIMATION
     transform: translateX(-50%) translateY(0);
   }
 }
+/* ADD THIS AT BOTTOM OF Congratulation.css */
+
+/* =========================
+TOP SUCCESS NOTIFICATION
+========================= */
+
+.top-success {
+  position: fixed;
+
+  top: -120px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 30px);
+  max-width: 420px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 16px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.12);
+
+  z-index: 10000;
+
+  transition: 0.45s ease;
+}
+
+.show-success {
+  top: 20px;
+}
+
+.top-success svg {
+  font-size: 48px;
+  color: #1AB0B7;
+  flex-shrink: 0;
+}
+
+.top-success h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #10213d;
+  margin-bottom: 4px;
+}
+
+.top-success p {
+  font-size: 14px;
+  color: #7d8797;
+  line-height: 1.4;
+}

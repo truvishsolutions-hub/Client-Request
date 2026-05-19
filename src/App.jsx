@@ -18,11 +18,9 @@ import ReviewConfirm from "./components/ReviewConfirm/ReviewConfirm";
 import Congratulation from "./components/Congratulation/Congratulation.jsx";
 import VoucherDetailsPopup from "./components/Congratulation/VoucherDetailsPopup";
 
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
-
-const REDEEM_URL =
-  "http://localhost:5173/";
+// const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://truvish-backend-production.up.railway.app";
+const REDEEM_URL = "https://truvish.com";
 
 const STEPS = {
   LOGIN: "login",
@@ -41,25 +39,28 @@ const STEPS = {
 };
 
 export default function App() {
-  const [step, setStep] = useState(STEPS.LOGIN);
 
+  const [step, setStep] = useState(STEPS.LOGIN);
   const [authCountryCode, setAuthCountryCode] = useState("+91");
   const [authPhone, setAuthPhone] = useState("");
   const [authMobile10, setAuthMobile10] = useState("");
-
   const [client, setClient] = useState(null);
-
   const [validDays, setValidDays] = useState(60);
   const [voucherValue, setVoucherValue] = useState("50");
-
   const [occasion, setOccasion] = useState({ name: "", img: "" });
   const [selectedBrands, setSelectedBrands] = useState([]);
-
   const [voucherCode, setVoucherCode] = useState("");
   const [showDetails, setShowDetails] = useState(false);
 
+  // 🔥 DYNAMIC CLIENT LOGO URL WITH CACHE BUSTER 🔥
+  const clientLogoUrl =
+    client?.id && client?.logoImg
+      ? `${BASE_URL}/api/clients/${client.id}/logo?t=${Date.now()}`
+      : "";
+
   return (
     <>
+      {/* LOGIN */}
       {step === STEPS.LOGIN && (
         <Login
           countryCode={authCountryCode}
@@ -72,6 +73,7 @@ export default function App() {
         />
       )}
 
+      {/* OTP */}
       {step === STEPS.OTP && (
         <OtpScreen
           phone={authPhone || "+91 **********"}
@@ -82,30 +84,21 @@ export default function App() {
               if (!/^\d{4}$/.test(otp)) return { ok: false };
 
               const res = await fetch(
-                `${BASE_URL}/api/clients/exists?mobile=${encodeURIComponent(
-                  authMobile10
-                )}`
+                `${BASE_URL}/api/clients/exists?mobile=${encodeURIComponent(authMobile10)}`
               );
-
               if (!res.ok) return { ok: false };
 
               const data = await res.json();
-
               if (data?.exists) {
                 const cRes = await fetch(
-                  `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(
-                    authMobile10
-                  )}`
+                  `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(authMobile10)}`
                 );
-
                 if (cRes.ok) {
                   const cData = await cRes.json();
                   setClient(cData);
                 }
-
                 return { ok: true };
               }
-
               return { ok: false, reason: "NO_ACCOUNT" };
             } catch {
               return { ok: false };
@@ -118,49 +111,25 @@ export default function App() {
         />
       )}
 
+      {/* CREATE ACCOUNT */}
       {step === STEPS.CREATE && (
         <CreateAccount
           defaultCountryCode={authCountryCode}
           defaultPhone={authMobile10 || "----------"}
-          onSubmit={async ({
-            companyName,
-            clientName,
-            email,
-            mobileNumber,
-            logo,
-          }) => {
+          onSubmit={async ({ companyName, clientName, email, mobileNumber, logo }) => {
             try {
               const fd = new FormData();
-
-              const clientJson = {
-                mobileNumber,
-                companyName,
-                clientName,
-                email,
-              };
-
-              fd.append(
-                "client",
-                new Blob([JSON.stringify(clientJson)], {
-                  type: "application/json",
-                })
-              );
-
+              const clientJson = { mobileNumber, companyName, clientName, email };
+              fd.append("client", new Blob([JSON.stringify(clientJson)], { type: "application/json" }));
               if (logo) fd.append("logo", logo);
 
-              const res = await fetch(`${BASE_URL}/api/clients`, {
-                method: "POST",
-                body: fd,
-              });
-
+              const res = await fetch(`${BASE_URL}/api/clients`, { method: "POST", body: fd });
               if (!res.ok) return;
 
               const saved = await res.json();
-
               setAuthMobile10(mobileNumber);
               setAuthPhone(`${authCountryCode} ${mobileNumber}`);
               setClient(saved);
-
               setStep(STEPS.HOME);
             } catch (error) {
               console.error("Create account failed:", error);
@@ -169,6 +138,7 @@ export default function App() {
         />
       )}
 
+      {/* HOME */}
       {step === STEPS.HOME && (
         <TruvishClient
           onStart={() => setStep(STEPS.VOUCHER)}
@@ -178,49 +148,47 @@ export default function App() {
           onOpenProfile={() => setStep(STEPS.PROFILE)}
           clientId={client?.id}
           clientBalance={client?.balance}
-          profileImg={
-            client?.logoImg ? `${BASE_URL}/api/clients/${client?.id}/logo` : null
-          }
+          profileImg={clientLogoUrl}
         />
       )}
 
+      {/* PROFILE - UPDATED */}
       {step === STEPS.PROFILE && (
         <ProfileScreen
           client={client}
-          profileImg={
-            client?.logoImg ? `${BASE_URL}/api/clients/${client?.id}/logo` : null
-          }
+          profileImg={clientLogoUrl}
           onBack={() => setStep(STEPS.HOME)}
           onSaved={(updatedClient) => {
+            // 🔥 Update client state with fresh data
             setClient(updatedClient);
+            // 🔥 Go back to home - logo will show with new cache buster
             setStep(STEPS.HOME);
           }}
         />
       )}
 
+      {/* WALLET */}
       {step === STEPS.WALLET && (
         <WalletScreen
           clientId={client?.id}
           clientName={client?.companyName || "Client"}
-          profileImg={
-            client?.logoImg ? `${BASE_URL}/api/clients/${client?.id}/logo` : null
-          }
+          profileImg={clientLogoUrl}
           onBack={() => setStep(STEPS.HOME)}
         />
       )}
 
+      {/* HISTORY */}
       {step === STEPS.HISTORY && (
         <ClientHistory
           clientId={client?.id}
           clientName={client?.companyName}
           clientBalance={client?.balance}
-          profileImg={
-            client?.logoImg ? `${BASE_URL}/api/clients/${client?.id}/logo` : null
-          }
+          profileImg={clientLogoUrl}
           onBack={() => setStep(STEPS.HOME)}
         />
       )}
 
+      {/* VOUCHER */}
       {step === STEPS.VOUCHER && (
         <VoucherStep
           onBack={() => setStep(STEPS.HOME)}
@@ -231,6 +199,7 @@ export default function App() {
         />
       )}
 
+      {/* VALIDATION */}
       {step === STEPS.VALIDATION && (
         <Validation
           defaultDays={validDays}
@@ -242,6 +211,7 @@ export default function App() {
         />
       )}
 
+      {/* THEME */}
       {step === STEPS.THEME && (
         <SelectTheam
           onBack={() => setStep(STEPS.VALIDATION)}
@@ -252,6 +222,7 @@ export default function App() {
         />
       )}
 
+      {/* BRANDS */}
       {step === STEPS.BRANDS && (
         <ChooseBrands
           onBack={() => setStep(STEPS.THEME)}
@@ -262,6 +233,7 @@ export default function App() {
         />
       )}
 
+      {/* REVIEW */}
       {step === STEPS.REVIEW && (
         <ReviewConfirm
           voucherValue={voucherValue}
@@ -275,15 +247,9 @@ export default function App() {
           onSubmit={async () => {
             try {
               const brandLabels = selectedBrands.map((b) => b.label);
-
               const uniqueCategories = [
-                ...new Set(
-                  selectedBrands
-                    .map((b) => b.category)
-                    .filter((cat) => cat && cat.trim() !== "")
-                ),
+                ...new Set(selectedBrands.map((b) => b.category).filter((cat) => cat && cat.trim() !== "")),
               ];
-
               const payload = {
                 clientId: client?.id,
                 clientName: client?.companyName || "",
@@ -321,10 +287,12 @@ export default function App() {
         />
       )}
 
+      {/* CONGRATULATIONS */}
       {step === STEPS.CONGRATS && (
         <Congratulation
           voucherCode={voucherCode}
           validityDays={validDays}
+          client={client}
           onGoHome={() => setStep(STEPS.HOME)}
           onViewDetails={() => setShowDetails(true)}
           onRedeemNow={() => {
@@ -334,11 +302,7 @@ export default function App() {
             window.location.href = `mailto:?subject=Truvish Voucher Code&body=Your Truvish voucher code is: ${voucherCode}`;
           }}
           onShareWhatsApp={() => {
-            window.open(
-              `https://wa.me/?text=Your Truvish voucher code is: ${voucherCode}`,
-              "_blank",
-              "noopener,noreferrer"
-            );
+            window.open(`https://wa.me/?text=Your Truvish voucher code is: ${voucherCode}`, "_blank", "noopener,noreferrer");
           }}
           onShareSMS={() => {
             window.location.href = `sms:?body=Your Truvish voucher code is: ${voucherCode}`;
@@ -349,6 +313,7 @@ export default function App() {
         />
       )}
 
+      {/* POPUP */}
       <VoucherDetailsPopup
         isOpen={showDetails}
         onClose={() => setShowDetails(false)}

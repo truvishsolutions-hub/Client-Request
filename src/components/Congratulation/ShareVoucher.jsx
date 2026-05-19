@@ -1,6 +1,8 @@
-// ShareVoucher.jsx
+// ShareVoucher.jsx - FINAL SIMPLE CODE
 
 import React, { useState } from "react";
+import axios from "axios";
+
 import "./ShareVoucher.css";
 
 import { IoClose } from "react-icons/io5";
@@ -9,45 +11,89 @@ import { FiUser } from "react-icons/fi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { LuClock3 } from "react-icons/lu";
 
+
+// const BASE_URL = "http://localhost:8080";
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://truvish-backend-production.up.railway.app";
+
 export default function ShareVoucher({
   open,
   onClose,
+  onSuccess,
+  voucherCode,
+  client,
+  validityDays,
 }) {
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSend = async () => {
+
+    if (!email.trim()) {
+      alert("Please enter recipient email");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const logoUrl = client?.id
+        ? `${BASE_URL}/api/clients/${client.id}/logo`
+        : "";
+
+      const companyName = client?.companyName || "TruVish";
+
+      const response = await axios.post(
+        `${BASE_URL}/api/voucher/send`,
+        {
+          email: email.trim(),
+          name: name.trim(),
+          voucherCode: voucherCode,
+          clientLogo: logoUrl,
+          validityDays: validityDays,
+          companyName: companyName,
+        }
+      );
+
+      console.log(response.data);
+
+      if (onSuccess) onSuccess();
+
+      setEmail("");
+      setName("");
+      onClose();
+
+    } catch (error) {
+      console.log(error);
+      alert("Failed to send voucher. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!open) return null;
 
   return (
     <div className="share-overlay">
-
-      {/* BACKDROP */}
       <div className="share-backdrop" onClick={onClose}></div>
 
-      {/* SHEET */}
       <div className="share-sheet">
-
-        {/* TOP BAR */}
         <div className="sheet-line"></div>
 
-        {/* HEADER */}
         <div className="share-header">
-
           <h2>Share Voucher</h2>
-
           <button className="close-btn" onClick={onClose}>
             <IoClose />
           </button>
-
         </div>
 
-        {/* EMAIL */}
         <div className="field-wrapper">
-
           <div className="label-row">
             <label>RECIPIENT EMAIL</label>
           </div>
-
           <div className="input-box">
             <MdOutlineMail />
             <input
@@ -57,17 +103,13 @@ export default function ShareVoucher({
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
         </div>
 
-        {/* NAME */}
         <div className="field-wrapper">
-
           <div className="label-row">
             <label>RECIPIENT NAME</label>
             <span>OPTIONAL</span>
           </div>
-
           <div className="input-box">
             <FiUser />
             <input
@@ -77,13 +119,11 @@ export default function ShareVoucher({
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-
         </div>
 
-        {/* BUTTONS */}
-        <button className="send-btn">
+        <button className="send-btn" onClick={handleSend} disabled={loading}>
           <IoPaperPlaneOutline />
-          Send Now
+          {loading ? "Sending..." : "Send Now"}
         </button>
 
         <button className="later-btn">
@@ -91,14 +131,11 @@ export default function ShareVoucher({
           Send Later
         </button>
 
-        {/* INFO */}
         <p className="share-info">
           Recipient will receive an email with instructions on
-          how to claim this voucher.
+          how to redeem this voucher reward.
         </p>
-
       </div>
-
     </div>
   );
 }

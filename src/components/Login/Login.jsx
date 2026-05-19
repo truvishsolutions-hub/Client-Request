@@ -1,73 +1,99 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import "./Login.css";
-import logo from "../../assets/LOGO/TVBG.png";
-import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
-export default function Login({ countryCode = "+91", onGetOtp }) {
+import logo from "../../assets/LOGO/TVBG.png";
+import bgImage from "../../assets/HOMEBG/BG2.png";
+
+import { FiPhone } from "react-icons/fi";
+
+const LoginPage = ({ onGetOtp }) => {
   const [mobile, setMobile] = useState("");
   const [touched, setTouched] = useState(false);
-  const [animate, setAnimate] = useState(true); // 👈 animation control
 
-  const value = useMemo(() => mobile.replace(/\D/g, "").slice(0, 10), [mobile]);
+  // only 10 digits
+  const value = useMemo(
+    () => mobile.replace(/\D/g, "").slice(0, 10),
+    [mobile]
+  );
+
   const isValid = value.length === 10;
 
   const handleChange = (e) => {
-    setMobile(e.target.value.replace(/\D/g, "").slice(0, 10));
+    setMobile(
+      e.target.value.replace(/\D/g, "").slice(0, 10)
+    );
   };
 
   const handleGetOtp = () => {
     setTouched(true);
+
     if (!isValid) return;
-    onGetOtp?.({ countryCode, mobile: value });
+
+    onGetOtp?.({
+      mobile: value,
+    });
   };
-
-  // 🔥 har 5 sec me animation restart
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimate(false);
-      setTimeout(() => setAnimate(true), 50); // re-trigger
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div
-      className="loginPage"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="login-page"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+      }}
     >
-      <div className="overlay"></div>
+      {/* Top Overlay */}
+      <div className="top-overlay"></div>
 
-      <div className="contentWrap">
-        <div className="topSection">
-          <div className="logoWrap">
-            <img src={logo} alt="Truvish" className="brandLogo" />
-          </div>
+      {/* Main Card */}
+      <div className="login-card">
+        {/* Logo */}
+        <div className="logo-wrapper">
+          <div className="logo-circle">
+            <img
+              src={logo}
+              alt="Truvish Logo"
+              className="logo-img"
+            />
 
-          <div className="brandTextWrap">
-            <h2 className="brandName">TRUVISH</h2>
-            <p className="brandTagline">Performance Rewards Simplified</p>
-          </div>
-
-          <h1 className="title">Welcome to Truvish</h1>
-
-          {/* 👇 dynamic class */}
-          <div className={`offerPill ${animate ? "animate" : ""}`}>
-            Rs.1000 free credit. Signup today. limited time offer.
+            <h3 className="logo-text">
+              TRUVISH
+            </h3>
           </div>
         </div>
 
-        <div className="middleSection">
-          <p className="subtitle">Enter your mobile number to continue</p>
+        {/* Heading */}
+        <h1 className="welcome-title">
+          Welcome to Truvish
+        </h1>
 
-          <div className="phoneRow">
-            <div className="codePill">{countryCode}</div>
+        {/* Offer */}
+        <div className="offer-text">
+          <span className="offer-highlight">
+            RS.1000 FREE CREDIT
+          </span>
+
+          <span className="offer-normal">
+            Signup today. limited time offer
+          </span>
+        </div>
+
+        {/* Input */}
+        <div className="input-section">
+          <p className="input-label">
+            Enter your mobile number to continue
+          </p>
+
+          <div
+            className={`phone-input ${
+              value.length > 0 ? "active" : ""
+            }`}
+          >
+            <FiPhone className="phone-icon" />
 
             <input
               type="tel"
               inputMode="numeric"
-              className="phoneInput"
-              placeholder="Enter 10-digit number"
+              placeholder="Enter your number"
               value={value}
               onChange={handleChange}
               onBlur={() => setTouched(true)}
@@ -75,18 +101,15 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
           </div>
 
           {touched && !isValid && (
-            <div className="errorText">Please enter a valid 10-digit number</div>
+            <div className="error-text">
+              Please enter valid 10 digit number
+            </div>
           )}
-
-          <p className="helperText">
-            Performance Marketing Powered by Rewards
-          </p>
         </div>
-      </div>
 
-      <div className="bottomSection">
+        {/* Button */}
         <button
-          className="primaryBtn"
+          className="otp-btn"
           onClick={handleGetOtp}
           disabled={!isValid}
         >
@@ -95,4 +118,6 @@ export default function Login({ countryCode = "+91", onGetOtp }) {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

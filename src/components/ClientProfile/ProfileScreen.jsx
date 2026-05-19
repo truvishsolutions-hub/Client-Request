@@ -7,6 +7,7 @@ import { MdOutlineMail } from "react-icons/md";
 import logo from "../../assets/LOGO/TRV.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
+// const BASE_URL = "http://localhost:8080";
 const BASE_URL =
   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
@@ -33,6 +34,7 @@ export default function ProfileScreen({
     setClientName(client?.clientName || "");
     setEmail(client?.email || "");
     setPhone(client?.mobileNumber || "");
+    // 🔥 FIX: Use the updated profileImg URL from parent
     setProfilePreview(profileImg || defaultProfile);
   }, [client, profileImg]);
 
@@ -43,7 +45,9 @@ export default function ProfileScreen({
     if (!file) return;
 
     setProfileFile(file);
-    setProfilePreview(URL.createObjectURL(file));
+    // Create local preview immediately
+    const localPreview = URL.createObjectURL(file);
+    setProfilePreview(localPreview);
   };
 
   const handleSave = async (e) => {
@@ -90,15 +94,32 @@ export default function ProfileScreen({
       }
 
       const updated = await res.json();
+
+      // 🔥 CRITICAL FIX: Create new logo URL with timestamp to force refresh
+      const updatedLogoUrl = updated?.logoImg
+        ? `${BASE_URL}/api/clients/${client.id}/logo?t=${Date.now()}`
+        : profilePreview;
+
       alert("Profile updated successfully");
 
-      onSaved?.(updated);
+      // 🔥 Pass updated client with fresh logo URL
+      onSaved?.({
+        ...updated,
+        logoUrl: updatedLogoUrl
+      });
+
       onBack?.();
+
     } catch (error) {
       console.error("Save error:", error);
       alert("Something went wrong while saving");
     } finally {
       setSaving(false);
+      // 🔥 Clean up blob URL to prevent memory leak
+      if (profileFile) {
+        URL.revokeObjectURL(profilePreview);
+      }
+      setProfileFile(null);
     }
   };
 

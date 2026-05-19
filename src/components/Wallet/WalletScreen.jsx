@@ -8,8 +8,9 @@ import moneyIcon from "../../assets/MONEY/RU.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
 // Railway Backend
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+// const BASE_URL =
+//   import.meta.env.VITE_API_URL || "http://localhost:8080";
+  const BASE_URL = "https://truvish-backend-production.up.railway.app";
 
 // helper: backend datetime -> "12/2/2026 11:20 AM"
 function formatDateTime(dt) {

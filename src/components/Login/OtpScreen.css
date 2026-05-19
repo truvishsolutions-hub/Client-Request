@@ -1,186 +1,229 @@
-/* =========================
-   BRAND VARIABLES
-========================= */
-:root {
-  --primary: #0E4A63;
-  --cyan: #1AB0B7;
-  --sky: #A9D6E2;
-  --text: #1D2E39;
-  --soft-white: #F3F7FA;
-  --border: rgba(14, 74, 99, 0.18);
+.verify-page {
+  width: 100%;
+  min-height: 100vh;
+
+  background-size: 100% auto;
+  background-position: top center;
+  background-repeat: no-repeat;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  overflow-x: hidden;
+
+  font-family: "Poppins", sans-serif;
+
+  background-color: #c7dde0;
+
+  /* LOCAL VARIABLES */
+  --primary: #0e4a63;
+  --cyan: #1ab0b7;
   --danger: #ef4444;
   --white: #ffffff;
 }
 
 /* =========================
-   RESET
+   OVERLAY
 ========================= */
-* {
-  box-sizing: border-box;
-}
 
-html,
-body {
-  height: 100%;
-}
+.top-overlay {
+  position: absolute;
+  inset: 0;
 
-body {
-  margin: 0;
-  background: var(--soft-white);
-  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
-    sans-serif;
-  color: var(--text);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 148, 168, 0.08),
+    rgba(0, 148, 168, 0.16),
+    rgba(199, 221, 224, 0.9)
+  );
 }
 
 /* =========================
-   PAGE LAYOUT
+   HERO SECTION
 ========================= */
-.otpPage {
+
+.hero-section {
+  width: 100%;
+  min-height: 220px;
+
   position: relative;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-
-  /* ✅ background image support */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* =========================
-   TOP BRAND (EXACT LOGIN COPY)
-========================= */
-.topBrand {
-  padding-top: 36px;
-  padding-bottom: 4px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* same as login */
-.logoWrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.brandLogo {
-  width: 140px;       /* ✅ EXACT same */
-  max-width: 20vw;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
-/* same spacing + style */
-.brandTextWrap {
-  text-align: center;
-}
-
-.brandName {
-  margin: 8px 0 4px;   /* ✅ EXACT spacing */
-  font-size: 30px;     /* ✅ EXACT size */
-  font-weight: 700;
-  letter-spacing: 5px;
-  color: #11364d;
-  line-height: 1;
-}
-
-.brandTagline {
-  margin: 6px 0 0;     /* ✅ FIXED (login me gap feel ke liye) */
-  font-size: 14px;     /* ✅ EXACT size */
-  font-weight: 500;
-  color: #5d6f7e;
-}
-
-/* =========================
-   CONTENT
-========================= */
-.content {
-  width: min(520px, 100%);
-  padding: 8px 18px 28px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* =========================
-   TITLE / SUBTITLE
-========================= */
-.title {
-  text-align: center;
-  font-size: clamp(26px, 5vw, 34px);
-  font-weight: 700;
-  color: var(--primary);
-  margin-top: 4px;
-  margin-bottom: 6px;
-}
-
-.subtitle {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 22px;
-  font-size: 14px;
-  color: var(--text);
-  opacity: 0.75;
-  line-height: 1.4;
-}
-
-.phoneText {
-  font-weight: 700;
-  color: var(--primary);
+  z-index: 1;
 }
 
 /* =========================
    OTP CARD
 ========================= */
-.otpCard {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0;
+
+.otp-card {
+  position: relative;
+  z-index: 2;
+
+  width: 90%;
+  max-width: 520px;
+
+  background: #f8f8f8;
+
+  border-radius: 28px;
+
+  padding: 58px 22px 30px;
+
+  margin-bottom: 18px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-wrapper {
+  position: absolute;
+
+  top: 6px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+
+.logo-circle {
+  width: 92px;
+  height: 92px;
+
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #ececec;
+
+  background: white;
+
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.08);
+}
+
+.logo-img {
+  width: 34px;
+  object-fit: contain;
+}
+
+.logo-text {
+  margin-top: 2px;
+
+  color: #1d4864;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.otp-title {
+  text-align: center;
+
+  color: #1d4864;
+
+  font-size: 34px;
+  font-weight: 700;
+
+  margin-top: 34px;
+
+  line-height: 1.2;
+}
+
+.otp-subtitle {
+  text-align: center;
+
+  margin-top: 12px;
+
+  color: #8f8f8f;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  line-height: 1.5;
+}
+
+/* =========================
+   OTP SECTION
+========================= */
+
+.otp-section {
+  margin-top: 40px;
+}
+
+.otp-label {
+  color: #214c67;
+
+  font-size: 22px;
+  font-weight: 500;
+
+  margin-bottom: 18px;
+
+  text-align: center;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 14px;
+
+  justify-content: center;
 }
 
 /* =========================
    OTP INPUTS
 ========================= */
-.otpRow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 320px;
-  margin: 6px auto 0;
-}
 
-.otpBox {
-  width: 100%;
-  max-width: 74px;
-  height: 56px;
+.otp-inputs input {
+  width: 68px;
+  height: 68px;
+
+  border: 2px solid #ccd6da;
+
   border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--soft-white);
+
+  background: #fafafa;
+
   text-align: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
+
+  font-size: 28px;
+  font-weight: 500;
+
+  color: #7f7f7f;
+
   outline: none;
+
+  transition: 0.2s ease;
 }
 
-.otpBox:focus {
+.otp-inputs input:focus {
   border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(26, 176, 183, 0.18);
+
+  box-shadow: 0 0 0 4px rgba(26, 176, 183, 0.18);
+
   background: var(--white);
 }
 
-.otpBox.error {
-  border-color: var(--danger);
+.otp-inputs input.error {
+  border-color: var(--danger) !important;
 }
 
-.otpBox:disabled {
+.otp-inputs input:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
@@ -188,105 +231,138 @@ body {
 /* =========================
    ERROR TEXT
 ========================= */
+
 .errText {
-  margin: 6px auto 0;
+  margin-top: 10px;
+
   text-align: center;
+
   font-size: 13px;
+  font-weight: 500;
+
   color: var(--danger);
 }
 
 /* =========================
-   PRIMARY BUTTON
+   PHONE TEXT
 ========================= */
-.primaryBtn {
-  margin-top: 20px;
+
+.phone-text {
+  margin-top: 12px;
+
+  color: #9d9d9d;
+
+  font-size: 15px;
+
+  text-align: center;
+}
+
+/* =========================
+   VERIFY BUTTON
+========================= */
+
+.verify-btn {
   width: 100%;
-  padding: 18px;
-  border-radius: 20px;
+  height: 72px;
+
+  margin-top: 42px;
+
   border: none;
-  background: linear-gradient(180deg, var(--cyan), var(--primary));
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 700;
+  border-radius: 18px;
+
+  background: linear-gradient(
+    90deg,
+    #1d95a7,
+    #20b7c2
+  );
+
+  color: white;
+
+  font-size: 28px;
+  font-weight: 500;
+
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.1s ease;
+
+  transition: 0.3s;
 }
 
-.primaryBtn:active {
-  transform: translateY(1px);
+.verify-btn:hover {
+  transform: scale(1.01);
 }
 
-.primaryBtn:disabled {
+.verify-btn:disabled {
   opacity: 0.75;
   cursor: not-allowed;
 }
 
-.primaryBtn.loading {
+.verify-btn.loading {
   pointer-events: none;
 }
 
 /* =========================
-   UNDER LINKS
+   RESEND
 ========================= */
-.otpUnderRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-}
 
-.otpLinkBtn {
+.resend-btn {
   border: none;
   background: transparent;
-  color: var(--primary);
-  font-weight: 700;
+
+  width: 100%;
+
+  margin-top: 24px;
+
+  color: #1399ab;
+
+  font-size: 21px;
+  font-weight: 500;
+
   cursor: pointer;
-  font-size: 13px;
-  padding: 6px 4px;
-  opacity: 0.85;
 }
 
-.otpLinkBtn:hover {
-  opacity: 1;
-}
-
-.otpLinkBtn.disabled,
-.otpLinkBtn:disabled {
-  cursor: default;
+.resend-btn:disabled {
   opacity: 0.6;
-  color: rgba(29, 46, 57, 0.75);
+  cursor: not-allowed;
 }
 
 /* =========================
-   SECURE TEXT
+   CHANGE NUMBER
 ========================= */
-.secure {
+
+.change-number {
   margin-top: 18px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: var(--primary);
-  font-weight: 600;
-}
 
-.lock {
-  font-size: 15px;
+  gap: 8px;
+
+  color: #7d7d7d;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  cursor: pointer;
 }
 
 /* =========================
-   TOP TOAST
+   TOAST
 ========================= */
+
 .topToast {
   position: fixed;
+
   top: 16px;
   left: 50%;
+
   transform: translate(-50%, -160%);
+
   z-index: 9999;
-  width: min(560px, calc(100% - 24px));
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  width: min(520px, calc(100% - 24px));
+
+  transition: transform 0.4s
+    cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .topToast.show {
@@ -294,32 +370,146 @@ body {
 }
 
 .topToastInner {
-  background: linear-gradient(135deg, #e6f7f8, #ffffff);
-  border: 1px solid rgba(26, 176, 183, 0.35);
-  box-shadow: 0 14px 40px rgba(14, 74, 99, 0.18);
+  background: linear-gradient(
+    135deg,
+    #e6f7f8,
+    #ffffff
+  );
+
+  border: 1px solid
+    rgba(26, 176, 183, 0.35);
+
+  box-shadow: 0 14px 40px
+    rgba(14, 74, 99, 0.18);
+
   border-radius: 18px;
-  padding: 16px 18px;
-  min-height: 56px;
+
+  padding: 14px 16px;
+
+  min-height: 54px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  font-size: 15px;
+
+  gap: 12px;
+
+  font-size: 14px;
   font-weight: 700;
+
   color: var(--primary);
 }
 
 .toastClose {
   border: none;
+
   background: rgba(14, 74, 99, 0.08);
+
   cursor: pointer;
-  font-size: 14px;
+
+  font-size: 13px;
+
   opacity: 0.8;
+
   padding: 6px 8px;
-  border-radius: 12px;
+
+  border-radius: 10px;
 }
 
 .toastClose:hover {
   opacity: 1;
+
   background: rgba(14, 74, 99, 0.15);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: 150px;
+  }
+
+  .otp-card {
+    width: 92%;
+
+    border-radius: 24px;
+
+    padding: 52px 16px 24px;
+
+    margin-bottom: 14px;
+  }
+
+  .logo-circle {
+    width: 78px;
+    height: 78px;
+  }
+
+  .logo-img {
+    width: 28px;
+  }
+
+  .logo-text {
+    font-size: 10px;
+  }
+
+  .otp-title {
+    font-size: 25px;
+
+    margin-top: 28px;
+  }
+
+  .otp-subtitle {
+    font-size: 14px;
+  }
+
+  .otp-section {
+    margin-top: 34px;
+  }
+
+  .otp-label {
+    font-size: 16px;
+
+    margin-bottom: 14px;
+  }
+
+  .otp-inputs {
+    gap: 10px;
+  }
+
+  .otp-inputs input {
+    width: 56px;
+    height: 56px;
+
+    border-radius: 12px;
+
+    font-size: 24px;
+  }
+
+  .errText {
+    font-size: 12px;
+  }
+
+  .phone-text {
+    font-size: 13px;
+  }
+
+  .verify-btn {
+    height: 58px;
+
+    border-radius: 14px;
+
+    font-size: 20px;
+
+    margin-top: 36px;
+  }
+
+  .resend-btn {
+    font-size: 17px;
+  }
+
+  .change-number {
+    font-size: 14px;
+  }
 }

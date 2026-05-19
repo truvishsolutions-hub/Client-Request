@@ -5,8 +5,10 @@ import "./SelectTheam.css";
 import FestivalPopup from "../../components/Theam/TheamPopup";
 import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
+// const BASE_URL = "http://localhost:8080";
+
 const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+  "https://truvish-backend-production.up.railway.app";
 
 const SelectTheam = ({ onBack, onContinue }) => {
   const [selected, setSelected] = useState("");
