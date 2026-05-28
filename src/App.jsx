@@ -245,48 +245,137 @@ export default function App() {
           onEditValidity={() => setStep(STEPS.VALIDATION)}
           onEditBrands={() => setStep(STEPS.BRANDS)}
           onSubmit={async () => {
+
             try {
-              const brandLabels = selectedBrands.map((b) => b.label);
+
+              const brandLabels =
+                selectedBrands.map((b) => b.label);
+
               const uniqueCategories = [
-                ...new Set(selectedBrands.map((b) => b.category).filter((cat) => cat && cat.trim() !== "")),
+                ...new Set(
+                  selectedBrands
+                    .map((b) => b.category)
+                    .filter(
+                      (cat) =>
+                        cat &&
+                        cat.trim() !== ""
+                    )
+                ),
               ];
+
               const payload = {
+
                 clientId: client?.id,
-                clientName: client?.companyName || "",
-                truvishCodeValue: Number(voucherValue),
-                clientTheme: occasion?.name || "",
-                clientThemeImg: occasion?.img || "",
-                clientBrand: brandLabels,
-                clientCategory: uniqueCategories,
-                clientImg: client?.logoImg || "",
-                validity: Number(validDays),
+
+                clientName:
+                  client?.companyName || "",
+
+                truvishCodeValue:
+                  Number(voucherValue),
+
+                clientTheme:
+                  occasion?.name || "",
+
+                clientThemeImg:
+                  occasion?.img || "",
+
+                clientBrand:
+                  brandLabels,
+
+                clientCategory:
+                  uniqueCategories,
+
+                clientImg:
+                  client?.logoImg || "",
+
+                validity:
+                  Number(validDays),
               };
 
-              const res = await fetch(`${BASE_URL}/api/truvish/update-client`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-              });
+              const res = await fetch(
+                `${BASE_URL}/api/truvish/update-client`,
+                {
+                  method: "POST",
+
+                  headers: {
+                    "Content-Type":
+                      "application/json",
+                  },
+
+                  body: JSON.stringify(
+                    payload
+                  ),
+                }
+              );
 
               if (!res.ok) {
-                const errorText = await res.text();
-                console.error("API Error:", errorText);
+
+                const errorText =
+                  await res.text();
+
+                console.error(
+                  "API Error:",
+                  errorText
+                );
+
                 return;
               }
 
-              const saved = await res.json();
-              const dbCode = saved?.truvishIdCodeNumber;
+              const saved =
+                await res.json();
+
+              const dbCode =
+                saved?.truvishIdCodeNumber;
+
               if (!dbCode) return;
 
+              /* =========================================
+                 🔥 LIVE CLIENT REFRESH
+              ========================================= */
+
+              try {
+
+                const updatedClientRes =
+                  await fetch(
+                    `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(authMobile10)}`
+                  );
+
+                if (
+                  updatedClientRes.ok
+                ) {
+
+                  const updatedClientData =
+                    await updatedClientRes.json();
+
+                  setClient(
+                    updatedClientData
+                  );
+                }
+
+              } catch (err) {
+
+                console.error(
+                  "Failed to refresh client:",
+                  err
+                );
+              }
+
+              /* ========================================= */
+
               setVoucherCode(dbCode);
+
               setStep(STEPS.CONGRATS);
+
             } catch (error) {
-              console.error("Submission error:", error);
+
+              console.error(
+                "Submission error:",
+                error
+              );
             }
           }}
         />
       )}
-
       {/* CONGRATULATIONS */}
       {step === STEPS.CONGRATS && (
         <Congratulation

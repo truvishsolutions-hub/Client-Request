@@ -6,7 +6,7 @@ import "./ReviewConfirm.css";
 import voucherImg from "../../assets/REVIEW/Ru.png";
 import validityImg from "../../assets/REVIEW/VL.png";
 import tickSound from "../../assets/MUSIC/tik.mp3";
-import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ ADD
+import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
 // const BASE_URL = "http://localhost:8080";
 const BASE_URL = "https://truvish-backend-production.up.railway.app";
@@ -24,6 +24,13 @@ const ReviewConfirm = ({
 }) => {
 
   const [index, setIndex] = useState(0);
+
+  // =========================================
+  // LOADING STATE
+  // =========================================
+
+  const [loading, setLoading] = useState(false);
+
   const soundRef = useRef(new Audio(tickSound));
 
   const playSound = () => {
@@ -32,20 +39,34 @@ const ReviewConfirm = ({
   };
 
   const next = () => {
-    setIndex(prev => (prev + 1) % selectedBrands.length);
+
+    setIndex(
+      prev =>
+        (prev + 1) % selectedBrands.length
+    );
+
     playSound();
   };
 
   const prev = () => {
+
     setIndex(prev =>
-      prev === 0 ? selectedBrands.length - 1 : prev - 1
+      prev === 0
+        ? selectedBrands.length - 1
+        : prev - 1
     );
+
     playSound();
   };
 
   const getBrand = (i) => {
+
     return selectedBrands[
-      (index + i + selectedBrands.length) % selectedBrands.length
+      (
+        index +
+        i +
+        selectedBrands.length
+      ) % selectedBrands.length
     ];
   };
 
@@ -54,27 +75,67 @@ const ReviewConfirm = ({
       ? parseFloat(voucherValue)
       : voucherValue;
 
-  const displayValue = isNaN(numericValue) ? 0 : numericValue;
+  const displayValue =
+    isNaN(numericValue)
+      ? 0
+      : numericValue;
+
+  // =========================================
+  // FINAL SUBMIT
+  // =========================================
+
+  const handleSubmit = async () => {
+
+    if (loading) return;
+
+    try {
+
+      setLoading(true);
+
+      await onSubmit({
+        voucherValue: displayValue,
+        occasion,
+        validityMonths,
+        selectedBrands
+      });
+
+    } catch (err) {
+
+      console.error(err);
+
+    } finally {
+
+      setLoading(false);
+    }
+  };
 
   return (
 
-    /* ✅ BG WRAPPER */
     <div
       className="rc-bg"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      style={{
+        backgroundImage: `url(${bgImage})`
+      }}
     >
 
       <div className="rc-container">
 
+        {/* HEADER */}
+
         <div className="rc-header">
-          <button className="rc-back-btn" onClick={onEditValue}>
+
+          <button
+            className="rc-back-btn"
+            onClick={onEditValue}
+          >
             <IoChevronBack size={26} />
           </button>
 
-{/*           <h2 className="rc-title">Review & Confirm</h2> */}
-
           <div style={{ width: 26 }} />
+
         </div>
+
+        {/* TITLE */}
 
         <h3 className="rc-summary-title">
           Summary of your request
@@ -85,108 +146,199 @@ const ReviewConfirm = ({
         </p>
 
         {/* VALUE */}
-        <div className="rc-card">
-          <div className="rc-left">
-            <span className="rc-label">VALUE PER VOUCHER</span>
-            <h2 className="rc-value">₹{displayValue}.00</h2>
 
-            <button className="rc-edit-btn" onClick={onEditValue}>
+        <div className="rc-card">
+
+          <div className="rc-left">
+
+            <span className="rc-label">
+              VALUE PER VOUCHER
+            </span>
+
+            <h2 className="rc-value">
+              ₹{displayValue}.00
+            </h2>
+
+            <button
+              className="rc-edit-btn"
+              onClick={onEditValue}
+            >
               Edit
             </button>
+
           </div>
 
-          <img src={voucherImg} className="rc-img" alt="" />
+          <img
+            src={voucherImg}
+            className="rc-img"
+            alt=""
+          />
+
         </div>
 
         {/* OCCASION */}
-        <div className="rc-card">
-          <div className="rc-left">
-            <span className="rc-label">OCCASION</span>
-            <h2 className="rc-value">{occasion?.name}</h2>
 
-            <button className="rc-edit-btn" onClick={onEditOccasion}>
+        <div className="rc-card">
+
+          <div className="rc-left">
+
+            <span className="rc-label">
+              OCCASION
+            </span>
+
+            <h2 className="rc-value">
+              {occasion?.name}
+            </h2>
+
+            <button
+              className="rc-edit-btn"
+              onClick={onEditOccasion}
+            >
               Edit
             </button>
+
           </div>
 
-          {occasion?.img &&
-            <img src={occasion.img} className="rc-img" alt="" />
-          }
+          {occasion?.img && (
+            <img
+              src={occasion.img}
+              className="rc-img"
+              alt=""
+            />
+          )}
+
         </div>
 
         {/* VALIDITY */}
+
         <div className="rc-card">
+
           <div className="rc-left">
-            <span className="rc-label">VALIDITY</span>
+
+            <span className="rc-label">
+              VALIDITY
+            </span>
 
             <h2 className="rc-value">
-              {validityMonths} {validityMonths === 1 ? "Month" : "Months"}
+
+              {validityMonths}{" "}
+
+              {validityMonths === 1
+                ? "Month"
+                : "Months"}
+
             </h2>
 
-            <button className="rc-edit-btn" onClick={onEditValidity}>
+            <button
+              className="rc-edit-btn"
+              onClick={onEditValidity}
+            >
               Edit
             </button>
+
           </div>
 
-          <img src={validityImg} className="rc-img" alt="" />
+          <img
+            src={validityImg}
+            className="rc-img"
+            alt=""
+          />
+
         </div>
 
         {/* BRANDS */}
+
         <div className="rc-card rc-brands">
 
           <div className="rc-left">
-            <span className="rc-label">SELECTED BRANDS</span>
+
+            <span className="rc-label">
+              SELECTED BRANDS
+            </span>
 
             <h2 className="rc-brand-text">
               {getBrand(0)?.label}
             </h2>
 
-            <button className="rc-edit-btn" onClick={onEditBrands}>
+            <button
+              className="rc-edit-btn"
+              onClick={onEditBrands}
+            >
               Edit
             </button>
+
           </div>
 
           <div className="rc-carousel">
 
-            <button className="rc-arrow" onClick={prev}>‹</button>
+            <button
+              className="rc-arrow"
+              onClick={prev}
+            >
+              ‹
+            </button>
 
             <div className="rc-carousel-track">
-              {selectedBrands.length > 1 &&
-                <img src={getBrand(-1)?.img} className="rc-brand-small" alt="" />
-              }
 
-              <img src={getBrand(0)?.img} className="rc-brand-big" alt="" />
+              {selectedBrands.length > 1 && (
+                <img
+                  src={getBrand(-1)?.img}
+                  className="rc-brand-small"
+                  alt=""
+                />
+              )}
 
-              {selectedBrands.length > 1 &&
-                <img src={getBrand(1)?.img} className="rc-brand-small" alt="" />
-              }
+              <img
+                src={getBrand(0)?.img}
+                className="rc-brand-big"
+                alt=""
+              />
+
+              {selectedBrands.length > 1 && (
+                <img
+                  src={getBrand(1)?.img}
+                  className="rc-brand-small"
+                  alt=""
+                />
+              )}
+
             </div>
 
-            <button className="rc-arrow" onClick={next}>›</button>
+            <button
+              className="rc-arrow"
+              onClick={next}
+            >
+              ›
+            </button>
 
           </div>
 
         </div>
 
+        {/* TOTAL */}
+
         <p className="rc-total">
           Total value: ₹{displayValue}.00
         </p>
 
+        {/* SUBMIT */}
+
         <button
-          className="rc-submit-btn"
-          onClick={() => {
-            onSubmit({
-              voucherValue: displayValue,
-              occasion,
-              validityMonths,
-              selectedBrands
-            });
-          }}
+          className={`rc-submit-btn ${
+            loading ? "loading" : ""
+          }`}
+          onClick={handleSubmit}
+          disabled={loading}
         >
-          Get Code ➤
+
+          {loading
+            ? "Processing..."
+            : "Get Code ➤"}
+
         </button>
 
       </div>
+
     </div>
   );
 };

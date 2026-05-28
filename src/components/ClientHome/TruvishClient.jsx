@@ -12,19 +12,29 @@ const TruvishClient = ({
   onOpenTc,
   onOpenWallet,
   onOpenProfile,
+  onAddMoney,
   clientBalance = 1000,
 }) => {
+
   const [openMenu, setOpenMenu] = useState(false);
   const [liveBalance, setLiveBalance] = useState(clientBalance);
   const [effect, setEffect] = useState(false);
 
   const menuRef = useRef();
 
+  // =========================================
+  // ZERO BALANCE CHECK
+  // =========================================
+
+  const isZeroBalance =
+    Number(clientBalance || 0) <= 0;
+
   /* =========================
      BALANCE EFFECT
   ========================= */
 
   useEffect(() => {
+
     setLiveBalance(clientBalance ?? 0);
 
     setEffect(true);
@@ -34,6 +44,7 @@ const TruvishClient = ({
     }, 2000);
 
     return () => clearTimeout(timer);
+
   }, [clientBalance]);
 
   /* =========================
@@ -41,20 +52,39 @@ const TruvishClient = ({
   ========================= */
 
   useEffect(() => {
+
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
+      ) {
         setOpenMenu(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
     };
+
   }, []);
 
-  const stars = ["s1", "s2", "s3", "s4", "s5", "s6"];
+  const stars = [
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+  ];
 
   return (
     <div
@@ -63,18 +93,26 @@ const TruvishClient = ({
         backgroundImage: `url(${bgImage})`,
       }}
     >
+
       {/* OVERLAY */}
       <div className="client-overlay"></div>
 
       {/* HEADER */}
       <header className="client-header">
+
         {/* LEFT */}
         <div className="header-left">
-          <img src={logo} alt="Truvish" className="header-logo" />
+
+          <img
+            src={logo}
+            alt="Truvish"
+            className="header-logo"
+          />
 
           <h2 className="header-logo-text">
             TRUVISH
           </h2>
+
         </div>
 
         {/* CENTER */}
@@ -82,9 +120,11 @@ const TruvishClient = ({
           className="wallet-box"
           onClick={onOpenWallet}
         >
+
           <CiWallet className="wallet-icon" />
 
           <div className="wallet-content">
+
             <span className="wallet-label">
               Balance
             </span>
@@ -112,10 +152,19 @@ const TruvishClient = ({
               >
                 ₹{Number(liveBalance || 0)}
               </span>
+
             </div>
+
           </div>
 
-          <span className="wallet-dot"></span>
+          <span
+            className={`wallet-dot ${
+              isZeroBalance
+                ? "wallet-dot-danger"
+                : ""
+            }`}
+          ></span>
+
         </div>
 
         {/* RIGHT BURGER */}
@@ -125,13 +174,18 @@ const TruvishClient = ({
           }`}
           ref={menuRef}
         >
+
           <div id="burger-wrap">
+
             <button
               className="burger"
-              onClick={() => setOpenMenu(!openMenu)}
+              onClick={() =>
+                setOpenMenu(!openMenu)
+              }
             >
               <span></span>
             </button>
+
           </div>
 
           {/* MENU */}
@@ -140,6 +194,7 @@ const TruvishClient = ({
               openMenu ? "list-open" : ""
             }`}
           >
+
             <li
               onClick={() => {
                 setOpenMenu(false);
@@ -166,12 +221,16 @@ const TruvishClient = ({
             >
               T&C
             </li>
+
           </ul>
+
         </div>
+
       </header>
 
       {/* CONTENT */}
       <div className="client-content">
+
         <h1 className="voucher-title">
           Request a
           <br />
@@ -179,17 +238,40 @@ const TruvishClient = ({
         </h1>
 
         {/* BUTTON */}
-        <button
-          className="request-btn"
-          onClick={onStart}
-        >
-          Start Request
-        </button>
+
+        {isZeroBalance ? (
+          <>
+
+            <button
+              className="request-btn add-money-btn"
+              onClick={onAddMoney}
+            >
+              Add Money
+            </button>
+
+            <p className="no-money-text">
+              You have no money,
+              please add money
+            </p>
+
+          </>
+        ) : (
+
+          <button
+            className="request-btn"
+            onClick={onStart}
+          >
+            Start Request
+          </button>
+
+        )}
 
         <p className="powered-text">
           Powered by Truvish
         </p>
+
       </div>
+
     </div>
   );
 };

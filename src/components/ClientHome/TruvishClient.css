@@ -746,3 +746,112 @@ body,
     font-size: 14px;
   }
 }
+/* =========================================
+   RED BLINK DOT
+========================================= */
+
+.wallet-dot-danger {
+
+  background: #ff3b30;
+
+  box-shadow:
+    0 0 10px rgba(255,59,48,0.9),
+    0 0 18px rgba(255,59,48,0.9);
+
+  animation:
+    dangerBlink 0.55s infinite;
+}
+
+@keyframes dangerBlink {
+
+  0% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(0.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.5);
+  }
+
+  100% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(0.7);
+  }
+}
+
+/* =========================================
+   ADD MONEY BUTTON
+========================================= */
+
+.add-money-btn {
+
+  background: linear-gradient(
+    135deg,
+    #ff4d4d,
+    #d80000
+  );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 8px 25px rgba(255,0,0,0.35);
+
+  animation:
+    addMoneyPulse 1.2s infinite;
+}
+
+@keyframes addMoneyPulse {
+
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   NO MONEY TEXT
+========================================= */
+
+.no-money-text {
+
+  margin-top: 14px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+
+  font-weight: 500;
+
+  text-align: center;
+
+  letter-spacing: 0.3px;
+
+  text-shadow:
+    0 2px 10px rgba(0,0,0,0.25);
+
+  animation:
+    noMoneyBlink 1.4s infinite;
+}
+
+@keyframes noMoneyBlink {
+
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}

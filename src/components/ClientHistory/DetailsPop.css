@@ -1,9 +1,10 @@
-/* ✅ DetailsPop.css (FINAL UPDATE - Redeemed red, UnRedeemed green) */
+/* ✅ DetailsPop.css FINAL SMALL MODAL UPDATE */
+
 :root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --text: #1d2e39;
-  --shadow: 0 18px 45px rgba(15, 45, 70, 0.22);
+  --shadow: 0 14px 34px rgba(15, 45, 70, 0.18);
 
   --active-green: #2e7d32;
   --active-bg: rgba(46, 125, 50, 0.12);
@@ -14,214 +15,436 @@
   --inactive-border: rgba(198, 40, 40, 0.22);
 }
 
+/* =========================================
+   BACKDROP
+========================================= */
+
 .dp-backdrop {
   position: fixed;
   inset: 0;
   z-index: 9999;
+
   display: grid;
   place-items: center;
-  padding: 24px;
-  background: rgba(10, 24, 36, 0.45);
-  backdrop-filter: blur(6px);
+
+  padding: 14px;
+
+  background: rgba(10, 24, 36, 0.42);
+  backdrop-filter: blur(5px);
 }
 
+/* =========================================
+   MODAL
+========================================= */
+
 .dp-modal {
-  width: min(520px, calc(100vw - 48px));
-  border-radius: 26px;
+  width: min(430px, calc(100vw - 28px));
+
+  max-height: 90vh;
+  overflow: hidden;
+
+  border-radius: 22px;
+
   background: #fff;
+
   box-shadow: var(--shadow);
-  padding: 22px 18px 18px;
+
+  padding: 16px 14px 14px;
+
   position: relative;
 }
 
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
 .dp-x {
   position: absolute;
-  right: 12px;
-  top: 12px;
-  width: 40px;
-  height: 40px;
+
+  right: 10px;
+  top: 10px;
+
+  width: 34px;
+  height: 34px;
+
   border-radius: 999px;
   border: 0;
+
   cursor: pointer;
+
   background: rgba(26, 176, 183, 0.14);
+
   color: var(--primary);
-  font-size: 18px;
+
+  font-size: 16px;
   font-weight: 900;
-  transition: all 0.2s ease;
+
+  transition: 0.2s ease;
 }
 
 .dp-x:hover {
-  background: rgba(26, 176, 183, 0.3);
+  background: rgba(26, 176, 183, 0.28);
   transform: scale(1.05);
 }
+
+/* =========================================
+   PROFILE
+========================================= */
 
 .dp-profileWrap {
   display: grid;
   place-items: center;
-  margin-top: 6px;
+
+  margin-top: 2px;
 }
 
 .dp-profile {
-  width: clamp(72px, 18vw, 104px);
-  height: clamp(72px, 18vw, 104px);
+  width: 74px;
+  height: 74px;
+
   border-radius: 50%;
+
   object-fit: cover;
-  border: 3px solid rgba(26, 176, 183, 0.28);
-  background: #fff;
+
+  border: 3px solid rgba(26, 176, 183, 0.25);
 }
+
+/* =========================================
+   TITLE
+========================================= */
 
 .dp-title {
-  margin: 12px 0 14px;
+  margin: 10px 0 12px;
+
   text-align: center;
+
   color: var(--primary);
+
   font-weight: 900;
-  font-size: clamp(20px, 5.2vw, 30px);
+
+  font-size: 24px;
 }
 
+/* =========================================
+   CARD
+========================================= */
+
 .dp-card {
-  border: 1px solid rgba(14, 74, 99, 0.12);
-  border-radius: 18px;
-  padding: 14px;
-  background: linear-gradient(180deg, rgba(243, 247, 250, 0.8), #ffffff);
+  border: 1px solid rgba(14, 74, 99, 0.1);
+
+  border-radius: 16px;
+
+  padding: 10px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(243, 247, 250, 0.75),
+    #ffffff
+  );
 }
+
+/* =========================================
+   ROW
+========================================= */
 
 .dp-row {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 4px;
-}
 
-.dp-rowCode {
-  align-items: stretch;
+  grid-template-columns: 105px 1fr;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 2px;
 }
 
 .dp-label {
   color: rgba(29, 46, 57, 0.8);
+
   font-weight: 700;
-  font-size: clamp(14px, 3.6vw, 18px);
+
+  font-size: 13px;
 }
 
 .dp-value {
   text-align: right;
+
   color: rgba(29, 46, 57, 0.92);
+
   font-weight: 800;
-  font-size: clamp(14px, 3.8vw, 18px);
+
+  font-size: 14px;
+
   white-space: nowrap;
 }
 
 .dp-divider {
   height: 1px;
-  background: rgba(14, 74, 99, 0.12);
-  margin: 0 4px;
+
+  background: rgba(14, 74, 99, 0.1);
+
+  margin: 0 2px;
 }
+
+/* =========================================
+   CODE BOX
+========================================= */
 
 .dp-codeBox {
   display: grid;
+
   grid-template-columns: 1fr auto;
+
   align-items: center;
-  gap: 10px;
-  background: rgba(26, 176, 183, 0.14);
-  border: 1px solid rgba(26, 176, 183, 0.22);
-  border-radius: 14px;
-  padding: 10px;
+
+  gap: 8px;
+
+  background: rgba(26, 176, 183, 0.12);
+
+  border: 1px solid rgba(26, 176, 183, 0.2);
+
+  border-radius: 12px;
+
+  padding: 8px;
 }
 
 .dp-codeText {
   font-weight: 900;
+
   color: var(--primary);
-  font-size: clamp(14px, 4vw, 18px);
-  letter-spacing: 0.6px;
+
+  font-size: 14px;
+
+  letter-spacing: 0.5px;
 }
 
 .dp-copyBtn {
   border: 0;
+
   cursor: pointer;
-  background: rgba(14, 74, 99, 0.1);
+
+  background: rgba(14, 74, 99, 0.08);
+
   color: var(--primary);
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 16px;
+
+  border-radius: 10px;
+
+  padding: 8px 10px;
+
+  font-size: 14px;
   font-weight: 900;
-  transition: all 0.2s ease;
+
+  transition: 0.2s ease;
 }
 
 .dp-copyBtn:hover {
-  background: rgba(14, 74, 99, 0.2);
-  transform: scale(1.02);
+  background: rgba(14, 74, 99, 0.18);
 }
+
+/* =========================================
+   STATUS PILLS
+========================================= */
 
 .dp-pill {
   justify-self: end;
-  padding: 8px 16px;
+
+  padding: 6px 14px;
+
   border-radius: 999px;
-  font-weight: 700;
-  font-size: clamp(12px, 3.4vw, 14px);
+
+  font-weight: 800;
+
+  font-size: 11px;
+
   white-space: nowrap;
+
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+
+  letter-spacing: 0.4px;
 }
 
 .dp-pill.active {
   background: var(--active-bg);
   color: var(--active-green);
   border: 1px solid var(--active-border);
-  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.1);
 }
 
 .dp-pill.inactive {
   background: var(--inactive-bg);
   color: var(--inactive-red);
   border: 1px solid var(--inactive-border);
-  box-shadow: 0 2px 6px rgba(198, 40, 40, 0.1);
 }
 
-.dp-closeBtn {
-  margin-top: 14px;
-  width: 100%;
-  border: 0;
-  cursor: pointer;
-  border-radius: 18px;
-  padding: 14px;
-  background: linear-gradient(180deg, #0e4a63, #0b3f55);
-  color: #fff;
-  font-weight: 900;
-  font-size: clamp(16px, 4.2vw, 22px);
-  box-shadow: 0 12px 26px rgba(14, 74, 99, 0.25);
-  transition: all 0.2s ease;
-}
-
-.dp-closeBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(14, 74, 99, 0.3);
-  background: linear-gradient(180deg, #0e5a7a, #0b3f55);
-}
-
-.dp-closeBtn:active {
-  transform: translateY(0);
-}
-
-@media (max-width: 420px) {
-  .dp-backdrop {
-    padding: 16px;
-  }
-
-  .dp-modal {
-    width: calc(100vw - 32px);
-  }
-
-  .dp-row {
-    grid-template-columns: 90px 1fr;
-  }
-
-  .dp-pill {
-    padding: 6px 12px;
-    font-size: 11px;
-  }
-}
 .dp-pill.partial {
   background: #fff3cd;
   color: #856404;
   border: 1px solid #ffe69c;
+}
+
+/* =========================================
+   HISTORY
+========================================= */
+
+.dp-historyWrap {
+  width: 100%;
+
+  margin-top: 14px;
+}
+
+.dp-historyTitle {
+  font-size: 15px;
+  font-weight: 800;
+
+  margin-bottom: 10px;
+
+  color: #111827;
+}
+
+/* ONLY ONE CARD VISIBLE */
+
+.dp-historyScroll {
+  max-height: 210px;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  padding-right: 3px;
+}
+
+/* CARD */
+
+.dp-historyCard {
+  min-height: 185px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px;
+
+  padding: 12px;
+
+  background: #fafafa;
+
+  flex-shrink: 0;
+}
+
+.dp-historyTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.dp-historyStatus {
+  font-size: 12px;
+  font-weight: 800;
+
+  color: #0f766e;
+}
+
+
+.dp-historyAmount {
+  font-size: 15px;
+  font-weight: 900;
+
+  color: #111827;
+}
+
+/* ROW */
+
+.dp-historyRow {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 9px;
+
+  font-size: 12px;
+
+  color: #374151;
+}
+
+/* EMPTY */
+
+.dp-empty {
+  text-align: center;
+
+  padding: 18px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+/* =========================================
+   CLOSE BTN
+========================================= */
+
+.dp-closeBtn {
+  margin-top: 12px;
+
+  width: 100%;
+
+  border: 0;
+
+  cursor: pointer;
+
+  border-radius: 14px;
+
+  padding: 12px;
+
+  background: linear-gradient(
+    180deg,
+    #0e4a63,
+    #0b3f55
+  );
+
+  color: #fff;
+
+  font-weight: 900;
+
+  font-size: 16px;
+
+  box-shadow: 0 10px 22px rgba(14, 74, 99, 0.22);
+
+  transition: 0.2s ease;
+}
+
+.dp-closeBtn:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 420px) {
+  .dp-modal {
+    width: calc(100vw - 20px);
+
+    padding: 14px 12px 12px;
+  }
+
+  .dp-row {
+    grid-template-columns: 88px 1fr;
+  }
+
+  .dp-profile {
+    width: 66px;
+    height: 66px;
+  }
+
+  .dp-title {
+    font-size: 21px;
+  }
+
+  .dp-historyCard {
+    min-height: 175px;
+  }
 }

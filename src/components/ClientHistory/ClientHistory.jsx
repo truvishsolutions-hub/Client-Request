@@ -4,7 +4,6 @@ import DefaultProfile from "../../assets/DefaultProfile/DP.png";
 import DetailsPop from "./DetailsPop";
 import { IoChevronBack } from "react-icons/io5";
 
-
 // const BASE_URL = "http://localhost:8080";
 const BASE_URL =
   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
@@ -21,7 +20,13 @@ export default function ClientHistory({
   profileImg,
 }) {
   const [activeTab, setActiveTab] = useState("history");
+
+  // ✅ RAW HISTORY
   const [history, setHistory] = useState([]);
+
+  // ✅ SINGLE LATEST ENTRY PER CODE
+  const [uniqueHistory, setUniqueHistory] = useState([]);
+
   const [openPop, setOpenPop] = useState(false);
   const [selected, setSelected] = useState(null);
   const [liveBalance, setLiveBalance] = useState(clientBalance ?? 0);
@@ -30,15 +35,56 @@ export default function ClientHistory({
     setLiveBalance(clientBalance ?? 0);
   }, [clientBalance]);
 
+  // ✅ FETCH HISTORY
   useEffect(() => {
     if (!clientName) return;
 
     fetch(`${BASE_URL}/api/truvish/history/${encodeURIComponent(clientName)}`)
       .then((res) => res.json())
-      .then((data) => setHistory(Array.isArray(data) ? data : []))
-      .catch(() => setHistory([]));
+      .then((data) => {
+        const arr = Array.isArray(data) ? data : [];
+
+        setHistory(arr);
+
+        // ✅ KEEP ONLY LATEST ENTRY OF EACH CODE
+        const latestByCode = {};
+
+        arr.forEach((item) => {
+          const code = item?.code;
+
+          if (!code) return;
+
+          const currentTime = new Date(
+            item?.eventTime || 0
+          ).getTime();
+
+          if (
+            !latestByCode[code] ||
+            currentTime >
+              new Date(
+                latestByCode[code]?.eventTime || 0
+              ).getTime()
+          ) {
+            latestByCode[code] = item;
+          }
+        });
+
+        // ✅ SORT NEWEST FIRST
+        const finalHistory = Object.values(latestByCode).sort(
+          (a, b) =>
+            new Date(b?.eventTime || 0).getTime() -
+            new Date(a?.eventTime || 0).getTime()
+        );
+
+        setUniqueHistory(finalHistory);
+      })
+      .catch(() => {
+        setHistory([]);
+        setUniqueHistory([]);
+      });
   }, [clientName]);
 
+  // ✅ LIVE BALANCE UPDATE
   useEffect(() => {
     if (!clientId) return;
 
@@ -70,26 +116,34 @@ export default function ClientHistory({
     };
   }, [clientId]);
 
+  // ✅ DOT COLOR
   const getDotClass = (eventType) => {
     const type = String(eventType || "").trim().toUpperCase();
 
     if (type === "CODE_ASSIGNED") return "green";
+
     if (type === "PARTIAL_REDEEM") return "orange";
+
     if (type === "FULL_REDEEM") return "red";
 
     return "green";
   };
 
+  // ✅ STATUS TEXT
   const getReadableStatus = (eventType) => {
     const type = String(eventType || "").trim().toUpperCase();
 
     if (type === "CODE_ASSIGNED") return "Issued";
-    if (type === "PARTIAL_REDEEM") return "Partially Redeemed";
+
+    if (type === "PARTIAL_REDEEM")
+      return "Partially Redeemed";
+
     if (type === "FULL_REDEEM") return "Redeemed";
 
     return "Issued";
   };
 
+  // ✅ DATE FORMAT
   const formatDate = (value) => {
     if (!value) return "-";
 
@@ -98,22 +152,52 @@ export default function ClientHistory({
     if (Number.isNaN(d.getTime())) return "-";
 
     const day = String(d.getDate()).padStart(2, "0");
+
     const month = String(d.getMonth() + 1).padStart(2, "0");
+
     const year = String(d.getFullYear()).slice(-2);
 
     return `${day}/${month}/${year}`;
   };
 
+  // ✅ OPEN POPUP
+  // =============================================
+  // ClientHistory.jsx
+  // openDetails UPDATE ONLY
+  // =============================================
+
   const openDetails = (row) => {
+    const sameCodeHistory = history
+      .filter((item) => item?.code === row?.code)
+      .sort(
+        (a, b) =>
+          new Date(b?.eventTime || 0).getTime() -
+          new Date(a?.eventTime || 0).getTime()
+      );
+
     setSelected({
-      code: row?.code || "TR******",
-      value: formatAmount(row?.amount),
-      remainingBalance: formatAmount(row?.remainingBalance),
+      code: row?.code || "-",
+
+      value: row?.amount || 0,
+
+      remainingBalance: row?.remainingBalance || 0,
+
       validity: formatDate(row?.expiryDate),
+
       status: getReadableStatus(row?.eventType),
+
       eventType: row?.eventType || "",
-      message: row?.message || "",
-      eventTime: row?.eventTime || null,
+
+      redeemedBrand: row?.redeemedBrand || "-",
+
+      redeemedPhone: row?.redeemedPhone || "-",
+
+      issuedDate: row?.issuedDate || null,
+
+      redeemedDate: row?.redeemedDate || null,
+
+      // ✅ NEW
+      redeemHistory: sameCodeHistory,
     });
 
     setOpenPop(true);
@@ -121,9 +205,16 @@ export default function ClientHistory({
 
   return (
     <div className="ch-page">
+      {/* =========================
+          HEADER
+      ========================= */}
+
       <div className="ch-stickyHeader">
         <div className="ch-navbar">
-          <button className="ch-backIcon" onClick={() => onBack?.()}>
+          <button
+            className="ch-backIcon"
+            onClick={() => onBack?.()}
+          >
             <IoChevronBack size={26} />
           </button>
 
@@ -137,19 +228,31 @@ export default function ClientHistory({
             </div>
 
             <div className="ch-balance">
-              <div className="ch-balanceLabel">Current Balance</div>
+              <div className="ch-balanceLabel">
+                Current Balance
+              </div>
 
-              <div className="ch-balanceValue">₹{formatAmount(liveBalance)}</div>
+              <div className="ch-balanceValue">
+                ₹{formatAmount(liveBalance)}
+              </div>
 
-              <div className="ch-clientName">{clientName}</div>
+              <div className="ch-clientName">
+                {clientName}
+              </div>
             </div>
           </div>
         </div>
 
+        {/* =========================
+            TABS
+        ========================= */}
+
         <div className="ch-tabsWrap">
           <div className="ch-tabs">
             <button
-              className={`ch-tab ${activeTab === "history" ? "active" : ""}`}
+              className={`ch-tab ${
+                activeTab === "history" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("history")}
             >
               History
@@ -158,7 +261,9 @@ export default function ClientHistory({
             <div className="ch-tabDivider" />
 
             <button
-              className={`ch-tab ${activeTab === "tc" ? "active" : ""}`}
+              className={`ch-tab ${
+                activeTab === "tc" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("tc")}
             >
               T&amp;C
@@ -177,19 +282,29 @@ export default function ClientHistory({
         </div>
       </div>
 
+      {/* =========================
+          BODY
+      ========================= */}
+
       <div className="ch-scrollArea">
         {activeTab === "history" ? (
           <div className="ch-list">
-            {history.length === 0 && (
-              <div className="ch-empty">No history available</div>
+            {uniqueHistory.length === 0 && (
+              <div className="ch-empty">
+                No history available
+              </div>
             )}
 
-            {history.map((row, idx) => {
-              const dotClass = getDotClass(row?.eventType);
+            {uniqueHistory.map((row, idx) => {
+              const dotClass = getDotClass(
+                row?.eventType
+              );
 
               return (
                 <div className="ch-row" key={idx}>
-                  <div className="ch-date">{formatDate(row?.eventTime)}</div>
+                  <div className="ch-date">
+                    {formatDate(row?.eventTime)}
+                  </div>
 
                   <button
                     className="ch-viewBtn"
@@ -199,17 +314,27 @@ export default function ClientHistory({
                   </button>
 
                   <div className="ch-info">
-                    <div className="ch-message">{row?.message || "-"}</div>
-
-                    <div className="ch-subText">Code: {row?.code || "-"}</div>
+                    <div className="ch-message">
+                      {row?.message || "-"}
+                    </div>
 
                     <div className="ch-subText">
-                      Remaining Balance: ₹{formatAmount(row?.remainingBalance)}
+                      Code: {row?.code || "-"}
+                    </div>
+
+                    <div className="ch-subText">
+                      Remaining Balance: ₹
+                      {formatAmount(
+                        row?.remainingBalance
+                      )}
                     </div>
                   </div>
 
                   <div className="ch-amountWrap">
-                    <span className={`ch-dot ${dotClass}`} />
+                    <span
+                      className={`ch-dot ${dotClass}`}
+                    />
+
                     <span className="ch-amount">
                       ₹{formatAmount(row?.amount)}
                     </span>
@@ -221,17 +346,35 @@ export default function ClientHistory({
         ) : (
           <div className="ch-tcCard">
             <h3>Terms & Conditions</h3>
+
             <ul>
-              <li>Once issued, a voucher cannot be cancelled.</li>
-              <li>The voucher must be redeemed before expiry.</li>
-              <li>Partial redemption depends on brand policy.</li>
               <li>
-                TRUVISH reserves the right to update the terms at any time.
+                Once issued, a voucher cannot be
+                cancelled.
+              </li>
+
+              <li>
+                The voucher must be redeemed before
+                expiry.
+              </li>
+
+              <li>
+                Partial redemption depends on brand
+                policy.
+              </li>
+
+              <li>
+                TRUVISH reserves the right to update
+                the terms at any time.
               </li>
             </ul>
           </div>
         )}
       </div>
+
+      {/* =========================
+          DETAILS POPUP
+      ========================= */}
 
       <DetailsPop
         open={openPop}
