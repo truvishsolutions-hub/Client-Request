@@ -1,38 +1,33 @@
 .login-page {
-  width: 100%;
   min-height: 100vh;
-
-  background-size: 100% auto;
-  background-position: top center;
-  background-repeat: no-repeat;
-
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-
-  overflow: hidden;
-
+  background: #c7dde0;
   font-family: "Poppins", sans-serif;
-
-  background-color: #c7dde0;
 }
 
 /* ========================= */
-/* OVERLAY */
+/* TOP IMAGE */
 /* ========================= */
 
-.top-overlay {
-  position: absolute;
-  inset: 0;
+.top-image {
+  width: 100%;
+  height: 38vh;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 148, 168, 0.08),
-    rgba(0, 148, 168, 0.16),
-    rgba(199, 221, 224, 0.9)
-  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ========================= */
+/* CARD WRAPPER */
+/* ========================= */
+
+.card-wrapper {
+  margin-top: -50px;
+
+  padding: 0 16px 40px;
+
+  display: flex;
+  justify-content: center;
 }
 
 /* ========================= */
@@ -43,7 +38,7 @@
   position: relative;
   z-index: 2;
 
-  width: 92%;
+  width: 100%;
   max-width: 560px;
 
   background: #f8f8f8;
@@ -51,8 +46,6 @@
   border-radius: 28px;
 
   padding: 72px 28px 40px;
-
-  margin-bottom: 18px;
 
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
 }
@@ -189,8 +182,6 @@
   transition: 0.3s ease;
 }
 
-/* ACTIVE BORDER COLOR */
-
 .phone-input.active {
   border-color: #20b7c2;
 
@@ -205,8 +196,6 @@
 
   transition: 0.3s ease;
 }
-
-/* ICON COLOR CHANGE */
 
 .phone-input.active .phone-icon {
   color: #20b7c2;
@@ -228,7 +217,9 @@
   color: #9d9d9d;
 }
 
+/* ========================= */
 /* ERROR */
+/* ========================= */
 
 .error-text {
   margin-top: 10px;
@@ -348,18 +339,10 @@
 /* ========================= */
 
 @media (max-width: 480px) {
-  .login-page {
-    align-items: flex-end;
-  }
-
   .login-card {
-    width: 92%;
-
+    width: 100%;
     border-radius: 24px;
-
     padding: 58px 18px 28px;
-
-    margin-bottom: 14px;
   }
 
   .logo-wrapper {
@@ -377,12 +360,10 @@
 
   .logo-text {
     font-size: 11px;
-    margin-top: 2px;
   }
 
   .welcome-title {
     font-size: 25px;
-
     margin-top: 28px;
   }
 
@@ -410,9 +391,7 @@
 
   .phone-input {
     height: 54px;
-
     border-radius: 14px;
-
     padding: 0 16px;
   }
 
@@ -431,11 +410,8 @@
 
   .otp-btn {
     height: 58px;
-
     border-radius: 14px;
-
     font-size: 22px;
-
     margin-top: 42px;
   }
 }

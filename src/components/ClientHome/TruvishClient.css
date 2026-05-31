@@ -1,3 +1,5 @@
+/* TruvishClient.css - Final update with button at bottom on mobile */
+
 /* =========================================
    GLOBAL RESET
 ========================================= */
@@ -138,8 +140,7 @@ body,
 
   min-width: 175px;
 
-  box-shadow:
-    0 4px 14px rgba(21,157,175,0.12);
+  box-shadow: 0 4px 14px rgba(21,157,175,0.12);
 }
 
 .wallet-icon {
@@ -185,20 +186,16 @@ body,
 }
 
 .wallet-amount.active {
-  animation:
-    walletPop 0.8s ease,
-    walletGlow 1.5s ease;
+  animation: walletPop 0.8s ease, walletGlow 1.5s ease;
 }
 
 @keyframes walletPop {
   0% {
     transform: scale(1);
   }
-
   40% {
     transform: scale(1.12);
   }
-
   100% {
     transform: scale(1);
   }
@@ -208,13 +205,9 @@ body,
   0% {
     text-shadow: none;
   }
-
   50% {
-    text-shadow:
-      0 0 10px rgba(255,215,0,0.8),
-      0 0 18px rgba(255,255,255,0.9);
+    text-shadow: 0 0 10px rgba(255,215,0,0.8), 0 0 18px rgba(255,255,255,0.9);
   }
-
   100% {
     text-shadow: none;
   }
@@ -276,7 +269,6 @@ body,
     opacity: 0.2;
     transform: scale(0.6);
   }
-
   50% {
     opacity: 1;
     transform: scale(1.2);
@@ -299,7 +291,7 @@ body,
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255,255,255,0.85),
+    rgba(255, 255, 255, 0.85),
     transparent
   );
 
@@ -309,30 +301,24 @@ body,
 }
 
 @keyframes walletShine {
-
   0% {
     transform: translateX(-150%);
     opacity: 0;
   }
-
   15% {
     opacity: 1;
   }
-
   45% {
     transform: translateX(250%);
     opacity: 0;
   }
-
   55% {
     transform: translateX(-150%);
     opacity: 0;
   }
-
   70% {
     opacity: 1;
   }
-
   100% {
     transform: translateX(250%);
     opacity: 0;
@@ -358,8 +344,7 @@ body,
 
   transform: translateY(-50%);
 
-  box-shadow:
-    0 0 8px rgba(46,204,113,0.7);
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.7);
 }
 
 /* =========================================
@@ -379,8 +364,6 @@ body,
 
   z-index: 9999;
 }
-
-/* BUTTON */
 
 .burger {
   position: relative;
@@ -412,8 +395,6 @@ body,
   transform: scale(1.05);
 }
 
-/* CENTER LINE */
-
 .burger span {
   position: absolute;
 
@@ -426,8 +407,6 @@ body,
 
   transition: all 0.3s ease;
 }
-
-/* TOP + BOTTOM */
 
 .burger span::before,
 .burger span::after {
@@ -454,33 +433,21 @@ body,
   top: 8px;
 }
 
-/* =========================================
-   OPEN -> X
-========================================= */
-
 .open .burger span {
   background: transparent;
 }
 
 .open .burger span::before {
   top: 0;
-
   transform: rotate(45deg);
-
   background: #ffffff;
 }
 
 .open .burger span::after {
   top: 0;
-
   transform: rotate(-45deg);
-
   background: #ffffff;
 }
-
-/* =========================================
-   FULLSCREEN MENU
-========================================= */
 
 .menu-list {
   position: fixed;
@@ -491,11 +458,7 @@ body,
   width: 100%;
   height: 100vh;
 
-  background: linear-gradient(
-    135deg,
-    #0b95a6,
-    #106c79
-  );
+  background: linear-gradient(135deg, #0b95a6, #106c79);
 
   display: flex;
   flex-direction: column;
@@ -515,29 +478,24 @@ body,
 
 .menu-list.list-open {
   right: 0;
-
   opacity: 1;
 }
 
 .menu-list li {
   color: white;
-
   font-size: 34px;
   font-weight: 600;
-
   cursor: pointer;
-
   transition: 0.3s ease;
 }
 
 .menu-list li:hover {
   transform: scale(1.08);
-
   color: #dffcff;
 }
 
 /* =========================================
-   CONTENT
+   CONTENT - FLEX COLUMN WITH AUTO MARGIN
 ========================================= */
 
 .client-content {
@@ -551,44 +509,43 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   padding: 40px 20px 30px;
 }
 
+/* Title stays at top */
 .voucher-title {
   text-align: center;
-
   color: white;
-
   font-size: 64px;
   font-weight: 600;
-
   line-height: 1.08;
-
   margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* Button container - pushes button to bottom on mobile */
+.button-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
 }
 
 .request-btn {
   width: 100%;
   max-width: 540px;
-
   height: 92px;
-
   border: none;
   border-radius: 24px;
-
   background: #f8f8f8;
-
   color: #108ea2;
-
   font-size: 40px;
   font-weight: 500;
-
-  margin-top: auto;
-
   cursor: pointer;
-
   transition: 0.3s ease;
 }
 
@@ -598,13 +555,85 @@ body,
 
 .powered-text {
   margin-top: 18px;
-
   color: white;
-
   font-size: 22px;
   font-weight: 400;
-
   opacity: 0.95;
+}
+
+/* =========================================
+   RED BLINK DOT
+========================================= */
+
+.wallet-dot-danger {
+  background: #ff3b30;
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.9), 0 0 18px rgba(255, 59, 48, 0.9);
+  animation: dangerBlink 0.55s infinite;
+}
+
+@keyframes dangerBlink {
+  0% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.5);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(0.7);
+  }
+}
+
+/* =========================================
+   ADD MONEY BUTTON
+========================================= */
+
+.add-money-btn {
+  background: linear-gradient(135deg, #ff4d4d, #d80000);
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.35);
+  animation: addMoneyPulse 1.2s infinite;
+}
+
+@keyframes addMoneyPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   NO MONEY TEXT
+========================================= */
+
+.no-money-text {
+  margin-top: 14px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  animation: noMoneyBlink 1.4s infinite;
+}
+
+@keyframes noMoneyBlink {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }
 
 /* =========================================
@@ -612,7 +641,6 @@ body,
 ========================================= */
 
 @media (max-width: 768px) {
-
   .client-header {
     padding: 12px 14px;
   }
@@ -627,11 +655,8 @@ body,
 
   .wallet-box {
     height: 60px;
-
     padding: 0 20px;
-
     gap: 10px;
-
     min-width: 150px;
   }
 
@@ -667,11 +692,10 @@ body,
 }
 
 /* =========================================
-   MOBILE
+   MOBILE - BUTTON AT BOTTOM
 ========================================= */
 
 @media (max-width: 480px) {
-
   .client-header {
     padding: 10px 12px;
   }
@@ -690,11 +714,8 @@ body,
 
   .wallet-box {
     height: 52px;
-
     padding: 0 16px;
-
     gap: 8px;
-
     min-width: 135px;
   }
 
@@ -727,131 +748,36 @@ body,
 
   .client-content {
     padding: 20px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px);
   }
 
   .voucher-title {
-    font-size: 32px;
+    font-size: 28px;
+    margin-top: 20px;
+    margin-bottom: auto;
+  }
+
+  .button-container {
+    margin-top: auto;
+    width: 100%;
+    padding-bottom: 20px;
   }
 
   .request-btn {
     height: 58px;
-
     border-radius: 16px;
-
     font-size: 22px;
+    max-width: 100%;
   }
 
   .powered-text {
     margin-top: 14px;
     font-size: 14px;
   }
-}
-/* =========================================
-   RED BLINK DOT
-========================================= */
 
-.wallet-dot-danger {
-
-  background: #ff3b30;
-
-  box-shadow:
-    0 0 10px rgba(255,59,48,0.9),
-    0 0 18px rgba(255,59,48,0.9);
-
-  animation:
-    dangerBlink 0.55s infinite;
-}
-
-@keyframes dangerBlink {
-
-  0% {
-    opacity: 0.2;
-    transform: translateY(-50%) scale(0.7);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.5);
-  }
-
-  100% {
-    opacity: 0.2;
-    transform: translateY(-50%) scale(0.7);
-  }
-}
-
-/* =========================================
-   ADD MONEY BUTTON
-========================================= */
-
-.add-money-btn {
-
-  background: linear-gradient(
-    135deg,
-    #ff4d4d,
-    #d80000
-  );
-
-  color: #ffffff;
-
-  box-shadow:
-    0 8px 25px rgba(255,0,0,0.35);
-
-  animation:
-    addMoneyPulse 1.2s infinite;
-}
-
-@keyframes addMoneyPulse {
-
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.03);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* =========================================
-   NO MONEY TEXT
-========================================= */
-
-.no-money-text {
-
-  margin-top: 14px;
-
-  color: #ffffff;
-
-  font-size: 18px;
-
-  font-weight: 500;
-
-  text-align: center;
-
-  letter-spacing: 0.3px;
-
-  text-shadow:
-    0 2px 10px rgba(0,0,0,0.25);
-
-  animation:
-    noMoneyBlink 1.4s infinite;
-}
-
-@keyframes noMoneyBlink {
-
-  0% {
-    opacity: 0.4;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.4;
+  .no-money-text {
+    font-size: 14px;
   }
 }

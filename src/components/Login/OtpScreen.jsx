@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./OtpScreen.css";
 
 import logo from "../../assets/LOGO/TVBG.png";
-import bgImage from "../../assets/HOMEBG/BG22.png";
+import bgImage from "../../assets/HOMEBG/BG25.png";
 
 import { FiRefreshCw } from "react-icons/fi";
 
@@ -173,12 +173,8 @@ const OtpScreen = ({
   };
 
   return (
-    <div
-      className="verify-page"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-      }}
-    >
+    <div className="verify-page">
+
       {/* TOAST */}
       <div
         className={`topToast ${
@@ -201,139 +197,141 @@ const OtpScreen = ({
         </div>
       </div>
 
-      {/* Overlay */}
-      <div className="top-overlay"></div>
+      {/* TOP IMAGE */}
+      <div
+        className="top-image"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+        }}
+      />
 
-      {/* TOP DESIGN */}
-      <div className="hero-section">
-        <div className="feature feature-top-right"></div>
+      {/* CARD WRAPPER */}
+      <div className="card-wrapper">
 
-        <div className="gift-wrapper">
-          <div className="gift-box"></div>
-        </div>
-      </div>
+        <div className="otp-card">
 
-      {/* OTP CARD */}
-      <div className="otp-card">
-        {/* Logo */}
-        <div className="logo-wrapper">
-          <div className="logo-circle">
-            <img
-              src={logo}
-              alt="Truvish Logo"
-              className="logo-img"
-            />
-
-            <h3 className="logo-text">
-              TRUVISH
-            </h3>
-          </div>
-        </div>
-
-        {/* Heading */}
-        <h1 className="otp-title">
-          Verify Your Phone Number
-        </h1>
-
-        <p className="otp-subtitle">
-          Enter the 4-Digit code sent to
-          your phone
-        </p>
-
-        {/* OTP */}
-        <div className="otp-section">
-          <p className="otp-label">
-            Enter OTP Code
-          </p>
-
-          <div
-            className="otp-inputs"
-            onPaste={handlePaste}
-          >
-            {otp.map((digit, i) => (
-              <input
-                key={i}
-                ref={refs[i]}
-                type="tel"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                className={
-                  touched && !isValid
-                    ? "error"
-                    : ""
-                }
-                onChange={(e) =>
-                  setDigit(i, e.target.value)
-                }
-                onKeyDown={(e) =>
-                  handleKeyDown(i, e)
-                }
-                onBlur={() =>
-                  setTouched(true)
-                }
-                disabled={verifying}
+          {/* Logo */}
+          <div className="logo-wrapper">
+            <div className="logo-circle">
+              <img
+                src={logo}
+                alt="Truvish Logo"
+                className="logo-img"
               />
-            ))}
+
+              <h3 className="logo-text">
+                TRUVISH
+              </h3>
+            </div>
           </div>
 
-          {touched && !isValid && (
-            <p className="errText">
-              Please enter a valid
-              4-digit OTP.
-            </p>
-          )}
+          {/* Heading */}
+          <h1 className="otp-title">
+            Verify Your Phone Number
+          </h1>
 
-          <p className="phone-text">
-            Sent to{" "}
-            {phone || "+91 **********"}
+          <p className="otp-subtitle">
+            Enter the 4-Digit code sent to
+            your phone
           </p>
+
+          {/* OTP Section */}
+          <div className="otp-section">
+            <p className="otp-label">
+              Enter OTP Code
+            </p>
+
+            <div
+              className="otp-inputs"
+              onPaste={handlePaste}
+            >
+              {otp.map((digit, i) => (
+                <input
+                  key={i}
+                  ref={refs[i]}
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={digit}
+                  className={
+                    touched && !isValid
+                      ? "error"
+                      : ""
+                  }
+                  onChange={(e) =>
+                    setDigit(i, e.target.value)
+                  }
+                  onKeyDown={(e) =>
+                    handleKeyDown(i, e)
+                  }
+                  onBlur={() =>
+                    setTouched(true)
+                  }
+                  disabled={verifying}
+                />
+              ))}
+            </div>
+
+            {touched && !isValid && (
+              <p className="errText">
+                Please enter a valid
+                4-digit OTP.
+              </p>
+            )}
+
+            <p className="phone-text">
+              Sent to{" "}
+              {phone || "+91 **********"}
+            </p>
+          </div>
+
+          {/* Verify */}
+          <button
+            className={`verify-btn ${
+              verifying ? "loading" : ""
+            }`}
+            onClick={handlePrimary}
+            disabled={verifying}
+          >
+            {verifying
+              ? "Verifying..."
+              : noAccount
+              ? "Create Account"
+              : "Verify & Continue"}
+          </button>
+
+          {/* Resend */}
+          <button
+            className="resend-btn"
+            onClick={handleResend}
+            disabled={
+              seconds > 0 || verifying
+            }
+          >
+            {seconds > 0
+              ? `Resend in 00:${String(
+                  seconds
+                ).padStart(2, "0")}`
+              : "Resend OTP"}
+          </button>
+
+          {/* Change Number */}
+          <div
+            className="change-number"
+            onClick={() =>
+              !verifying && onBack?.()
+            }
+          >
+            <FiRefreshCw />
+            <span>
+              Change Phone Number
+            </span>
+          </div>
+
         </div>
 
-        {/* Verify Button */}
-        <button
-          className={`verify-btn ${
-            verifying ? "loading" : ""
-          }`}
-          onClick={handlePrimary}
-          disabled={verifying}
-        >
-          {verifying
-            ? "Verifying..."
-            : noAccount
-            ? "Create Account"
-            : "Verify & Continue"}
-        </button>
-
-        {/* Resend */}
-        <button
-          className="resend-btn"
-          onClick={handleResend}
-          disabled={
-            seconds > 0 || verifying
-          }
-        >
-          {seconds > 0
-            ? `Resend in 00:${String(
-                seconds
-              ).padStart(2, "0")}`
-            : "Resend OTP"}
-        </button>
-
-        {/* Change Number */}
-        <div
-          className="change-number"
-          onClick={() =>
-            !verifying && onBack?.()
-          }
-        >
-          <FiRefreshCw />
-
-          <span>
-            Change Phone Number
-          </span>
-        </div>
       </div>
+
     </div>
   );
 };

@@ -1,3 +1,5 @@
+// TruvishClient.jsx - Final update with button at bottom on mobile
+
 import React, { useState, useEffect, useRef } from "react";
 import "./TruvishClient.css";
 
@@ -15,7 +17,6 @@ const TruvishClient = ({
   onAddMoney,
   clientBalance = 1000,
 }) => {
-
   const [openMenu, setOpenMenu] = useState(false);
   const [liveBalance, setLiveBalance] = useState(clientBalance);
   const [effect, setEffect] = useState(false);
@@ -26,17 +27,14 @@ const TruvishClient = ({
   // ZERO BALANCE CHECK
   // =========================================
 
-  const isZeroBalance =
-    Number(clientBalance || 0) <= 0;
+  const isZeroBalance = Number(clientBalance || 0) <= 0;
 
   /* =========================
      BALANCE EFFECT
   ========================= */
 
   useEffect(() => {
-
     setLiveBalance(clientBalance ?? 0);
-
     setEffect(true);
 
     const timer = setTimeout(() => {
@@ -44,7 +42,6 @@ const TruvishClient = ({
     }, 2000);
 
     return () => clearTimeout(timer);
-
   }, [clientBalance]);
 
   /* =========================
@@ -52,39 +49,19 @@ const TruvishClient = ({
   ========================= */
 
   useEffect(() => {
-
     const handleClickOutside = (e) => {
-
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(e.target)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpenMenu(false);
       }
     };
 
-    document.addEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-
   }, []);
 
-  const stars = [
-    "s1",
-    "s2",
-    "s3",
-    "s4",
-    "s5",
-    "s6",
-  ];
+  const stars = ["s1", "s2", "s3", "s4", "s5", "s6"];
 
   return (
     <div
@@ -93,108 +70,50 @@ const TruvishClient = ({
         backgroundImage: `url(${bgImage})`,
       }}
     >
-
       {/* OVERLAY */}
       <div className="client-overlay"></div>
 
       {/* HEADER */}
       <header className="client-header">
-
         {/* LEFT */}
         <div className="header-left">
-
-          <img
-            src={logo}
-            alt="Truvish"
-            className="header-logo"
-          />
-
-          <h2 className="header-logo-text">
-            TRUVISH
-          </h2>
-
+          <img src={logo} alt="Truvish" className="header-logo" />
+          <h2 className="header-logo-text">TRUVISH</h2>
         </div>
 
         {/* CENTER */}
-        <div
-          className="wallet-box"
-          onClick={onOpenWallet}
-        >
-
+        <div className="wallet-box" onClick={onOpenWallet}>
           <CiWallet className="wallet-icon" />
-
           <div className="wallet-content">
-
-            <span className="wallet-label">
-              Balance
-            </span>
-
+            <span className="wallet-label">Balance</span>
             <div className="wallet-amount-wrap">
-
               {effect &&
                 stars.map((s, i) => (
-                  <span
-                    key={i}
-                    className={`wallet-star ${s}`}
-                  >
+                  <span key={i} className={`wallet-star ${s}`}>
                     ✦
                   </span>
                 ))}
-
-              {effect && (
-                <span className="wallet-shine"></span>
-              )}
-
-              <span
-                className={`wallet-amount ${
-                  effect ? "active" : ""
-                }`}
-              >
+              {effect && <span className="wallet-shine"></span>}
+              <span className={`wallet-amount ${effect ? "active" : ""}`}>
                 ₹{Number(liveBalance || 0)}
               </span>
-
             </div>
-
           </div>
-
           <span
-            className={`wallet-dot ${
-              isZeroBalance
-                ? "wallet-dot-danger"
-                : ""
-            }`}
+            className={`wallet-dot ${isZeroBalance ? "wallet-dot-danger" : ""}`}
           ></span>
-
         </div>
 
         {/* RIGHT BURGER */}
-        <div
-          className={`nav-menu ${
-            openMenu ? "open" : ""
-          }`}
-          ref={menuRef}
-        >
-
+        <div className={`nav-menu ${openMenu ? "open" : ""}`} ref={menuRef}>
           <div id="burger-wrap">
-
-            <button
-              className="burger"
-              onClick={() =>
-                setOpenMenu(!openMenu)
-              }
-            >
+            <button className="burger" onClick={() => setOpenMenu(!openMenu)}>
               <span></span>
             </button>
-
           </div>
 
           {/* MENU */}
-          <ul
-            className={`menu-list ${
-              openMenu ? "list-open" : ""
-            }`}
-          >
-
+          <ul className={`menu-list ${openMenu ? "list-open" : ""}`}>
             <li
               onClick={() => {
                 setOpenMenu(false);
@@ -203,7 +122,6 @@ const TruvishClient = ({
             >
               Profile
             </li>
-
             <li
               onClick={() => {
                 setOpenMenu(false);
@@ -212,7 +130,6 @@ const TruvishClient = ({
             >
               History
             </li>
-
             <li
               onClick={() => {
                 setOpenMenu(false);
@@ -221,57 +138,35 @@ const TruvishClient = ({
             >
               T&C
             </li>
-
           </ul>
-
         </div>
-
       </header>
 
       {/* CONTENT */}
       <div className="client-content">
-
         <h1 className="voucher-title">
           Request a
           <br />
           Voucher Code
         </h1>
 
-        {/* BUTTON */}
-
-        {isZeroBalance ? (
-          <>
-
-            <button
-              className="request-btn add-money-btn"
-              onClick={onAddMoney}
-            >
-              Add Money
+        {/* BUTTON CONTAINER - pushes button to bottom on mobile */}
+        <div className="button-container">
+          {isZeroBalance ? (
+            <>
+              <button className="request-btn add-money-btn" onClick={onAddMoney}>
+                Add Money
+              </button>
+              <p className="no-money-text">You have no money, please add money</p>
+            </>
+          ) : (
+            <button className="request-btn" onClick={onStart}>
+              Start Request
             </button>
-
-            <p className="no-money-text">
-              You have no money,
-              please add money
-            </p>
-
-          </>
-        ) : (
-
-          <button
-            className="request-btn"
-            onClick={onStart}
-          >
-            Start Request
-          </button>
-
-        )}
-
-        <p className="powered-text">
-          Powered by Truvish
-        </p>
-
+          )}
+          <p className="powered-text">Powered by Truvish</p>
+        </div>
       </div>
-
     </div>
   );
 };

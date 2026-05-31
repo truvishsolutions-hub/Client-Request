@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import "./TheamPopup.css";
-import bgImage from "../../assets/HOMEBG/BG.jpeg"; // ✅ add
+import React, { useState, useEffect } from "react";
+import { IoChevronBack } from "react-icons/io5";
+import "./SelectTheam.css";
+import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
-const TheamPopup = ({ isOpen, onClose, themeId, config, baseUrl }) => {
+const BASE_URL = "https://truvish-backend-production.up.railway.app";
 
-  if (!isOpen) return null;
+const SelectTheam = ({ onBack, onContinue }) => {
+  const [selectedTheme, setSelectedTheme] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [config, setConfig] = useState({});
 
-  const [selectedImg, setSelectedImg] = useState(null);
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/admin/config`)
+      .then((res) => res.json())
+      .then((data) => setConfig(data))
+      .catch(() => setConfig({}));
+  }, []);
 
-  const full = (p) => (p ? baseUrl + p : null);
+  const full = (path) => (path ? BASE_URL + path : null);
 
   const themeImages = {
     theme1: [
@@ -37,50 +46,82 @@ const TheamPopup = ({ isOpen, onClose, themeId, config, baseUrl }) => {
     ],
   };
 
-  const data = themeImages[themeId] || [];
+  const handleImageClick = (themeId, imgObj) => {
+    setSelectedTheme(themeId);
+    setSelectedImage(imgObj);
+  };
 
   return (
-    <div className="popup-overlay">
-      {/* ✅ bg image only inside box */}
-      <div
-        className="popup-box"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      >
+    <div
+      className="vs2-bg"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
+      <div className="vs2-container">
 
-        <div className="popup-header">
-          <h2>Select Theme Image</h2>
-          <span className="popup-close" onClick={() => onClose(null)}>✕</span>
+        {/* HEADER */}
+        <div className="vs2-header">
+          <button className="vs2-back-btn" onClick={onBack}>
+            <IoChevronBack size={26} />
+          </button>
         </div>
 
-        <div className="popup-grid">
-          {data.map((item, index) => (
-            <div
-              key={index}
-              className={`popup-card ${selectedImg === index ? "active" : ""}`}
-              onClick={() => setSelectedImg(index)}
-            >
-              {item.img && <img src={item.img} alt="" className="popup-img" />}
-              <div className="popup-label">{item.name}</div>
+        {/* STEP */}
+        <div className="vs2-step-text">STEP 3: THEME SELECTION</div>
+        <div className="vs2-progress-bar">
+          <div className="vs2-progress" />
+        </div>
 
-              {selectedImg === index && (
-                <div className="popup-tick">✔</div>
-              )}
+        <h2 className="vs2-question">Choose Your Theme Image</h2>
+
+        {/* THEMES GRID */}
+        {Object.entries(themeImages).map(([themeId, images]) => (
+          <div key={themeId} className="theme-section">
+
+
+            <div className="vs2-grid">
+              {images.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`vs2-card ${
+                    selectedImage?.img === item.img ? "active" : ""
+                  }`}
+                  onClick={() => handleImageClick(themeId, item)}
+                >
+                  {item.img && (
+                    <img src={item.img} className="vs2-card-img" alt="" />
+                  )}
+
+                  <div className="vs2-card-label">{item.name}</div>
+
+                  {selectedImage?.img === item.img && (
+                    <div className="vs2-check">✔</div>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
 
-        <button
-          className="popup-btn"
-          onClick={() =>
-            onClose(selectedImg !== null ? data[selectedImg] : null)
-          }
-        >
-          Done
-        </button>
+        {/* FOOTER */}
+        <div className="vs2-footer">
+          <button
+            className="vs2-btn"
+            disabled={!selectedImage}
+            onClick={() =>
+              onContinue({
+                theme: selectedTheme,
+                img: selectedImage?.img,
+                name: selectedImage?.name,
+              })
+            }
+          >
+            Continue
+          </button>
+        </div>
 
       </div>
     </div>
   );
 };
 
-export default TheamPopup;
+export default SelectTheam;

@@ -1,25 +1,9 @@
 .verify-page {
-  width: 100%;
   min-height: 100vh;
-
-  background-size: 100% auto;
-  background-position: top center;
-  background-repeat: no-repeat;
-
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-
+  background: #cfe4e6;
+  font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 
-  font-family: "Poppins", sans-serif;
-
-  background-color: #c7dde0;
-
-  /* LOCAL VARIABLES */
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --danger: #ef4444;
@@ -27,31 +11,29 @@
 }
 
 /* =========================
-   OVERLAY
+   TOP IMAGE
 ========================= */
 
-.top-overlay {
-  position: absolute;
-  inset: 0;
+.top-image {
+  width: 100%;
+  height: 38vh;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 148, 168, 0.08),
-    rgba(0, 148, 168, 0.16),
-    rgba(199, 221, 224, 0.9)
-  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* =========================
-   HERO SECTION
+   CARD WRAPPER
 ========================= */
 
-.hero-section {
-  width: 100%;
-  min-height: 220px;
+.card-wrapper {
+  margin-top: -50px;
 
-  position: relative;
-  z-index: 1;
+  padding: 0 16px 40px;
+
+  display: flex;
+  justify-content: center;
 }
 
 /* =========================
@@ -60,9 +42,8 @@
 
 .otp-card {
   position: relative;
-  z-index: 2;
 
-  width: 90%;
+  width: 100%;
   max-width: 520px;
 
   background: #f8f8f8;
@@ -70,8 +51,6 @@
   border-radius: 28px;
 
   padding: 58px 22px 30px;
-
-  margin-bottom: 18px;
 
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
 }
@@ -84,7 +63,6 @@
   position: absolute;
 
   top: 6px;
-
   left: 50%;
 
   transform: translateX(-50%);
@@ -108,7 +86,7 @@
 
   border: 3px solid #ececec;
 
-  background: white;
+  background: #ffffff;
 
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.08);
 }
@@ -141,9 +119,9 @@
   font-size: 34px;
   font-weight: 700;
 
-  margin-top: 34px;
+  margin-top: 40px;
 
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
 .otp-subtitle {
@@ -180,14 +158,10 @@
 
 .otp-inputs {
   display: flex;
-  gap: 14px;
-
   justify-content: center;
-}
 
-/* =========================
-   OTP INPUTS
-========================= */
+  gap: 14px;
+}
 
 .otp-inputs input {
   width: 68px;
@@ -229,7 +203,7 @@
 }
 
 /* =========================
-   ERROR TEXT
+   ERROR
 ========================= */
 
 .errText {
@@ -276,7 +250,7 @@
     #20b7c2
   );
 
-  color: white;
+  color: #ffffff;
 
   font-size: 28px;
   font-weight: 500;
@@ -304,12 +278,12 @@
 ========================= */
 
 .resend-btn {
-  border: none;
-  background: transparent;
-
   width: 100%;
 
   margin-top: 24px;
+
+  border: none;
+  background: transparent;
 
   color: #1399ab;
 
@@ -332,8 +306,8 @@
   margin-top: 18px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   gap: 8px;
 
@@ -427,18 +401,20 @@
 ========================= */
 
 @media (max-width: 480px) {
-  .hero-section {
-    min-height: 150px;
+  .top-image {
+    height: 34vh;
+  }
+
+  .card-wrapper {
+    padding: 0 12px 24px;
   }
 
   .otp-card {
-    width: 92%;
+    width: 100%;
 
     border-radius: 24px;
 
     padding: 52px 16px 24px;
-
-    margin-bottom: 14px;
   }
 
   .logo-circle {
@@ -456,7 +432,6 @@
 
   .otp-title {
     font-size: 25px;
-
     margin-top: 28px;
   }
 
@@ -470,7 +445,6 @@
 
   .otp-label {
     font-size: 16px;
-
     margin-bottom: 14px;
   }
 
