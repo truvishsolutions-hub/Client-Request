@@ -57,7 +57,7 @@
 
 .vs-progress{
   height:100%;
-  width:20%;
+  width: 16.66%;
   background:var(--cyan);
   border-radius:10px;
 }

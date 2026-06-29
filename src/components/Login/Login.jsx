@@ -70,15 +70,17 @@ const LoginPage = ({ onGetOtp }) => {
           </h1>
 
           {/* Offer */}
-          <div className="offer-text">
-            <span className="offer-highlight">
-              RS.1000 FREE CREDIT
-            </span>
+         <div className="offer-text">
+           <div className="offer-highlight-wrapper">
+             <span className="offer-highlight">
+               ₹1000 FREE CREDIT
+             </span>
+           </div>
 
-            <span className="offer-normal">
-              Signup today. limited time offer
-            </span>
-          </div>
+           <span className="offer-normal">
+             Signup today. limited time offer
+           </span>
+         </div>
 
           {/* Input */}
           <div className="input-section">

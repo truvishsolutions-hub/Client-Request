@@ -32,13 +32,33 @@ export default function Congratulation({
   const [showShareSuccess, setShowShareSuccess] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(voucherCode || "");
-    onCopy && onCopy(voucherCode);
+    navigator.clipboard.writeText(codes[activeIndex]);
+
     setShowToast(true);
+
     setTimeout(() => {
       setShowToast(false);
     }, 2000);
   };
+
+const codes = Array.isArray(voucherCode)
+  ? voucherCode
+  : [voucherCode];
+
+const [activeIndex, setActiveIndex] = useState(0);
+const [touchStart, setTouchStart] = useState(null);
+
+const nextCode = () => {
+  if (activeIndex < codes.length - 1) {
+    setActiveIndex(activeIndex + 1);
+  }
+};
+
+const prevCode = () => {
+  if (activeIndex > 0) {
+    setActiveIndex(activeIndex - 1);
+  }
+};
 
   const handleShareSuccess = () => {
     setShowShareSuccess(true);
@@ -46,6 +66,29 @@ export default function Congratulation({
       setShowShareSuccess(false);
     }, 3000);
   };
+
+const handleTouchStart = (e) => {
+  setTouchStart(e.targetTouches[0].clientX);
+};
+
+const handleTouchEnd = (e) => {
+  if (touchStart === null) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const diff = touchStart - endX;
+
+  // swipe left
+  if (diff > 50 && activeIndex < codes.length - 1) {
+    setActiveIndex((prev) => prev + 1);
+  }
+
+  // swipe right
+  if (diff < -50 && activeIndex > 0) {
+    setActiveIndex((prev) => prev - 1);
+  }
+
+  setTouchStart(null);
+};
 
   return (
     <div className="success-page">
@@ -78,9 +121,36 @@ export default function Congratulation({
         <p className="subtitle">Your reward is ready</p>
 
         {/* VOUCHER */}
+
         <div className="voucher-box">
-          <p className="voucher-label">YOUR UNIQUE VOUCHER CODE</p>
-          <div className="voucher-code">{voucherCode || "---- ----"}</div>
+
+          <p className="voucher-label">
+            YOUR UNIQUE VOUCHER CODE
+          </p>
+
+          <div className="voucher-counter">
+            {activeIndex + 1}/{codes.length}
+          </div>
+
+          <div
+            className="voucher-swipe-area"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div className="voucher-code">
+              {codes[activeIndex]}
+            </div>
+          </div>
+
+          <div className="dots">
+            {codes.map((_, i) => (
+              <span
+                key={i}
+                className={`dot ${i === activeIndex ? "active" : ""}`}
+                onClick={() => setActiveIndex(i)}
+              />
+            ))}
+          </div>
 
           {/* ACTIONS */}
           <div className="actions">
@@ -88,15 +158,21 @@ export default function Congratulation({
               <BsCopy />
               <span>Copy</span>
             </div>
+
             <div className="action-item">
               <MdOutlineSaveAlt />
               <span>Save</span>
             </div>
-            <div className="action-item" onClick={() => setShowShare(true)}>
+
+            <div
+              className="action-item"
+              onClick={() => setShowShare(true)}
+            >
               <CiShare2 />
               <span>Share</span>
             </div>
           </div>
+
         </div>
 
         {/* VALIDITY */}

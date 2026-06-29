@@ -13,6 +13,7 @@ const BASE_URL = "https://truvish-backend-production.up.railway.app";
 
 const ReviewConfirm = ({
   voucherValue,
+  quantity,
   occasion,
   validityMonths,
   selectedBrands,
@@ -80,6 +81,7 @@ const ReviewConfirm = ({
       ? 0
       : numericValue;
 
+const totalValue = displayValue * quantity;
   // =========================================
   // FINAL SUBMIT
   // =========================================
@@ -155,9 +157,9 @@ const ReviewConfirm = ({
               VALUE PER VOUCHER
             </span>
 
-            <h2 className="rc-value">
-              ₹{displayValue}.00
-            </h2>
+           <h2 className="rc-value">
+             ₹{displayValue}.00 × {quantity} Qty
+           </h2>
 
             <button
               className="rc-edit-btn"
@@ -318,7 +320,7 @@ const ReviewConfirm = ({
         {/* TOTAL */}
 
         <p className="rc-total">
-          Total value: ₹{displayValue}.00
+          Total value: ₹{totalValue}.00
         </p>
 
         {/* SUBMIT */}

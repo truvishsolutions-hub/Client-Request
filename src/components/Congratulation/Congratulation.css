@@ -542,3 +542,92 @@ TOP SUCCESS NOTIFICATION
   color: #7d8797;
   line-height: 1.4;
 }
+/* =========================
+MULTI VOUCHER SWIPE
+========================= */
+
+.voucher-counter {
+  width: 100%;
+  text-align: right;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #94a3b8;
+
+  margin-bottom: 8px;
+}
+
+.voucher-swipe-area {
+  width: 100%;
+  overflow: hidden;
+
+  touch-action: pan-y;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 14px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #cbd5e1;
+
+  transition: all 0.25s ease;
+
+  cursor: pointer;
+}
+
+.dot.active {
+  width: 12px;
+  height: 12px;
+
+  background: #1AB0B7;
+
+  transform: scale(1.1);
+}
+.voucher-counter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+
+  font-size: 13px;
+  font-weight: 700;
+  color: #8c98ad;
+}
+
+.voucher-swipe-area {
+  width: 100%;
+  overflow: hidden;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #cfd8dc;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.dot.active {
+  background: var(--cyan);
+  transform: scale(1.2);
+}

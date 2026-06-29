@@ -6,6 +6,9 @@ import bgImage from "../../assets/HOMEBG/BG25.png";
 
 import { FiRefreshCw } from "react-icons/fi";
 
+import { IoClose } from "react-icons/io5";
+import { FaUserPlus } from "react-icons/fa";
+
 const OtpScreen = ({
   phone,
   rawMobile,
@@ -22,6 +25,8 @@ const OtpScreen = ({
 
   const [noAccount, setNoAccount] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
 
   const refs = [
     useRef(null),
@@ -132,18 +137,18 @@ const OtpScreen = ({
         onVerify?.(otpValue)
       );
 
-      if (res?.ok) {
-        setNoAccount(false);
+     if (res?.ok) {
+       setNoAccount(false);
+       setShowPopup(false);
 
-        onSuccess?.();
+       onSuccess?.();
 
-        return;
-      }
+       return;
+     }
 
       if (res?.reason === "NO_ACCOUNT") {
         setNoAccount(true);
-        setToastOpen(true);
-
+        setShowPopup(true);
         return;
       }
 
@@ -331,7 +336,46 @@ const OtpScreen = ({
         </div>
 
       </div>
+{/* CREATE ACCOUNT POPUP */}
+{/* CREATE ACCOUNT POPUP */}
+{showPopup && (
+  <div className="account-overlay">
+    <div className="account-popup">
 
+      <button
+        className="popup-close"
+        onClick={() => setShowPopup(false)}
+      >
+        <IoClose />
+      </button>
+
+      <div className="popup-icon-wrap">
+        <div className="popup-icon-circle">
+          <FaUserPlus className="popup-icon" />
+        </div>
+      </div>
+
+      <h2 className="popup-title">
+        Create New Account
+      </h2>
+
+      <p className="popup-description">
+       Join us and enjoy exclusive rewards
+               and seamless services.
+      </p>
+
+      <button
+        className="popup-create-btn"
+        onClick={() =>
+          onCreateAccount?.(rawMobile || phone)
+        }
+      >
+        Create Account
+      </button>
+
+    </div>
+  </div>
+)}
     </div>
   );
 };

@@ -132,6 +132,7 @@
 
   gap: 8px;
 }
+/* Without Effact
 
 .offer-highlight {
   color: #0aaec0;
@@ -139,7 +140,56 @@
   font-size: 24px;
   font-weight: 700;
 }
+*/
+/* Add Effact */
 
+.offer-highlight-wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.offer-highlight {
+  color: #0aaec0;
+  font-size: 24px;
+  font-weight: 700;
+}.offer-highlight-wrapper::after {
+   content: "";
+
+   position: absolute;
+
+   top: -20%;
+   left: -40%;
+
+   width: 20px;
+   height: 140%;
+
+   background: linear-gradient(
+     180deg,
+     transparent,
+     rgba(255,255,255,0.95),
+     transparent
+   );
+
+   transform: rotate(20deg);
+
+   animation: shinePass 2.5s linear infinite;
+
+   pointer-events: none;
+ }
+
+ @keyframes shinePass {
+   0% {
+     left: -40%;
+   }
+
+   100% {
+     left: 120%;
+   }
+ }
+
+
+/*END*/
 .offer-normal {
   color: #8f8f8f;
 

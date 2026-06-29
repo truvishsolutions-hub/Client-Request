@@ -53,21 +53,19 @@ const ChooseBrands = ({ onBack, onContinue }) => {
     setSelectedBrands((prev) => {
       const isSelected = prev.some((item) => item.id === id);
 
-      if (isSelected) return prev.filter((item) => item.id !== id);
-
-      if (prev.length < 5) {
-        return [
-          ...prev,
-          {
-            id: brand.id,
-            label: brand.brandName,
-            img: getImageUrl(brand.brandImg),
-            category: brand.category,
-          },
-        ];
+      if (isSelected) {
+        return prev.filter((item) => item.id !== id);
       }
 
-      return prev;
+      return [
+        ...prev,
+        {
+          id: brand.id,
+          label: brand.brandName,
+          img: getImageUrl(brand.brandImg),
+          category: brand.category,
+        },
+      ];
     });
   };
 
@@ -87,6 +85,14 @@ const ChooseBrands = ({ onBack, onContinue }) => {
             <IoChevronBack size={26} />
           </button>
           <div style={{ width: 26 }} />
+        </div>
+
+        <div className="cb-step-text">
+          STEP 5: BRAND SELECTION
+        </div>
+
+        <div className="cb-progress-bar">
+          <div className="cb-progress" />
         </div>
 
         <div className="cb-search-box">
@@ -155,7 +161,7 @@ const ChooseBrands = ({ onBack, onContinue }) => {
           </button>
 
           <p className="cb-limit-text">
-            Select up to 5 brands for your voucher request
+            Select one or more brands for your voucher request
           </p>
         </div>
 

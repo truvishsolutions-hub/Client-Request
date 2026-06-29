@@ -5,7 +5,7 @@ import DetailsPop from "./DetailsPop";
 import { IoChevronBack } from "react-icons/io5";
 
 // const BASE_URL = "http://localhost:8080";
-const BASE_URL =
+ const BASE_URL =
   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 
 const formatAmount = (value) => {

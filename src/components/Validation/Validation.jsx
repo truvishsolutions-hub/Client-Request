@@ -22,7 +22,7 @@ export default function Validation({ defaultDays = 3, onBack, onContinue }) {
           </div>
 
           <div className="val-step-text">
-            STEP 2: VALIDITY SELECTION
+            STEP 3: VALIDITY SELECTION
           </div>
 
           <div className="val-progress-bar">

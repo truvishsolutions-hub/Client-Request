@@ -18,6 +18,8 @@ import ReviewConfirm from "./components/ReviewConfirm/ReviewConfirm";
 import Congratulation from "./components/Congratulation/Congratulation.jsx";
 import VoucherDetailsPopup from "./components/Congratulation/VoucherDetailsPopup";
 
+import SelectQuantity from "./components/SelectQuantity/SelectQuantity";
+
 // const BASE_URL = "http://localhost:8080";
 const BASE_URL = "https://truvish-backend-production.up.railway.app";
 const REDEEM_URL = "https://truvish.com";
@@ -32,6 +34,7 @@ const STEPS = {
   PROFILE: "profile",
   VOUCHER: "voucher",
   VALIDATION: "validation",
+  QUANTITY: "quantity",
   THEME: "theme",
   BRANDS: "brands",
   REVIEW: "review",
@@ -39,7 +42,6 @@ const STEPS = {
 };
 
 export default function App() {
-
   const [step, setStep] = useState(STEPS.LOGIN);
   const [authCountryCode, setAuthCountryCode] = useState("+91");
   const [authPhone, setAuthPhone] = useState("");
@@ -51,6 +53,7 @@ export default function App() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [voucherCode, setVoucherCode] = useState("");
   const [showDetails, setShowDetails] = useState(false);
+  const [quantity, setQuantity] = useState(3);
 
   // 🔥 DYNAMIC CLIENT LOGO URL WITH CACHE BUSTER 🔥
   const clientLogoUrl =
@@ -152,16 +155,14 @@ export default function App() {
         />
       )}
 
-      {/* PROFILE - UPDATED */}
+      {/* PROFILE */}
       {step === STEPS.PROFILE && (
         <ProfileScreen
           client={client}
           profileImg={clientLogoUrl}
           onBack={() => setStep(STEPS.HOME)}
           onSaved={(updatedClient) => {
-            // 🔥 Update client state with fresh data
             setClient(updatedClient);
-            // 🔥 Go back to home - logo will show with new cache buster
             setStep(STEPS.HOME);
           }}
         />
@@ -194,7 +195,7 @@ export default function App() {
           onBack={() => setStep(STEPS.HOME)}
           onContinue={(value) => {
             setVoucherValue(value);
-            setStep(STEPS.VALIDATION);
+            setStep(STEPS.QUANTITY); // ✅ Validation ki jagah Quantity
           }}
         />
       )}
@@ -203,13 +204,27 @@ export default function App() {
       {step === STEPS.VALIDATION && (
         <Validation
           defaultDays={validDays}
-          onBack={() => setStep(STEPS.VOUCHER)}
+          onBack={() => setStep(STEPS.QUANTITY)} // ✅ Back to Quantity
           onContinue={(days) => {
             setValidDays(days);
             setStep(STEPS.THEME);
           }}
         />
       )}
+
+     {/* QUANTITY */}
+     {step === STEPS.QUANTITY && (
+       <SelectQuantity
+         defaultQuantity={quantity}
+         voucherValue={Number(voucherValue)}
+         clientBalance={client?.balance || 0}
+         onBack={() => setStep(STEPS.VOUCHER)} // ✅ Back to Voucher
+         onContinue={(qty) => {
+           setQuantity(qty);
+           setStep(STEPS.VALIDATION); // ✅ Next to Validation
+         }}
+       />
+     )}
 
       {/* THEME */}
       {step === STEPS.THEME && (
@@ -233,10 +248,11 @@ export default function App() {
         />
       )}
 
-      {/* REVIEW */}
+      {/* REVIEW - WITH MOCK IMPLEMENTATION */}
       {step === STEPS.REVIEW && (
         <ReviewConfirm
           voucherValue={voucherValue}
+          quantity={quantity}
           occasion={occasion}
           validityMonths={validDays}
           selectedBrands={selectedBrands}
@@ -245,159 +261,119 @@ export default function App() {
           onEditValidity={() => setStep(STEPS.VALIDATION)}
           onEditBrands={() => setStep(STEPS.BRANDS)}
           onSubmit={async () => {
-
             try {
+              console.log("🔄 Submitting voucher request...");
+              console.log("📦 Payload:", {
+                voucherValue,
+                quantity,
+                occasion,
+                validDays,
+                selectedBrands
+              })
 
-              const brandLabels =
-                selectedBrands.map((b) => b.label);
-
+              /* =========================================
+              🔥 OPTION 2: REAL API CALL (UNCOMMENT WHEN BACKEND READY)
+              =========================================
+               ========================================= */
+              const brandLabels = selectedBrands.map((b) => b.label);
               const uniqueCategories = [
                 ...new Set(
                   selectedBrands
                     .map((b) => b.category)
-                    .filter(
-                      (cat) =>
-                        cat &&
-                        cat.trim() !== ""
-                    )
+                    .filter((cat) => cat && cat.trim() !== "")
                 ),
               ];
 
               const payload = {
-
                 clientId: client?.id,
-
-                clientName:
-                  client?.companyName || "",
-
-                truvishCodeValue:
-                  Number(voucherValue),
-
-                clientTheme:
-                  occasion?.name || "",
-
-                clientThemeImg:
-                  occasion?.img || "",
-
-                clientBrand:
-                  brandLabels,
-
-                clientCategory:
-                  uniqueCategories,
-
-                clientImg:
-                  client?.logoImg || "",
-
-                validity:
-                  Number(validDays),
+                clientName: client?.companyName || "",
+                truvishCodeValue: Number(voucherValue),
+                quantity: quantity,
+                clientTheme: occasion?.name || "",
+                clientThemeImg: occasion?.img || "",
+                clientBrand: brandLabels,
+                clientCategory: uniqueCategories,
+                clientImg: client?.logoImg || "",
+                validity: Number(validDays),
               };
 
               const res = await fetch(
-                `${BASE_URL}/api/truvish/update-client`,
+                `${BASE_URL}/api/truvish/create-voucher`,
                 {
                   method: "POST",
-
                   headers: {
-                    "Content-Type":
-                      "application/json",
+                    "Content-Type": "application/json",
                   },
-
-                  body: JSON.stringify(
-                    payload
-                  ),
+                  body: JSON.stringify(payload),
                 }
               );
 
               if (!res.ok) {
-
-                const errorText =
-                  await res.text();
-
-                console.error(
-                  "API Error:",
-                  errorText
-                );
-
+                const errorText = await res.text();
+                console.error("API Error:", errorText);
+                alert("Failed to create voucher. Please try again.");
                 return;
               }
 
-              const saved =
-                await res.json();
+              const saved = await res.json();
 
-              const dbCode =
-                saved?.truvishIdCodeNumber;
+              console.log("API Response:", saved);
 
-              if (!dbCode) return;
+              // quantity jitne code aaye sab nikalo
+              const dbCodes = Array.isArray(saved)
+                ? saved.map(item => item.truvishIdCodeNumber)
+                : [saved.truvishIdCodeNumber];
 
-              /* =========================================
-                 🔥 LIVE CLIENT REFRESH
-              ========================================= */
+              console.log("Generated Codes:", dbCodes);
 
-              try {
-
-                const updatedClientRes =
-                  await fetch(
-                    `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(authMobile10)}`
-                  );
-
-                if (
-                  updatedClientRes.ok
-                ) {
-
-                  const updatedClientData =
-                    await updatedClientRes.json();
-
-                  setClient(
-                    updatedClientData
-                  );
-                }
-
-              } catch (err) {
-
-                console.error(
-                  "Failed to refresh client:",
-                  err
-                );
+              if (!dbCodes.length) {
+                console.error("No voucher code received");
+                alert("No voucher code received");
+                return;
               }
 
-              /* ========================================= */
+              setVoucherCode(dbCodes);
+              setStep(STEPS.CONGRATS);
 
-              setVoucherCode(dbCode);
+              // Refresh client data
+              try {
+                const updatedClientRes = await fetch(
+                  `${BASE_URL}/api/clients/by-mobile?mobile=${encodeURIComponent(authMobile10)}`
+                );
+                if (updatedClientRes.ok) {
+                  const updatedClientData = await updatedClientRes.json();
+                  setClient(updatedClientData);
+                }
+              } catch (err) {
+                console.error("Failed to refresh client:", err);
+              }
 
+              setVoucherCode(dbCodes);
               setStep(STEPS.CONGRATS);
 
             } catch (error) {
-
-              console.error(
-                "Submission error:",
-                error
-              );
+              console.error("❌ Submission error:", error);
+              alert("An error occurred. Please try again.");
             }
           }}
         />
       )}
+
       {/* CONGRATULATIONS */}
       {step === STEPS.CONGRATS && (
         <Congratulation
-          voucherCode={voucherCode}
+            voucherCode={voucherCode || []}
           validityDays={validDays}
           client={client}
-          onGoHome={() => setStep(STEPS.HOME)}
+          onGoHome={() => {
+            setStep(STEPS.HOME);
+          }}
           onViewDetails={() => setShowDetails(true)}
           onRedeemNow={() => {
             window.open(REDEEM_URL, "_blank", "noopener,noreferrer");
           }}
-          onShareGmail={() => {
-            window.location.href = `mailto:?subject=Truvish Voucher Code&body=Your Truvish voucher code is: ${voucherCode}`;
-          }}
-          onShareWhatsApp={() => {
-            window.open(`https://wa.me/?text=Your Truvish voucher code is: ${voucherCode}`, "_blank", "noopener,noreferrer");
-          }}
-          onShareSMS={() => {
-            window.location.href = `sms:?body=Your Truvish voucher code is: ${voucherCode}`;
-          }}
           onCopy={(code) => {
-            alert(`Voucher code ${code} copied to clipboard!`);
+            console.log("📋 Voucher copied:", code);
           }}
         />
       )}
@@ -408,7 +384,10 @@ export default function App() {
         onClose={() => setShowDetails(false)}
         voucherCode={voucherCode}
         value={voucherValue}
-        validity={`${validDays} ${validDays === 1 ? "Month" : "Months"}`}
+        quantity={quantity}
+        validity={`${validDays} ${
+          validDays === 1 ? "Month" : "Months"
+        }`}
         occasion={occasion?.name}
         brands={selectedBrands}
       />

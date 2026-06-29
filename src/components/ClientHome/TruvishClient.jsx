@@ -77,7 +77,11 @@ const TruvishClient = ({
       <header className="client-header">
         {/* LEFT */}
         <div className="header-left">
-          <img src={logo} alt="Truvish" className="header-logo" />
+          <img
+            src={logo}
+            alt="Truvish"
+            className="header-logo animated-logo"
+          />
           <h2 className="header-logo-text">TRUVISH</h2>
         </div>
 
