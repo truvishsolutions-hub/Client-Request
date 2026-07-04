@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SelectQuantity.css";
 import bgImage from "../../assets/HOMEBG/BG.jpeg";
-import voucherImage from "../../assets/CARD/CD4.png";
+import voucherImage from "../../assets/CARD/BG-5.png";
 import tickSound from "../../assets/MUSIC/select.wav";
 import { IoChevronBack } from "react-icons/io5";
 
@@ -54,29 +54,26 @@ export default function SelectQuantity({
             {[...Array(quantity)].map((_, i) => {
               const index = quantity - 1 - i;
               return (
-                <div
-                  key={index}
-                  className="voucher-card"
-                  style={{
-                    zIndex: quantity - i,
-                    "--offsetX": `${i * 25}px`,
-                    "--offsetY": `${i * 10}px`,
-                    "--scale": `${1 - i * 0.03}`
-                  }}
-                >
-                  <img
-                    src={voucherImage}
-                    alt="Voucher"
-                    className="voucher-image"
-                  />
-                  <div className="voucher-overlay">
-                    <div className="voucher-brand">TRUVISH</div>
-                    <div className="voucher-amount">
-                      ₹{voucherValue.toLocaleString()}
-                    </div>
-                    <div className="voucher-text">xxx-xxx-xxx</div>
-                  </div>
-                </div>
+               <div
+                 key={index}
+                 className="voucher-card"
+                 style={{
+                   zIndex: quantity - i,
+                   "--offsetX": `${i * 25}px`,
+                   "--offsetY": `${i * 10}px`,
+                   "--scale": `${1 - i * 0.03}`,
+                 }}
+               >
+                 <img
+                   src={voucherImage}
+                   alt="Voucher"
+                   className="voucher-image"
+                 />
+
+                 <div className="voucher-amount-overlay">
+                   ₹{voucherValue.toLocaleString()}
+                 </div>
+               </div>
               );
             })}
           </div>

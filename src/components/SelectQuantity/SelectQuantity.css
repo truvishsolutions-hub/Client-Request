@@ -1,9 +1,12 @@
+/* SelectQuantity.css - Final version with NO scrolling issues */
+
 .qty-bg {
   min-height: 100vh;
   width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
 
 /* ===========================
@@ -12,26 +15,26 @@
 
 .qty-container {
   max-width: 480px;
-  margin: auto;
-  min-height: 100vh;
-  padding: 20px;
+  margin: 0 auto;
+  height: 100vh;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   font-family: "Inter", sans-serif;
-}
-
-.qty-top {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
+  overflow: hidden;
   position: relative;
 }
 
 /* ===========================
-   HEADER
+   STICKY HEADER
 =========================== */
+
+.qty-sticky-header {
+  flex-shrink: 0;
+  padding-top: 4px;
+  position: relative;
+  z-index: 10;
+}
 
 .qty-header {
   display: flex;
@@ -46,22 +49,20 @@
   color: #0E4A63;
   display: flex;
   align-items: center;
+  padding: 4px 0;
 }
 
-/* ===========================
-   STEP
-=========================== */
-
 .qty-step-text {
-  margin-top: 18px;
-  font-size: clamp(12px, 3vw, 14px);
+  margin-top: 8px;
+  font-size: clamp(11px, 2.5vw, 13px);
   color: #6C7A87;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .qty-progress-bar {
-  margin-top: 6px;
-  height: 6px;
+  margin-top: 4px;
+  height: 5px;
   background: #D9E6EB;
   border-radius: 10px;
   overflow: hidden;
@@ -69,7 +70,7 @@
 
 .qty-progress {
   height: 100%;
-   width: 33.33%;
+  width: 40%;
   background: #1AB0B7;
   border-radius: 10px;
 }
@@ -79,16 +80,53 @@
 =========================== */
 
 .qty-question {
-  margin-top: 22px;
-  font-size: clamp(22px, 5vw, 30px);
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-size: clamp(20px, 4.5vw, 28px);
   font-weight: 700;
   color: #0E4A63;
+  flex-shrink: 0;
 }
 
 .qty-subtext {
-  margin-top: 10px;
-  font-size: clamp(13px, 3vw, 16px);
+  margin-bottom: 12px;
+  font-size: clamp(12px, 2.5vw, 14px);
   color: #6C7A87;
+  flex-shrink: 0;
+}
+
+/* ===========================
+   SCROLL AREA
+=========================== */
+
+.qty-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 2px;
+  margin: 0 -2px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+}
+
+.qty-scroll-area::-webkit-scrollbar {
+  width: 3px;
+}
+
+.qty-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.qty-scroll-area::-webkit-scrollbar-thumb {
+  background: #1AB0B7;
+  border-radius: 10px;
+}
+
+.qty-scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: #1AB0B7 transparent;
 }
 
 /* ===========================
@@ -97,24 +135,29 @@
 
 .voucher-stage {
   position: relative;
-  height: 200px;
-   margin-top: 20px;
-  margin-top: 30px;
+  height: 160px;
+  margin: 6px 0 14px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .voucher-card {
   position: absolute;
-  width: 290px;
-  height: 160px;
-  border-radius: 24px;
+  width: 280px;
+  height: 150px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
-  transform: translateX(var(--offsetX)) translateY(var(--offsetY)) scale(var(--scale));
-  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
-  animation: cardSlide .45s cubic-bezier(.22, 1, .36, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .15);
+
+  transform:
+    translateX(var(--offsetX))
+    translateY(var(--offsetY))
+    scale(var(--scale));
+
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+  animation: cardSlide .4s cubic-bezier(.22, 1, .36, 1);
 }
 
 .voucher-image {
@@ -124,7 +167,6 @@
   display: block;
 }
 
-/* Voucher text overlay */
 .voucher-overlay {
   position: absolute;
   inset: 0;
@@ -132,97 +174,106 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-left: 40px;
+  padding-left: 35px;
   pointer-events: none;
 }
 
 .voucher-brand {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #111;
   letter-spacing: 1px;
 }
 
 .voucher-amount {
-  margin-top: 8px;
-  font-size: 48px;
+  margin-top: 6px;
+  font-size: 42px;
   font-weight: 800;
   color: #4a2d12;
   line-height: 1;
 }
 
 .voucher-text {
-  margin-top: 8px;
-  font-size: 22px;
+  margin-top: 6px;
+  font-size: 20px;
   font-weight: 700;
   color: #4a2d12;
   letter-spacing: 2px;
 }
+.voucher-amount-overlay {
+  position: absolute;
+  top: 56%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
 
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  color: #eefcff;
+
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 14px rgba(180,255,255,.7),
+    0 0 24px rgba(80,230,255,.5);
+
+  pointer-events: none;
+  user-select: none;
+}
 /* ===========================
    MIDDLE WRAPPER
-   - Fixed height to prevent layout shift
 =========================== */
 
 .qty-middle-wrapper {
   position: relative;
   width: 100%;
-  margin-top: 90px;
-  min-height: 280px;
+  margin-top: 4px;
+  min-height: 180px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  flex-shrink: 0;
 }
 
 /* ===========================
-   WARNING CARD - OVERLAY
-   - Absolutely positioned, doesn't affect layout
+   WARNING CARD
 =========================== */
 
 .qty-warning-card {
   position: absolute;
-  top: -70px;
+  top: -55px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-
-  width: 75%;
-  max-width: 300px;
-
+  width: 78%;
+  max-width: 290px;
   background: #fff7f7;
   border: 2px solid #ffd8d8;
-  border-radius: 20px;
-
-  padding: 14px 18px;
-
+  border-radius: 18px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
-
+  gap: 12px;
   box-shadow: 0 8px 24px rgba(255, 0, 0, 0.1);
-
   animation: warningPopup 0.25s ease;
 }
 
-/* Bottom arrow */
 .qty-warning-card::after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -10px;
-
-  width: 18px;
-  height: 18px;
-
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
   background: #fff7f7;
   border-right: 2px solid #ffd8d8;
   border-bottom: 2px solid #ffd8d8;
-
   transform: translateX(-50%) rotate(45deg);
 }
 
 .warning-icon {
-  font-size: 40px;
+  font-size: 34px;
   color: #ff3b30;
   flex-shrink: 0;
 }
@@ -232,38 +283,35 @@
 }
 
 .warning-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #8d1717;
 }
 
-.warning-balance,
-.warning-required {
-  margin-top: 5px;
-  font-size: 15px;
+.warning-balance {
+  margin-top: 4px;
+  font-size: 14px;
   color: #0E4A63;
 }
 
-.balance-red,
-.required-red {
+.balance-red {
   color: #ff3b30;
   font-weight: 700;
 }
 
 /* ===========================
    SUMMARY CARD
-   - Always in normal flow
 =========================== */
 
 .qty-summary-card {
   width: 100%;
   background: #fff;
-  border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
   position: relative;
   z-index: 1;
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .summary-content {
@@ -277,7 +325,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .small-line {
@@ -287,26 +335,27 @@
 }
 
 .selected-text {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #1AB0B7;
+  white-space: nowrap;
 }
 
 .summary-divider {
   width: 100%;
-  margin: 20px 0;
+  margin: 16px 0;
   border-top: 1px dashed #d9e6eb;
 }
 
 .qty-total-title {
   color: #6C7A87;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .qty-total-price {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #0E4A63;
-  font-size: 54px;
+  font-size: 48px;
   font-weight: 700;
 }
 
@@ -315,14 +364,16 @@
 =========================== */
 
 .qty-slider-section {
-  margin-top: 45px;
+  margin-top: 24px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
 }
 
 .qty-slider {
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  height: 8px;
+  height: 7px;
   border-radius: 10px;
   background: #D9E6EB;
 }
@@ -330,8 +381,8 @@
 .qty-slider::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #0E4A63;
   border: 4px solid white;
@@ -340,8 +391,8 @@
 }
 
 .qty-slider::-moz-range-thumb {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #0E4A63;
   border: 4px solid white;
@@ -352,17 +403,17 @@
 .qty-labels {
   display: flex;
   justify-content: space-between;
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 .qty-labels span {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   color: #6C7A87;
   transition: all 0.2s ease;
 }
@@ -373,46 +424,40 @@
 }
 
 /* ===========================
-   FOOTER - STAYS IN PLACE
+   FOOTER
 =========================== */
 
 .qty-footer {
-  margin-top: auto;
-  padding-top: 35px;
-  padding-bottom: 10px;
+  flex-shrink: 0;
+  padding-top: 12px;
+  padding-bottom: 6px;
   position: relative;
   z-index: 1;
 }
 
 .qty-next-btn {
   width: 100%;
-  padding: 18px;
+  padding: 16px;
   border: none;
-  border-radius: 20px;
+  border-radius: 18px;
   background: linear-gradient(180deg, #1AB0B7, #0E4A63);
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .qty-next-btn:active {
-  transform: scale(.98);
+  transform: scale(.97);
 }
 
-.qty-next-btn:hover {
+.qty-next-btn:hover:not(:disabled) {
   opacity: 0.92;
 }
 
-/* RED BUTTON - ADD MONEY */
 .add-money-btn {
   background: linear-gradient(180deg, #ff7a59, #ff3b30) !important;
-}
-
-.add-money-btn:hover {
-  opacity: 0.95;
-  transform: translateY(-2px);
 }
 
 /* ===========================
@@ -422,11 +467,11 @@
 @keyframes cardSlide {
   0% {
     opacity: 0;
-    transform: translateX(-500px) translateY(0) scale(.9);
+    transform: translateX(-400px) translateY(0) scale(.9);
   }
   70% {
     opacity: 1;
-    transform: translateX(20px) translateY(0) scale(1.03);
+    transform: translateX(20px) translateY(0) scale(1.02);
   }
   100% {
     opacity: 1;
@@ -446,88 +491,306 @@
 }
 
 /* ===========================
-   MOBILE RESPONSIVE
+   RESPONSIVE - ALL PHONES
 =========================== */
 
-@media (max-width: 480px) {
+/* Extra Small Phones */
+@media (max-width: 360px) {
+  .qty-container {
+    padding: 12px 14px;
+  }
+.voucher-amount-overlay {
+    font-size: 18px;
+  }
+  .voucher-stage {
+    height: 130px;
+  }
+
   .voucher-card {
-    width: 250px;
-    height: 140px;
+    width: 230px;
+    height: 125px;
   }
 
   .voucher-overlay {
-    padding-left: 30px;
+    padding-left: 25px;
   }
 
   .voucher-brand {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .voucher-amount {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .voucher-text {
-    font-size: 18px;
-    olor: #4A2D12;
+    font-size: 16px;
   }
 
   .qty-middle-wrapper {
-    margin-top: 50px;
-    min-height: 240px;
+    min-height: 160px;
   }
 
   .qty-warning-card {
-    width: 88%;
-    padding: 12px 14px;
-    top: -60px;
+    width: 90%;
+    top: -50px;
+    padding: 10px 12px;
   }
 
   .warning-icon {
-    font-size: 34px;
+    font-size: 28px;
   }
 
   .warning-title {
-    font-size: 15px;
+    font-size: 13px;
   }
 
-  .warning-balance,
-  .warning-required {
-    font-size: 14px;
+  .warning-balance {
+    font-size: 12px;
   }
 
   .qty-summary-card {
-    padding: 20px;
-    margin-top: 30px;
+    padding: 16px;
+    margin-top: 20px;
   }
 
   .selected-text {
+    font-size: 14px;
+  }
+
+  .qty-total-price {
+    font-size: 38px;
+  }
+
+  .qty-slider-section {
+    margin-top: 18px;
+  }
+
+  .qty-labels span {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .qty-next-btn {
     font-size: 16px;
+    padding: 14px;
+  }
+}
+
+/* Small Phones */
+@media (min-width: 361px) and (max-width: 400px) {
+  .voucher-stage {
+    height: 140px;
+  }
+.voucher-amount-overlay {
+    font-size: 20px;
+  }
+  .voucher-card {
+    width: 250px;
+    height: 135px;
+  }
+
+  .voucher-amount {
+    font-size: 36px;
+  }
+
+  .qty-warning-card {
+    width: 85%;
   }
 
   .qty-total-price {
     font-size: 42px;
   }
+}
+
+/* Medium Phones */
+@media (min-width: 401px) and (max-width: 480px) {
+  .voucher-stage {
+    height: 150px;
+  }
+.voucher-amount-overlay {
+    font-size: 22px;
+  }
+  .voucher-card {
+    width: 265px;
+    height: 145px;
+  }
+
+  .voucher-amount {
+    font-size: 40px;
+  }
+
+  .qty-total-price {
+    font-size: 46px;
+  }
+}
+
+/* ===========================
+   LANDSCAPE MODE
+=========================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .qty-container {
+    padding: 8px 16px;
+  }
+
+  .qty-sticky-header {
+    padding-top: 2px;
+  }
+
+  .qty-step-text {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+
+  .qty-progress-bar {
+    height: 4px;
+    margin-top: 3px;
+  }
+
+  .qty-question {
+    margin-top: 8px;
+    font-size: 18px;
+  }
+
+  .qty-subtext {
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .voucher-stage {
+    height: 100px;
+    margin: 4px 0 8px 0;
+  }
+
+  .voucher-card {
+    width: 200px;
+    height: 95px;
+    border-radius: 16px;
+  }
+
+  .voucher-overlay {
+    padding-left: 20px;
+  }
+
+  .voucher-brand {
+    font-size: 11px;
+  }
+
+  .voucher-amount {
+    font-size: 26px;
+    margin-top: 3px;
+  }
+
+  .voucher-text {
+    font-size: 13px;
+    margin-top: 3px;
+  }
+
+  .qty-middle-wrapper {
+    min-height: 130px;
+    margin-top: 2px;
+  }
+
+  .qty-warning-card {
+    top: -40px;
+    padding: 8px 12px;
+    width: 88%;
+    border-radius: 14px;
+  }
+
+  .warning-icon {
+    font-size: 24px;
+  }
+
+  .warning-title {
+    font-size: 12px;
+  }
+
+  .warning-balance {
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .qty-warning-card::after {
+    width: 12px;
+    height: 12px;
+    bottom: -7px;
+  }
+
+  .qty-summary-card {
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: 18px;
+  }
+
+  .selected-text {
+    font-size: 13px;
+  }
+
+  .summary-divider {
+    margin: 10px 0;
+  }
+
+  .qty-total-title {
+    font-size: 13px;
+  }
+
+  .qty-total-price {
+    font-size: 30px;
+    margin-top: 4px;
+  }
+
+  .qty-slider-section {
+    margin-top: 12px;
+  }
+
+  .qty-slider {
+    height: 5px;
+  }
+
+  .qty-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+  }
+
+  .qty-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+  }
+
+  .qty-labels {
+    margin-top: 10px;
+  }
 
   .qty-labels span {
-    width: 34px;
-    height: 34px;
-    font-size: 16px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
   }
 
   .qty-footer {
-    padding-top: 25px;
+    padding-top: 8px;
+    padding-bottom: 4px;
   }
 
   .qty-next-btn {
-    font-size: 18px;
-    padding: 16px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 14px;
   }
 }
-.qty-sticky-header {
-  position: sticky;
-  top: 0;
-  background: transparent;
-  z-index: 10;
-}
 
+/* ===========================
+   SAFE AREA INSETS
+=========================== */
+
+@supports (padding: max(0px)) {
+  .qty-container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
