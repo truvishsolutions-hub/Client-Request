@@ -8,8 +8,11 @@ import logo from "../../assets/LOGO/TRV.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
 // const BASE_URL = "http://localhost:8080";
+// const BASE_URL =
+//   import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
 const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://truvish-backend-production.up.railway.app";
+  import.meta.env.VITE_API_URL ||
+  "https://api.truvish.com";
 
 export default function ProfileScreen({
   client,
