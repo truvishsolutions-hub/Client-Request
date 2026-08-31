@@ -9,7 +9,8 @@ import tickSound from "../../assets/MUSIC/tik.mp3";
 import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
 // const BASE_URL = "http://localhost:8080";
-const BASE_URL = "https://truvish-backend-production.up.railway.app";
+// const BASE_URL = "https://truvish-backend-production.up.railway.app";
+const BASE_URL = "https://api.truvish.com";
 
 const ReviewConfirm = ({
   voucherValue,
