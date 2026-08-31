@@ -3,8 +3,8 @@ import { IoChevronBack } from "react-icons/io5";
 import "./SelectTheam.css";
 import bgImage from "../../assets/HOMEBG/BG.jpeg";
 
-const BASE_URL = "http://localhost:8080";
-// const BASE_URL = "https://truvish-backend-production.up.railway.app";
+// const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://truvish-backend-production.up.railway.app";
 
 const SelectTheam = ({ onBack, onContinue }) => {
   const [selectedTheme, setSelectedTheme] = useState("");

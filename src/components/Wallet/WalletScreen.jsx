@@ -1,18 +1,32 @@
 // src/components/Wallet/WalletScreen.jsx
 
-import React, { useEffect, useMemo, useState } from "react";
-import { IoChevronBack } from "react-icons/io5";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  IoChevronBack,
+} from "react-icons/io5";
+
 import "./WalletScreen.css";
 
 import moneyIcon from "../../assets/MONEY/RU.png";
 import defaultProfile from "../../assets/DefaultProfile/DP.png";
 
-// Railway Backend
-// const BASE_URL =
-//   import.meta.env.VITE_API_URL || "http://localhost:8080";
-  const BASE_URL = "https://truvish-backend-production.up.railway.app";
+/* =========================================================
+   BACKEND
+========================================================= */
 
-// helper: backend datetime -> "12/2/2026 11:20 AM"
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://truvish-backend-production.up.railway.app";
+
+/* =========================================================
+   DATE FORMAT
+========================================================= */
+
 function formatDateTime(dt) {
   if (!dt) return "";
 
@@ -27,15 +41,175 @@ function formatDateTime(dt) {
   const year = d.getFullYear();
 
   let hours = d.getHours();
-  const minutes = String(d.getMinutes()).padStart(2, "0");
 
-  const ampm = hours >= 12 ? "PM" : "AM";
+  const minutes = String(
+    d.getMinutes()
+  ).padStart(2, "0");
+
+  const ampm =
+    hours >= 12
+      ? "PM"
+      : "AM";
 
   hours = hours % 12;
-  if (hours === 0) hours = 12;
+
+  if (hours === 0) {
+    hours = 12;
+  }
 
   return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
 }
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+function formatMoney(value) {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return "0.00";
+  }
+
+  return number.toFixed(2);
+}
+
+/* =========================================================
+   EXTRACT TRANSACTIONS
+========================================================= */
+
+function extractTransactions(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data?.content)) {
+    return data.content;
+  }
+
+  if (Array.isArray(data?.items)) {
+    return data.items;
+  }
+
+  if (Array.isArray(data?.data)) {
+    return data.data;
+  }
+
+  if (Array.isArray(data?.transactions)) {
+    return data.transactions;
+  }
+
+  return [];
+}
+
+/* =========================================================
+   WALLET TRANSACTION TITLE
+========================================================= */
+
+function getTransactionTitle(transaction, type) {
+  /*
+   * =======================================================
+   * PHYSICAL TRUCARD
+   *
+   * IMPORTANT:
+   *
+   * Agar backend mein purana description ho:
+   *
+   * TruBlankCode - IKDA-5SDE-DSFE
+   *
+   * ya:
+   *
+   * TruBlankCode activation - IKDA-5SDE-DSFE
+   *
+   * wallet UI mein kabhi show nahi hoga.
+   *
+   * TRUCARD transaction hamesha:
+   *
+   * TruCard Debited
+   *
+   * show karega.
+   * =======================================================
+   */
+
+  const referenceType = String(
+    transaction?.referenceType ||
+      transaction?.reference_type ||
+      ""
+  )
+    .trim()
+    .toUpperCase();
+
+  const description = String(
+    transaction?.description ||
+      ""
+  ).trim();
+
+  const message = String(
+    transaction?.message ||
+      ""
+  ).trim();
+
+  /*
+   * PRIMARY CHECK
+   *
+   * Backend:
+   * referenceType = TRUCARD
+   */
+  if (
+    referenceType === "TRUCARD" ||
+    referenceType === "TRU_CARD" ||
+    referenceType === "PHYSICAL" ||
+    referenceType === "PHYSICAL_TRUCARD"
+  ) {
+    return "TruCard Debited";
+  }
+
+  /*
+   * SECONDARY CHECK
+   *
+   * Agar old backend transaction mein
+   * referenceType nahi hai lekin description
+   * TruBlankCode se aa rahi hai.
+   *
+   * Is case mein bhi code UI mein nahi dikhega.
+   */
+  const oldBlankCodeText =
+    `${description} ${message}`.toLowerCase();
+
+  if (
+    oldBlankCodeText.includes("trublankcode") ||
+    oldBlankCodeText.includes("trucard activation") ||
+    oldBlankCodeText.includes("trucard activated") ||
+    oldBlankCodeText.includes("blank code activation") ||
+    oldBlankCodeText.includes("blankcode activation")
+  ) {
+    return "TruCard Debited";
+  }
+
+  /*
+   * DIGITAL VOUCHER
+   */
+  if (type === "debit") {
+    return (
+      description ||
+      message ||
+      "Debited"
+    );
+  }
+
+  /*
+   * CREDIT
+   */
+  return (
+    description ||
+    message ||
+    "Truvish Gifts"
+  );
+}
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 export default function WalletScreen({
   onBack,
@@ -43,122 +217,422 @@ export default function WalletScreen({
   clientName = "Client",
   profileImg = null,
 }) {
-  const [balance, setBalance] = useState(1000);
-  const [payments, setPayments] = useState([]);
+  const [balance, setBalance] =
+    useState(0);
 
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState("");
+  const [payments, setPayments] =
+    useState([]);
 
-  const profileSrc = useMemo(() => profileImg || defaultProfile, [profileImg]);
+  const [loading, setLoading] =
+    useState(false);
+
+  const [err, setErr] =
+    useState("");
+
+  const profileSrc =
+    useMemo(
+      () =>
+        profileImg ||
+        defaultProfile,
+      [profileImg]
+    );
+
+  /* =======================================================
+     LOAD WALLET
+  ======================================================= */
 
   useEffect(() => {
     if (!clientId) {
-      setErr("clientId missing. Wallet cannot load.");
+      setErr(
+        "clientId missing. Wallet cannot load."
+      );
+
+      setPayments([]);
+
       return;
     }
+
+    let mounted = true;
 
     const loadWallet = async () => {
       setErr("");
       setLoading(true);
 
       try {
-        // CLIENT BALANCE
-        const clientRes = await fetch(`${BASE_URL}/api/clients/${clientId}`);
+        /* =================================================
+           CLIENT BALANCE
+        ================================================= */
+
+        const clientRes =
+          await fetch(
+            `${BASE_URL}/api/clients/${clientId}`
+          );
 
         if (!clientRes.ok) {
-          const txt = await clientRes.text();
-          throw new Error(`Client API failed (${clientRes.status}): ${txt}`);
+          const txt =
+            await clientRes.text();
+
+          throw new Error(
+            `Client API failed (${clientRes.status}): ${txt}`
+          );
         }
 
-        const clientData = await clientRes.json();
+        const clientData =
+          await clientRes.json();
 
-        if (clientData?.balance != null) {
-          setBalance(clientData.balance);
+        if (
+          mounted &&
+          clientData?.balance != null
+        ) {
+          setBalance(
+            clientData.balance
+          );
         }
 
-        // WALLET TRANSACTIONS
-        const txRes = await fetch(
-          `${BASE_URL}/api/wallet/${clientId}/transactions?page=0&size=20`
-        );
+        /* =================================================
+           ALL WALLET TRANSACTIONS
+        ================================================= */
 
-        if (!txRes.ok) {
-          const txt = await txRes.text();
-          throw new Error(`Wallet API failed (${txRes.status}): ${txt}`);
-        }
+        const allTransactions = [];
 
-        const data = await txRes.json();
+        let page = 0;
 
-        const list = Array.isArray(data?.content)
-          ? data.content
-          : Array.isArray(data)
-          ? data
-          : [];
+        const size = 100;
 
-        const mapped = list.map((t) => {
-          const typeUpper = String(t.type || "").toUpperCase();
-          const typeLower = typeUpper === "DEBIT" ? "debit" : "credit";
+        let hasMore = true;
 
-          let title = "";
+        const MAX_PAGES = 100;
 
-          if (typeLower === "credit") {
-            title = "Truvish Gifts";
-          } else {
-            title = "Debited";
+        while (
+          hasMore &&
+          page < MAX_PAGES
+        ) {
+          const txRes =
+            await fetch(
+              `${BASE_URL}/api/wallet/${clientId}/transactions?page=${page}&size=${size}`
+            );
+
+          if (!txRes.ok) {
+            const txt =
+              await txRes.text();
+
+            throw new Error(
+              `Wallet API failed (${txRes.status}): ${txt}`
+            );
           }
 
-          const amtNum = Number(t.amount ?? 0);
+          const data =
+            await txRes.json();
 
-          return {
-            title,
-            amount: Math.abs(amtNum),
-            type: typeLower,
-            date: formatDateTime(t.txnDateTime || t.createdAt),
-          };
-        });
+          const list =
+            extractTransactions(
+              data
+            );
 
-        setPayments(mapped);
-      } catch (e) {
-        console.error("Wallet load error:", e);
+          allTransactions.push(
+            ...list
+          );
 
-        setErr(e?.message || "Something went wrong while loading wallet.");
+          if (
+            data?.last === true
+          ) {
+            hasMore = false;
+          } else if (
+            data?.hasNext === false
+          ) {
+            hasMore = false;
+          } else if (
+            list.length < size
+          ) {
+            hasMore = false;
+          } else {
+            page += 1;
+          }
+        }
+
+        /* =================================================
+           MAP TRANSACTIONS
+        ================================================= */
+
+        const mapped =
+          allTransactions
+            .map(
+              (
+                transaction,
+                index
+              ) => {
+                const rawType =
+                  String(
+                    transaction?.type ||
+                      transaction?.transactionType ||
+                      transaction?.txnType ||
+                      ""
+                  )
+                    .trim()
+                    .toUpperCase();
+
+                /* =========================================
+                   TRANSACTION TYPE
+                ========================================= */
+
+                let type;
+
+                if (
+                  rawType === "DEBIT" ||
+                  rawType === "DR" ||
+                  rawType === "WITHDRAW"
+                ) {
+                  type = "debit";
+                } else if (
+                  rawType === "CREDIT" ||
+                  rawType === "CR" ||
+                  rawType === "DEPOSIT"
+                ) {
+                  type = "credit";
+                } else {
+                  const rawAmount =
+                    Number(
+                      transaction?.amount ??
+                        transaction?.value ??
+                        0
+                    );
+
+                  type =
+                    rawAmount < 0
+                      ? "debit"
+                      : "credit";
+                }
+
+                /* =========================================
+                   AMOUNT
+                ========================================= */
+
+                const amount =
+                  Math.abs(
+                    Number(
+                      transaction?.amount ??
+                        transaction?.value ??
+                        0
+                    )
+                  );
+
+                /* =========================================
+                   DATE
+                ========================================= */
+
+                const transactionDate =
+                  transaction?.txnDateTime ||
+                  transaction?.transactionDateTime ||
+                  transaction?.createdAt ||
+                  transaction?.date ||
+                  transaction?.timestamp ||
+                  null;
+
+                /* =========================================
+                   TITLE
+                =========================================
+
+                   IMPORTANT:
+                   Physical TruCard will ALWAYS show:
+
+                   TruCard Debited
+
+                   Never:
+                   TruBlankCode - XXXX
+                   TruBlankCode activation - XXXX
+                ========================================= */
+
+                const title =
+                  getTransactionTitle(
+                    transaction,
+                    type
+                  );
+
+                return {
+                  ...transaction,
+
+                  _index: index,
+
+                  title,
+
+                  amount,
+
+                  type,
+
+                  date:
+                    formatDateTime(
+                      transactionDate
+                    ),
+
+                  transactionDate,
+                };
+              }
+            );
+
+        /* =================================================
+           SORT NEWEST FIRST
+        ================================================= */
+
+        mapped.sort(
+          (a, b) => {
+            const aTime =
+              new Date(
+                a.transactionDate || 0
+              ).getTime();
+
+            const bTime =
+              new Date(
+                b.transactionDate || 0
+              ).getTime();
+
+            return bTime - aTime;
+          }
+        );
+
+        if (mounted) {
+          setPayments(mapped);
+        }
+
+        console.log(
+          "========================================"
+        );
+
+        console.log(
+          "✅ ALL WALLET TRANSACTIONS:",
+          mapped
+        );
+
+        console.log(
+          "💳 TOTAL TRANSACTIONS:",
+          mapped.length
+        );
+
+        console.log(
+          "💸 TOTAL DEBITS:",
+          mapped.filter(
+            (item) =>
+              item.type === "debit"
+          ).length
+        );
+
+        console.log(
+          "========================================"
+        );
+
+      } catch (error) {
+        console.error(
+          "Wallet load error:",
+          error
+        );
+
+        if (mounted) {
+          setErr(
+            error?.message ||
+              "Something went wrong while loading wallet."
+          );
+
+          setPayments([]);
+        }
+
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadWallet();
+
+    return () => {
+      mounted = false;
+    };
+
   }, [clientId]);
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
     <div className="wl-page">
-      {/* TOP BAR */}
+
+      {/* =================================================
+          TOP BAR
+      ================================================= */}
+
       <div className="wl-topbar">
-        <button className="wl-back" onClick={onBack}>
-          <IoChevronBack className="wl-backIcon" size={26} />
+
+        <button
+          type="button"
+          className="wl-back"
+          onClick={onBack}
+          aria-label="Back"
+        >
+          <IoChevronBack
+            className="wl-backIcon"
+            size={26}
+          />
         </button>
 
-        <button className="wl-profileBtn">
-          <img src={profileSrc} alt="Profile" className="wl-profileImg" />
+        <button
+          type="button"
+          className="wl-profileBtn"
+        >
+          <img
+            src={profileSrc}
+            alt="Profile"
+            className="wl-profileImg"
+          />
         </button>
+
       </div>
 
-      {/* CLIENT NAME */}
+      {/* =================================================
+          CLIENT NAME
+      ================================================= */}
+
       <div className="wl-greet">
-        <div className="wl-dear">{clientName}</div>
-      </div>
 
-      {/* CURRENT BALANCE */}
-      <div className="wl-card wl-balanceCard">
-        <div className="wl-balanceLeft">
-          <div className="wl-balanceLabel">Current Balance</div>
-
-          <div className="wl-balanceValue">₹{balance}</div>
+        <div className="wl-dear">
+          {clientName}
         </div>
 
-        <button className="wl-infoBtn">i</button>
       </div>
 
-      {/* ERROR MESSAGE */}
+      {/* =================================================
+          CURRENT BALANCE
+      ================================================= */}
+
+      <div className="wl-card wl-balanceCard">
+
+        <div className="wl-balanceLeft">
+
+          <div className="wl-balanceLabel">
+            Current Balance
+          </div>
+
+          <div className="wl-balanceValue">
+            ₹
+            {formatMoney(
+              balance
+            )}
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          className="wl-infoBtn"
+        >
+          i
+        </button>
+
+      </div>
+
+      {/* =================================================
+          ERROR
+      ================================================= */}
+
       {err ? (
         <div
           className="wl-card"
@@ -167,7 +641,14 @@ export default function WalletScreen({
             marginTop: "10px",
           }}
         >
-          <div style={{ fontWeight: 700 }}>Error</div>
+
+          <div
+            style={{
+              fontWeight: 700,
+            }}
+          >
+            Error
+          </div>
 
           <div
             style={{
@@ -177,52 +658,123 @@ export default function WalletScreen({
           >
             {err}
           </div>
+
         </div>
       ) : null}
 
-      {/* RECENT PAYMENTS */}
+      {/* =================================================
+          RECENT PAYMENTS
+      ================================================= */}
+
       <div className="wl-card wl-paymentsCard">
-        <div className="wl-cardTitle">Recent payments {loading ? "..." : ""}</div>
+
+        <div className="wl-cardTitle">
+
+          Recent payments{" "}
+
+          {loading
+            ? "..."
+            : `(${payments.length})`}
+
+        </div>
 
         <div className="wl-list">
-          {!loading && payments.length === 0 ? (
+
+          {!loading &&
+          payments.length === 0 ? (
+
             <div
               className="wl-sub"
               style={{
-                padding: "10px 2px",
+                padding:
+                  "10px 2px",
               }}
             >
               No transactions yet.
             </div>
+
           ) : (
-            payments.map((p, idx) => {
-              const isCredit = p.type === "credit";
 
-              return (
-                <div className="wl-row" key={idx}>
-                  <div className="wl-iconWrap">
-                    <img src={moneyIcon} alt="Money" className="wl-moneyIcon" />
-                  </div>
+            payments.map(
+              (
+                payment,
+                index
+              ) => {
 
-                  <div className="wl-rowMid">
-                    <div className="wl-title">{p.title}</div>
+                const isCredit =
+                  payment.type ===
+                  "credit";
 
-                    <div className="wl-sub">{p.date}</div>
-                  </div>
-
+                return (
                   <div
-                    className={`wl-amount ${
-                      isCredit ? "wl-credit" : "wl-debit"
-                    }`}
+                    className="wl-row"
+                    key={
+                      payment.id ??
+                      `${payment.type}-${payment.transactionDate}-${index}`
+                    }
                   >
-                    {isCredit ? "+" : "-"} ₹{p.amount}
+
+                    {/* =================================
+                        MONEY ICON
+                    ================================= */}
+
+                    <div className="wl-iconWrap">
+
+                      <img
+                        src={moneyIcon}
+                        alt="Money"
+                        className="wl-moneyIcon"
+                      />
+
+                    </div>
+
+                    {/* =================================
+                        TEXT
+                    ================================= */}
+
+                    <div className="wl-rowMid">
+
+                      <div className="wl-title">
+                        {payment.title}
+                      </div>
+
+                      <div className="wl-sub">
+                        {payment.date}
+                      </div>
+
+                    </div>
+
+                    {/* =================================
+                        AMOUNT
+                    ================================= */}
+
+                    <div
+                      className={`wl-amount ${
+                        isCredit
+                          ? "wl-credit"
+                          : "wl-debit"
+                      }`}
+                    >
+                      {isCredit
+                        ? "+"
+                        : "-"}{" "}
+                      ₹
+                      {formatMoney(
+                        payment.amount
+                      )}
+                    </div>
+
                   </div>
-                </div>
-              );
-            })
+                );
+              }
+            )
+
           )}
+
         </div>
+
       </div>
+
     </div>
   );
 }

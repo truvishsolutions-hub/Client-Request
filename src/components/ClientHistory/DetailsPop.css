@@ -1,10 +1,10 @@
-/* ✅ DetailsPop.css FINAL SMALL MODAL UPDATE */
-
 :root {
   --primary: #0e4a63;
   --cyan: #1ab0b7;
   --text: #1d2e39;
-  --shadow: 0 14px 34px rgba(15, 45, 70, 0.18);
+
+  --shadow:
+    0 14px 34px rgba(15, 45, 70, 0.18);
 
   --active-green: #2e7d32;
   --active-bg: rgba(46, 125, 50, 0.12);
@@ -15,13 +15,14 @@
   --inactive-border: rgba(198, 40, 40, 0.22);
 }
 
-/* =========================================
+/* =========================================================
    BACKDROP
-========================================= */
+========================================================= */
 
 .dp-backdrop {
   position: fixed;
   inset: 0;
+
   z-index: 9999;
 
   display: grid;
@@ -29,34 +30,43 @@
 
   padding: 14px;
 
-  background: rgba(10, 24, 36, 0.42);
+  background:
+    rgba(10, 24, 36, 0.48);
+
   backdrop-filter: blur(5px);
 }
 
-/* =========================================
+/* =========================================================
    MODAL
-========================================= */
+========================================================= */
 
 .dp-modal {
-  width: min(430px, calc(100vw - 28px));
+  position: relative;
 
-  max-height: 90vh;
-  overflow: hidden;
+  width: min(
+    460px,
+    calc(100vw - 24px)
+  );
+
+  max-height: 92vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 
   border-radius: 22px;
 
-  background: #fff;
+  background: #ffffff;
 
   box-shadow: var(--shadow);
 
   padding: 16px 14px 14px;
 
-  position: relative;
+  scrollbar-width: thin;
 }
 
-/* =========================================
-   CLOSE BUTTON
-========================================= */
+/* =========================================================
+   CLOSE X
+========================================================= */
 
 .dp-x {
   position: absolute;
@@ -67,29 +77,34 @@
   width: 34px;
   height: 34px;
 
-  border-radius: 999px;
   border: 0;
+  border-radius: 50%;
 
   cursor: pointer;
 
-  background: rgba(26, 176, 183, 0.14);
+  background:
+    rgba(26, 176, 183, 0.14);
 
   color: var(--primary);
 
   font-size: 16px;
   font-weight: 900;
 
+  z-index: 5;
+
   transition: 0.2s ease;
 }
 
 .dp-x:hover {
-  background: rgba(26, 176, 183, 0.28);
+  background:
+    rgba(26, 176, 183, 0.28);
+
   transform: scale(1.05);
 }
 
-/* =========================================
+/* =========================================================
    PROFILE
-========================================= */
+========================================================= */
 
 .dp-profileWrap {
   display: grid;
@@ -99,58 +114,119 @@
 }
 
 .dp-profile {
-  width: 74px;
-  height: 74px;
+  width: 70px;
+  height: 70px;
 
   border-radius: 50%;
 
   object-fit: cover;
 
-  border: 3px solid rgba(26, 176, 183, 0.25);
+  border:
+    3px solid
+    rgba(26, 176, 183, 0.25);
+
+  background: #fff;
 }
 
-/* =========================================
+/* =========================================================
    TITLE
-========================================= */
+========================================================= */
 
 .dp-title {
-  margin: 10px 0 12px;
+  margin: 9px 0 8px;
 
   text-align: center;
 
   color: var(--primary);
 
+  font-size: 23px;
   font-weight: 900;
 
-  font-size: 24px;
+  line-height: 1.2;
 }
 
-/* =========================================
-   CARD
-========================================= */
+/* =========================================================
+   TYPE BADGE
+========================================================= */
+
+.dp-typeBadgeWrap {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 11px;
+}
+
+.dp-typeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 13px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 0.5px;
+
+  text-transform: uppercase;
+}
+
+.dp-typeBadge.digital {
+  color: #0f766e;
+
+  background:
+    rgba(26, 176, 183, 0.12);
+
+  border:
+    1px solid
+    rgba(26, 176, 183, 0.25);
+}
+
+.dp-typeBadge.physical {
+  color: var(--primary);
+
+  background:
+    rgba(14, 74, 99, 0.1);
+
+  border:
+    1px solid
+    rgba(14, 74, 99, 0.2);
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
 
 .dp-card {
-  border: 1px solid rgba(14, 74, 99, 0.1);
+  width: 100%;
+
+  border:
+    1px solid
+    rgba(14, 74, 99, 0.1);
 
   border-radius: 16px;
 
-  padding: 10px;
+  padding: 9px;
 
-  background: linear-gradient(
-    180deg,
-    rgba(243, 247, 250, 0.75),
-    #ffffff
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(243, 247, 250, 0.78),
+      #ffffff
+    );
 }
 
-/* =========================================
+/* =========================================================
    ROW
-========================================= */
+========================================================= */
 
 .dp-row {
   display: grid;
 
-  grid-template-columns: 105px 1fr;
+  grid-template-columns:
+    112px minmax(0, 1fr);
 
   align-items: center;
 
@@ -160,258 +236,385 @@
 }
 
 .dp-label {
-  color: rgba(29, 46, 57, 0.8);
+  color:
+    rgba(29, 46, 57, 0.8);
 
+  font-size: 12px;
   font-weight: 700;
 
-  font-size: 13px;
+  line-height: 1.25;
 }
 
 .dp-value {
+  min-width: 0;
+
   text-align: right;
 
-  color: rgba(29, 46, 57, 0.92);
+  color:
+    rgba(29, 46, 57, 0.94);
 
+  font-size: 13px;
   font-weight: 800;
 
-  font-size: 14px;
-
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
+
+/* =========================================================
+   DIVIDER
+========================================================= */
 
 .dp-divider {
   height: 1px;
 
-  background: rgba(14, 74, 99, 0.1);
-
   margin: 0 2px;
+
+  background:
+    rgba(14, 74, 99, 0.1);
 }
 
-/* =========================================
+/* =========================================================
    CODE BOX
-========================================= */
+========================================================= */
 
 .dp-codeBox {
+  min-width: 0;
+
   display: grid;
 
-  grid-template-columns: 1fr auto;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
 
   align-items: center;
 
-  gap: 8px;
+  gap: 6px;
 
-  background: rgba(26, 176, 183, 0.12);
+  padding: 7px;
 
-  border: 1px solid rgba(26, 176, 183, 0.2);
+  border-radius: 11px;
 
-  border-radius: 12px;
+  background:
+    rgba(26, 176, 183, 0.1);
 
-  padding: 8px;
+  border:
+    1px solid
+    rgba(26, 176, 183, 0.2);
 }
 
 .dp-codeText {
-  font-weight: 900;
+  min-width: 0;
 
   color: var(--primary);
 
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 900;
 
-  letter-spacing: 0.5px;
+  letter-spacing: 0.35px;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
+/* =========================================================
+   COPY
+========================================================= */
+
 .dp-copyBtn {
+  flex-shrink: 0;
+
   border: 0;
+
+  border-radius: 9px;
+
+  padding: 7px 8px;
 
   cursor: pointer;
 
-  background: rgba(14, 74, 99, 0.08);
+  background:
+    rgba(14, 74, 99, 0.08);
 
   color: var(--primary);
 
-  border-radius: 10px;
-
-  padding: 8px 10px;
-
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
 
   transition: 0.2s ease;
 }
 
 .dp-copyBtn:hover {
-  background: rgba(14, 74, 99, 0.18);
+  background:
+    rgba(14, 74, 99, 0.18);
 }
 
-/* =========================================
-   STATUS PILLS
-========================================= */
+/* =========================================================
+   STATUS
+========================================================= */
 
 .dp-pill {
   justify-self: end;
 
-  padding: 6px 14px;
+  padding: 6px 12px;
 
   border-radius: 999px;
 
-  font-weight: 800;
-
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 900;
 
   white-space: nowrap;
 
   text-transform: uppercase;
 
-  letter-spacing: 0.4px;
+  letter-spacing: 0.35px;
 }
 
 .dp-pill.active {
   background: var(--active-bg);
+
   color: var(--active-green);
-  border: 1px solid var(--active-border);
+
+  border:
+    1px solid
+    var(--active-border);
 }
 
 .dp-pill.inactive {
   background: var(--inactive-bg);
+
   color: var(--inactive-red);
-  border: 1px solid var(--inactive-border);
+
+  border:
+    1px solid
+    var(--inactive-border);
 }
 
 .dp-pill.partial {
   background: #fff3cd;
+
   color: #856404;
-  border: 1px solid #ffe69c;
+
+  border:
+    1px solid #ffe69c;
 }
 
-/* =========================================
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.dp-messageBox {
+  margin-top: 11px;
+
+  padding: 10px 12px;
+
+  border-radius: 13px;
+
+  background:
+    rgba(26, 176, 183, 0.07);
+
+  border:
+    1px solid
+    rgba(26, 176, 183, 0.16);
+}
+
+.dp-messageTitle {
+  margin-bottom: 4px;
+
+  color: var(--primary);
+
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.dp-messageText {
+  color:
+    rgba(29, 46, 57, 0.82);
+
+  font-size: 12px;
+
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
    HISTORY
-========================================= */
+========================================================= */
 
 .dp-historyWrap {
   width: 100%;
 
-  margin-top: 14px;
+  margin-top: 13px;
 }
 
 .dp-historyTitle {
-  font-size: 15px;
-  font-weight: 800;
-
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 
   color: #111827;
+
+  font-size: 14px;
+  font-weight: 900;
 }
 
-/* ONLY ONE CARD VISIBLE */
+/* =========================================================
+   HISTORY SCROLL
+========================================================= */
 
 .dp-historyScroll {
-  max-height: 210px;
+  max-height: 220px;
 
   overflow-y: auto;
 
   display: flex;
   flex-direction: column;
 
-  gap: 10px;
+  gap: 9px;
 
   padding-right: 3px;
+
+  scrollbar-width: thin;
 }
 
-/* CARD */
+/* =========================================================
+   HISTORY CARD
+========================================================= */
 
 .dp-historyCard {
-  min-height: 185px;
+  flex-shrink: 0;
 
-  border: 1px solid #e5e7eb;
+  border:
+    1px solid #e5e7eb;
 
-  border-radius: 14px;
+  border-radius: 13px;
 
-  padding: 12px;
+  padding: 11px;
 
   background: #fafafa;
-
-  flex-shrink: 0;
 }
+
+/* =========================================================
+   HISTORY TOP
+========================================================= */
 
 .dp-historyTop {
   display: flex;
+
   align-items: center;
-  justify-content: space-between;
 
-  margin-bottom: 12px;
-}
-
-.dp-historyStatus {
-  font-size: 12px;
-  font-weight: 800;
-
-  color: #0f766e;
-}
-
-
-.dp-historyAmount {
-  font-size: 15px;
-  font-weight: 900;
-
-  color: #111827;
-}
-
-/* ROW */
-
-.dp-historyRow {
-  display: flex;
   justify-content: space-between;
 
   gap: 10px;
 
   margin-bottom: 9px;
-
-  font-size: 12px;
-
-  color: #374151;
 }
 
-/* EMPTY */
+.dp-historyStatus {
+  color: #0f766e;
 
-.dp-empty {
-  text-align: center;
+  font-size: 11px;
+  font-weight: 900;
+}
 
-  padding: 18px;
+.dp-historyAmount {
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   HISTORY ROW
+========================================================= */
+
+.dp-historyRow {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-bottom: 7px;
+
+  color: #374151;
+
+  font-size: 11px;
+
+  line-height: 1.35;
+}
+
+.dp-historyRow:last-child {
+  margin-bottom: 0;
+}
+
+.dp-historyRow span:first-child {
+  flex-shrink: 0;
 
   color: #6b7280;
 
-  font-size: 13px;
+  font-weight: 600;
 }
 
-/* =========================================
-   CLOSE BTN
-========================================= */
+.dp-historyRow span:last-child {
+  min-width: 0;
+
+  text-align: right;
+
+  font-weight: 800;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.dp-empty {
+  padding: 16px;
+
+  border-radius: 12px;
+
+  background: #fafafa;
+
+  color: #6b7280;
+
+  text-align: center;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
 
 .dp-closeBtn {
-  margin-top: 12px;
-
   width: 100%;
+
+  margin-top: 11px;
 
   border: 0;
 
+  border-radius: 13px;
+
+  padding: 11px;
+
   cursor: pointer;
 
-  border-radius: 14px;
+  background:
+    linear-gradient(
+      180deg,
+      #0e4a63,
+      #0b3f55
+    );
 
-  padding: 12px;
+  color: #ffffff;
 
-  background: linear-gradient(
-    180deg,
-    #0e4a63,
-    #0b3f55
-  );
-
-  color: #fff;
-
+  font-size: 14px;
   font-weight: 900;
 
-  font-size: 16px;
-
-  box-shadow: 0 10px 22px rgba(14, 74, 99, 0.22);
+  box-shadow:
+    0 9px 20px
+    rgba(14, 74, 99, 0.2);
 
   transition: 0.2s ease;
 }
@@ -420,31 +623,77 @@
   transform: translateY(-1px);
 }
 
-/* =========================================
+/* =========================================================
    MOBILE
-========================================= */
+========================================================= */
 
-@media (max-width: 420px) {
-  .dp-modal {
-    width: calc(100vw - 20px);
-
-    padding: 14px 12px 12px;
+@media (max-width: 520px) {
+  .dp-backdrop {
+    padding: 8px;
   }
 
-  .dp-row {
-    grid-template-columns: 88px 1fr;
+  .dp-modal {
+    width: calc(100vw - 16px);
+
+    max-height: 94vh;
+
+    border-radius: 19px;
+
+    padding: 13px 11px 11px;
   }
 
   .dp-profile {
-    width: 66px;
-    height: 66px;
+    width: 62px;
+    height: 62px;
   }
 
   .dp-title {
-    font-size: 21px;
+    font-size: 20px;
   }
 
-  .dp-historyCard {
-    min-height: 175px;
+  .dp-row {
+    grid-template-columns:
+      92px minmax(0, 1fr);
+
+    gap: 8px;
+
+    padding: 7px 2px;
+  }
+
+  .dp-label {
+    font-size: 11px;
+  }
+
+  .dp-value {
+    font-size: 12px;
+  }
+
+  .dp-codeText {
+    font-size: 11px;
+  }
+
+  .dp-historyScroll {
+    max-height: 205px;
+  }
+}
+
+@media (max-width: 360px) {
+  .dp-row {
+    grid-template-columns:
+      82px minmax(0, 1fr);
+  }
+
+  .dp-label {
+    font-size: 10px;
+  }
+
+  .dp-value {
+    font-size: 11px;
+  }
+
+  .dp-pill {
+    padding: 5px 8px;
+
+    font-size: 9px;
   }
 }

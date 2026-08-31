@@ -180,13 +180,13 @@ export default function App() {
 
       {/* HISTORY */}
       {step === STEPS.HISTORY && (
-        <ClientHistory
-          clientId={client?.id}
-          clientName={client?.companyName}
-          clientBalance={client?.balance}
-          profileImg={clientLogoUrl}
-          onBack={() => setStep(STEPS.HOME)}
-        />
+       <ClientHistory
+         clientId={client?.id}
+         clientName={client?.companyName}
+         clientBalance={client?.balance}
+         profileImg={clientLogoUrl}
+         onBack={() => setStep(STEPS.HOME)}
+       />
       )}
 
       {/* VOUCHER */}
@@ -196,7 +196,7 @@ export default function App() {
           onContinue={(value) => {
             setVoucherValue(value);
             setStep(STEPS.QUANTITY); // ✅ Validation ki jagah Quantity
-          }}
+          }} truvish_code_genrate ma jo save ho reha ha wao digital code ha uska api chak karnaha
         />
       )}
 

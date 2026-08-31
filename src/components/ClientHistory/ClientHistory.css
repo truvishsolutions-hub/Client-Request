@@ -369,3 +369,71 @@
     font-size: 12px;
   }
 }
+/* =========================================================
+   HISTORY TOP
+========================================================= */
+
+.ch-historyTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.ch-historyTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.ch-refreshBtn {
+  border: 1px solid rgba(26, 176, 183, 0.35);
+  background: rgba(26, 176, 183, 0.08);
+  color: #0f7f83;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ch-refreshBtn:hover {
+  background: rgba(26, 176, 183, 0.16);
+}
+
+.ch-refreshBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   TRANSACTION AMOUNT
+========================================================= */
+
+.ch-amount.creditAmount {
+  color: #168653;
+}
+
+.ch-amount.debitAmount {
+  color: #c62828;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .ch-historyTop {
+    margin-bottom: 0;
+  }
+
+  .ch-historyTitle {
+    font-size: 14px;
+  }
+
+  .ch-refreshBtn {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+}
