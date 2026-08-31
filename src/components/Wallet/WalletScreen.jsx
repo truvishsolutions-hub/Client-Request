@@ -19,9 +19,12 @@ import defaultProfile from "../../assets/DefaultProfile/DP.png";
    BACKEND
 ========================================================= */
 
+// const BASE_URL =
+//   import.meta.env.VITE_API_URL ||
+//   "https://truvish-backend-production.up.railway.app";
 const BASE_URL =
   import.meta.env.VITE_API_URL ||
-  "https://truvish-backend-production.up.railway.app";
+  "https://api.truvish.com";
 
 /* =========================================================
    DATE FORMAT
