@@ -23,7 +23,7 @@ import SelectQuantity from "./components/SelectQuantity/SelectQuantity";
 // const BASE_URL = "http://localhost:8080";
 // const BASE_URL = "https://truvish-backend-production.up.railway.app";
 const BASE_URL = "https://api.truvish.com";
-const REDEEM_URL = "https://truvish.com";
+const REDEEM_URL = "https://client.truvish.com";
 
 const STEPS = {
   LOGIN: "login",
